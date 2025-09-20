@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ac5fa183f114b684dadb4ea05e1cd417
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 112000000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 292882
+  packageName: Highway Racer 2
+  packageVersion: 1.51
+  assetPath: Assets/HR2/Scenes/HR_Scene_Sunny/LightingData.asset
+  uploadId: 739365

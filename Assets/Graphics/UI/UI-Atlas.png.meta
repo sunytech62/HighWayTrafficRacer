@@ -1,0 +1,1685 @@
+fileFormatVersion: 2
+guid: f97f943afd4631347be9a9c811bbdd4a
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -8612540910822480551
+    second: UI-Atlas_0
+  - first:
+      213: -8217015460731398586
+    second: UI-Atlas_1
+  - first:
+      213: -7469692256268977874
+    second: UI-Button-BG-Dark-Blue
+  - first:
+      213: 1999450711180161904
+    second: UI-Button-BG-Green
+  - first:
+      213: -1874468949810877429
+    second: UI-Text-BG
+  - first:
+      213: 7328945010314854692
+    second: UI-Black-Dot
+  - first:
+      213: 4939377512753302964
+    second: UI-Green-Dot
+  - first:
+      213: 6325502878578347850
+    second: Button Background Green
+  - first:
+      213: -8152607688373303680
+    second: UI-Atlas_8
+  - first:
+      213: 259729055922044247
+    second: UI-Slider-Fill-Skewed
+  - first:
+      213: 7726009663343493411
+    second: UI-Button-Border-Selected
+  - first:
+      213: 8246756217608844562
+    second: UI-Button-BG-Red-Skewed
+  - first:
+      213: -3612258360351422271
+    second: UI-Slider-BG-Skewed
+  - first:
+      213: 4987585384382470495
+    second: UI-Plate
+  - first:
+      213: -7114225041182456021
+    second: UI-Daily-Rewards-Button-Outline
+  - first:
+      213: -120109032410745867
+    second: UI-Button-BG-Dark-Rounded
+  - first:
+      213: 6835931234931050767
+    second: UI-Toggle-On
+  - first:
+      213: -2739117899610911030
+    second: UI-Atlas_17
+  - first:
+      213: -8704133235635783099
+    second: UI-Toggle-Off
+  - first:
+      213: -7157959307477255944
+    second: UI-Button-Border-Unselected
+  - first:
+      213: -6307445537775075956
+    second: UI-Frost Blue-Button-BG
+  - first:
+      213: 4411235101237691412
+    second: UI-Button-Rounded-BG
+  - first:
+      213: -7940418558333687419
+    second: UI-Mobile-Icon
+  - first:
+      213: 5419180222654868157
+    second: UI-Button-Rounded-Striped
+  - first:
+      213: -3690492374536347183
+    second: UI-Button-Rounded-Selected-BG
+  - first:
+      213: -5014111848587543170
+    second: UI-Atlas_25
+  - first:
+      213: 639475596649017089
+    second: UI-Tilt-Control
+  - first:
+      213: -8901941877808176793
+    second: UI-Button-Triangular
+  - first:
+      213: -3004754775736665934
+    second: UI-Buttons-Control
+  - first:
+      213: 8091932989676191647
+    second: UI-Atlas_29
+  - first:
+      213: -8628749344978789558
+    second: UI-Button-Yellow-BG
+  - first:
+      213: 3733189002776755398
+    second: UI-Atlas_31
+  - first:
+      213: -1930536832332340107
+    second: UI-Atlas_32
+  - first:
+      213: -4903277825830771613
+    second: UI-ButtonsBar-BG
+  - first:
+      213: 3742646910107767810
+    second: UI-Yellow-Arrow
+  - first:
+      213: 9083314171285891982
+    second: UI-Button-Yellow-Outline
+  - first:
+      213: -3463551007940876397
+    second: UI-Button-BG-Skewed
+  - first:
+      213: 153258802387969216
+    second: UI-Atlas_37
+  - first:
+      213: 6687569839802315547
+    second: Yellow Arrow
+  - first:
+      213: -3861291902811044194
+    second: UI-Panel-BG-Cut
+  - first:
+      213: 2757910139069533094
+    second: UI-Panel-Large-BG
+  - first:
+      213: 6558495483410673816
+    second: UI-Atlas_41
+  - first:
+      213: -3640533374742589087
+    second: UI-Atlas_42
+  - first:
+      213: 1999052351872862141
+    second: UI-Glow
+  - first:
+      213: -903456215238804900
+    second: UI-Slider-BG
+  - first:
+      213: 5831248017642258521
+    second: UI-Slider-Fill
+  - first:
+      213: 3507371997674175448
+    second: UI-Atlas_objective
+  - first:
+      213: 4328356996379490939
+    second: UI-Atlas_47
+  - first:
+      213: 5146778544890447817
+    second: UI-Panel-BG-Gradient-Blue
+  - first:
+      213: 8018177149966334705
+    second: UI-Slider-Loading-Fill
+  - first:
+      213: 3391838284126038995
+    second: UI-Slider-Loading-BG
+  - first:
+      213: -2549976081810982964
+    second: Blue Sparks Circle Side
+  - first:
+      213: 4287975584607136130
+    second: UI-Atlas_51
+  - first:
+      213: 1725379309812429053
+    second: BG_Remove_Ads_Main_Menu
+  - first:
+      213: 8772712071886996582
+    second: IAP_Subtitile_BG
+  - first:
+      213: 256255332158891452
+    second: IAP_Button_Tinted_BG
+  - first:
+      213: -5929102499414316096
+    second: IAP_Button_BG
+  - first:
+      213: -1328296001087520789
+    second: Store_UnSelected_Button
+  - first:
+      213: 7105643600712647958
+    second: Store_Selected_Button
+  - first:
+      213: -2882370000744262411
+    second: 50%_OFF_Tag
+  - first:
+      213: 5826492968260175441
+    second: Popup_Price_BG
+  - first:
+      213: -4142084417929670879
+    second: BG_Daily_Goals_Main_Menu
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 1
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  cookieLightType: 1
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: 65
+    textureCompression: 1
+    compressionQuality: 100
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 1
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: UI-Atlas_0
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 2018
+        width: 417
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 95528ec3cab1a7880800000000000000
+      internalID: -8612540910822480551
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Atlas_1
+      rect:
+        serializedVersion: 2
+        x: 424
+        y: 1987
+        width: 17
+        height: 57
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 646563d59fb47fd80800000000000000
+      internalID: -8217015460731398586
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Button-BG-Dark-Blue
+      rect:
+        serializedVersion: 2
+        x: 445
+        y: 1954
+        width: 214
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e29f9931872565890800000000000000
+      internalID: -7469692256268977874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Button-BG-Green
+      rect:
+        serializedVersion: 2
+        x: 666
+        y: 1956
+        width: 83
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 073bbc904d97fbb10800000000000000
+      internalID: 1999450711180161904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Text-BG
+      rect:
+        serializedVersion: 2
+        x: 783
+        y: 1970
+        width: 468
+        height: 73
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b0ce508eb6c8cf5e0800000000000000
+      internalID: -1874468949810877429
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Black-Dot
+      rect:
+        serializedVersion: 2
+        x: 1263
+        y: 1978
+        width: 49
+        height: 49
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 421403e08a4a5b560800000000000000
+      internalID: 7328945010314854692
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Green-Dot
+      rect:
+        serializedVersion: 2
+        x: 1322
+        y: 1977
+        width: 49
+        height: 49
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4bd863b8da13c8440800000000000000
+      internalID: 4939377512753302964
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Button Background Green
+      rect:
+        serializedVersion: 2
+        x: 1402
+        y: 1920
+        width: 387
+        height: 122
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a4f8f57aa53b8c750800000000000000
+      internalID: 6325502878578347850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Atlas_8
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 1985
+        width: 417
+        height: 27
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0860465708e1cde80800000000000000
+      internalID: -8152607688373303680
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Slider-Fill-Skewed
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 1948
+        width: 407
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75db414433eba9300800000000000000
+      internalID: 259729055922044247
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Button-Border-Selected
+      rect:
+        serializedVersion: 2
+        x: 823
+        y: 1744
+        width: 382
+        height: 220
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 32103dacadc483b60800000000000000
+      internalID: 7726009663343493411
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Button-BG-Red-Skewed
+      rect:
+        serializedVersion: 2
+        x: 1208
+        y: 1870
+        width: 172
+        height: 85
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 215b1d3361d527270800000000000000
+      internalID: 8246756217608844562
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Slider-BG-Skewed
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1911
+        width: 407
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c8815ae82eaeddc0800000000000000
+      internalID: -3612258360351422271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Plate
+      rect:
+        serializedVersion: 2
+        x: 424
+        y: 1911
+        width: 104
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f591c035b76773540800000000000000
+      internalID: 4987585384382470495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Daily-Rewards-Button-Outline
+      rect:
+        serializedVersion: 2
+        x: 536
+        y: 1668
+        width: 280
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b2781209402354d90800000000000000
+      internalID: -7114225041182456021
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Button-BG-Dark-Rounded
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 1692
+        width: 374
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f377dca879455ef0800000000000000
+      internalID: -120109032410745867
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Toggle-On
+      rect:
+        serializedVersion: 2
+        x: 391
+        y: 1732
+        width: 136
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f0900176d3b1ede50800000000000000
+      internalID: 6835931234931050767
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Atlas_17
+      rect:
+        serializedVersion: 2
+        x: 1220
+        y: 1501
+        width: 147
+        height: 357
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ace07c368c2bcf9d0800000000000000
+      internalID: -2739117899610911030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Toggle-Off
+      rect:
+        serializedVersion: 2
+        x: 391
+        y: 1691
+        width: 136
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 54af14c40f4b43780800000000000000
+      internalID: -8704133235635783099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Button-Border-Unselected
+      rect:
+        serializedVersion: 2
+        x: 829
+        y: 1521
+        width: 371
+        height: 210
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f8fd113fe1d9ac90800000000000000
+      internalID: -7157959307477255944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Frost Blue-Button-BG
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 1568
+        width: 311
+        height: 115
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8d3bc0a3b37778a0800000000000000
+      internalID: -6307445537775075956
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Button-Rounded-BG
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 1616
+        width: 166
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 414c10ee3fad73d30800000000000000
+      internalID: 4411235101237691412
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Mobile-Icon
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 1510
+        width: 294
+        height: 142
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 589e99e2467fdc190800000000000000
+      internalID: -7940418558333687419
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Button-Rounded-Striped
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 1452
+        width: 327
+        height: 115
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dba6a2153bbc43b40800000000000000
+      internalID: 5419180222654868157
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Button-Rounded-Selected-BG
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 1544
+        width: 166
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d129790dbcb8ccc0800000000000000
+      internalID: -3690492374536347183
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Atlas_25
+      rect:
+        serializedVersion: 2
+        x: 29
+        y: 1402
+        width: 32
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e7dbcd0f6db4a6ab0800000000000000
+      internalID: -5014111848587543170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Tilt-Control
+      rect:
+        serializedVersion: 2
+        x: 29
+        y: 1286
+        width: 272
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10fabc4caafdfd800800000000000000
+      internalID: 639475596649017089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Button-Triangular
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 1367
+        width: 148
+        height: 167
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 761e112d603f57480800000000000000
+      internalID: -8901941877808176793
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Buttons-Control
+      rect:
+        serializedVersion: 2
+        x: 496
+        y: 1321
+        width: 257
+        height: 126
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2b8be0b8377fc46d0800000000000000
+      internalID: -3004754775736665934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Atlas_29
+      rect:
+        serializedVersion: 2
+        x: 624
+        y: 1322
+        width: 128
+        height: 125
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f9ff9e36e225c4070800000000000000
+      internalID: 8091932989676191647
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Button-Yellow-BG
+      rect:
+        serializedVersion: 2
+        x: 757
+        y: 1286
+        width: 623
+        height: 209
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a4b97a41036804880800000000000000
+      internalID: -8628749344978789558
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Atlas_31
+      rect:
+        serializedVersion: 2
+        x: 335
+        y: 1360
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6cc37e56e93fec330800000000000000
+      internalID: 3733189002776755398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Atlas_32
+      rect:
+        serializedVersion: 2
+        x: 269
+        y: 1283
+        width: 32
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 574e50bbafa5535e0800000000000000
+      internalID: -1930536832332340107
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-ButtonsBar-BG
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 1112
+        width: 677
+        height: 163
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 364ae4ccbce04fbb0800000000000000
+      internalID: -4903277825830771613
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Yellow-Arrow
+      rect:
+        serializedVersion: 2
+        x: 1199
+        y: 1066
+        width: 186
+        height: 209
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 204dfac098d80f330800000000000000
+      internalID: 3742646910107767810
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Button-Yellow-Outline
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 864
+        width: 648
+        height: 232
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e8b64c20d1a6e0e70800000000000000
+      internalID: 9083314171285891982
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Button-BG-Skewed
+      rect:
+        serializedVersion: 2
+        x: 676
+        y: 1003
+        width: 514
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 397ec3e75befeefc0800000000000000
+      internalID: -3463551007940876397
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Atlas_37
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 564
+        width: 247
+        height: 129
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c4690b911c702200800000000000000
+      internalID: 153258802387969216
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Panel-BG-Cut
+      rect:
+        serializedVersion: 2
+        x: 670
+        y: 912
+        width: 511
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e960bdee87fe96ac0800000000000000
+      internalID: -3861291902811044194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Panel-Large-BG
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 367
+        width: 630
+        height: 486
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ab00b1d8a0164620800000000000000
+      internalID: 2757910139069533094
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Atlas_41
+      rect:
+        serializedVersion: 2
+        x: 677
+        y: 708
+        width: 142
+        height: 189
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 89072bdc4e4740b50800000000000000
+      internalID: 6558495483410673816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Atlas_42
+      rect:
+        serializedVersion: 2
+        x: 828
+        y: 708
+        width: 142
+        height: 189
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 161938d1f2a3a7dc0800000000000000
+      internalID: -3640533374742589087
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Glow
+      rect:
+        serializedVersion: 2
+        x: 988
+        y: 669
+        width: 239
+        height: 228
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db78ac8c58f0ebb10800000000000000
+      internalID: 1999052351872862141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Slider-BG
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 333
+        width: 967
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5a7294eb574673f0800000000000000
+      internalID: -903456215238804900
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Slider-Fill
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 298
+        width: 967
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 95084c04d21cce050800000000000000
+      internalID: 5831248017642258521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Atlas_objective
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 227
+        width: 716
+        height: 68
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8db7580cf30bca030800000000000000
+      internalID: 3507371997674175448
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Atlas_47
+      rect:
+        serializedVersion: 2
+        x: 730
+        y: 228
+        width: 673
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b7ab64e61c9611c30800000000000000
+      internalID: 4328356996379490939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Panel-BG-Gradient-Blue
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 8
+        width: 1377
+        height: 213
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c70cc951d70d6740800000000000000
+      internalID: 5146778544890447817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Slider-Loading-Fill
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 436
+        width: 712
+        height: 33
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1fab5e1c2a9464f60800000000000000
+      internalID: 8018177149966334705
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Slider-Loading-BG
+      rect:
+        serializedVersion: 2
+        x: 650
+        y: 371
+        width: 730
+        height: 53
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3db27ecd2fa321f20800000000000000
+      internalID: 3391838284126038995
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue Sparks Circle Side
+      rect:
+        serializedVersion: 2
+        x: 1424
+        y: 8
+        width: 610
+        height: 395
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc7f9e1934aac9cd0800000000000000
+      internalID: -2549976081810982964
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Yellow Arrow
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 1104
+        width: 120
+        height: 175
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b13780846550fcc50800000000000000
+      internalID: 6687569839802315547
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-Atlas_51
+      rect:
+        serializedVersion: 2
+        x: 827
+        y: 1505
+        width: 356
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2896e065313f18b30800000000000000
+      internalID: 4287975584607136130
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BG_Remove_Ads_Main_Menu
+      rect:
+        serializedVersion: 2
+        x: 1389
+        y: 991
+        width: 434
+        height: 152
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df0bd204757c1f710800000000000000
+      internalID: 1725379309812429053
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IAP_Subtitile_BG
+      rect:
+        serializedVersion: 2
+        x: 1389
+        y: 913
+        width: 516
+        height: 74
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6640b99462feeb970800000000000000
+      internalID: 8772712071886996582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IAP_Button_Tinted_BG
+      rect:
+        serializedVersion: 2
+        x: 1389
+        y: 775
+        width: 574
+        height: 136
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cb5612dedd66e8300800000000000000
+      internalID: 256255332158891452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IAP_Button_BG
+      rect:
+        serializedVersion: 2
+        x: 1389
+        y: 636
+        width: 574
+        height: 136
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0cb6785c0b897bda0800000000000000
+      internalID: -5929102499414316096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Store_UnSelected_Button
+      rect:
+        serializedVersion: 2
+        x: 1389
+        y: 523
+        width: 577
+        height: 110
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bef3b9a13d1f09de0800000000000000
+      internalID: -1328296001087520789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Store_Selected_Button
+      rect:
+        serializedVersion: 2
+        x: 1389
+        y: 409
+        width: 582
+        height: 114
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 615410125315c9260800000000000000
+      internalID: 7105643600712647958
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 50%_OFF_Tag
+      rect:
+        serializedVersion: 2
+        x: 1793
+        y: 1945
+        width: 152
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f4556a71c3cff7d0800000000000000
+      internalID: -2882370000744262411
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Popup_Price_BG
+      rect:
+        serializedVersion: 2
+        x: 1402
+        y: 1823
+        width: 312
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 156857b0c7cdbd050800000000000000
+      internalID: 5826492968260175441
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BG_Daily_Goals_Main_Menu
+      rect:
+        serializedVersion: 2
+        x: 1389
+        y: 1144
+        width: 434
+        height: 155
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 12f0f97ea2c5486c0800000000000000
+      internalID: -4142084417929670879
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      50%_OFF_Tag: -2882370000744262411
+      BG_Daily_Goals_Main_Menu: -4142084417929670879
+      BG_Remove_Ads_Main_Menu: 1725379309812429053
+      Blue Sparks Circle Side: -2549976081810982964
+      Button Background Green: 6325502878578347850
+      IAP_Button_BG: -5929102499414316096
+      IAP_Button_Tinted_BG: 256255332158891452
+      IAP_Subtitile_BG: 8772712071886996582
+      Popup_Price_BG: 5826492968260175441
+      Store_Selected_Button: 7105643600712647958
+      Store_UnSelected_Button: -1328296001087520789
+      UI-Atlas_0: -8612540910822480551
+      UI-Atlas_1: -8217015460731398586
+      UI-Atlas_17: -2739117899610911030
+      UI-Atlas_25: -5014111848587543170
+      UI-Atlas_29: 8091932989676191647
+      UI-Atlas_31: 3733189002776755398
+      UI-Atlas_32: -1930536832332340107
+      UI-Atlas_37: 153258802387969216
+      UI-Atlas_41: 6558495483410673816
+      UI-Atlas_42: -3640533374742589087
+      UI-Atlas_47: 4328356996379490939
+      UI-Atlas_51: 4287975584607136130
+      UI-Atlas_8: -8152607688373303680
+      UI-Atlas_objective: 3507371997674175448
+      UI-Black-Dot: 7328945010314854692
+      UI-Button-BG-Dark-Blue: -7469692256268977874
+      UI-Button-BG-Dark-Rounded: -120109032410745867
+      UI-Button-BG-Green: 1999450711180161904
+      UI-Button-BG-Red-Skewed: 8246756217608844562
+      UI-Button-BG-Skewed: -3463551007940876397
+      UI-Button-Border-Selected: 7726009663343493411
+      UI-Button-Border-Unselected: -7157959307477255944
+      UI-Button-Rounded-BG: 4411235101237691412
+      UI-Button-Rounded-Selected-BG: -3690492374536347183
+      UI-Button-Rounded-Striped: 5419180222654868157
+      UI-Button-Triangular: -8901941877808176793
+      UI-Button-Yellow-BG: -8628749344978789558
+      UI-Button-Yellow-Outline: 9083314171285891982
+      UI-Buttons-Control: -3004754775736665934
+      UI-ButtonsBar-BG: -4903277825830771613
+      UI-Daily-Rewards-Button-Outline: -7114225041182456021
+      UI-Frost Blue-Button-BG: -6307445537775075956
+      UI-Glow: 1999052351872862141
+      UI-Green-Dot: 4939377512753302964
+      UI-Mobile-Icon: -7940418558333687419
+      UI-Panel-BG-Cut: -3861291902811044194
+      UI-Panel-BG-Gradient-Blue: 5146778544890447817
+      UI-Panel-Large-BG: 2757910139069533094
+      UI-Plate: 4987585384382470495
+      UI-Slider-BG: -903456215238804900
+      UI-Slider-BG-Skewed: -3612258360351422271
+      UI-Slider-Fill: 5831248017642258521
+      UI-Slider-Fill-Skewed: 259729055922044247
+      UI-Slider-Loading-BG: 3391838284126038995
+      UI-Slider-Loading-Fill: 8018177149966334705
+      UI-Text-BG: -1874468949810877429
+      UI-Tilt-Control: 639475596649017089
+      UI-Toggle-Off: -8704133235635783099
+      UI-Toggle-On: 6835931234931050767
+      UI-Yellow-Arrow: 3742646910107767810
+      Yellow Arrow: 6687569839802315547
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

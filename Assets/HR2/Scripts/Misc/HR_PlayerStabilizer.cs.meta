@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: ecc5fb28e301f3c4eb9e5c3c094f5df6
+AssetOrigin:
+  serializedVersion: 1
+  productId: 292882
+  packageName: Highway Racer 2
+  packageVersion: 1.51
+  assetPath: Assets/HR2/Scripts/Misc/HR_PlayerStabilizer.cs
+  uploadId: 739365
