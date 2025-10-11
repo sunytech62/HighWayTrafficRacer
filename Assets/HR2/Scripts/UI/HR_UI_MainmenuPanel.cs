@@ -7,17 +7,21 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
-public class HR_UI_MainmenuPanel : MonoBehaviour {
+public class HR_UI_MainmenuPanel : MonoBehaviour
+{
 
     #region SINGLETON PATTERN
     private static HR_UI_MainmenuPanel instance;
-    public static HR_UI_MainmenuPanel Instance {
-        get {
-            if (instance == null) {
+    public static HR_UI_MainmenuPanel Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
                 instance = FindFirstObjectByType<HR_UI_MainmenuPanel>();
             }
             return instance;
@@ -29,8 +33,10 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
     /// Mainmenu manager instance.
     /// </summary>
     private HR_MainMenuManager mainmenuManager;
-    public HR_MainMenuManager MainMenuManager {
-        get {
+    public HR_MainMenuManager MainMenuManager
+    {
+        get
+        {
             if (mainmenuManager == null)
                 mainmenuManager = HR_MainMenuManager.Instance;
 
@@ -99,6 +105,7 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
     /// Button for buying a car.
     /// </summary>
     public GameObject buyCarButton;
+    public GameObject buyCarButtonAd;
 
     /// <summary>
     /// Button for selecting a car.
@@ -198,8 +205,10 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
     /// <summary>
     /// List of all purchasable items in the cart.
     /// </summary>
-    public List<HR_CartItem> itemsInCart {
-        get {
+    public List<HR_CartItem> itemsInCart
+    {
+        get
+        {
             return MainMenuManager.itemsInCart;
         }
     }
@@ -207,15 +216,19 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
     /// <summary>
     /// Called when the script instance is being loaded.
     /// </summary>
-    private void Awake() {
+    private void Awake()
+    {
 
         bool firstPlay = HR_API.IsFirstGameplay();
 
-        if (!firstPlay) {
+        if (!firstPlay)
+        {
 
             EnableMenu(mainMenu);
 
-        } else {
+        }
+        else
+        {
 
             playerNameInputField.SetTextWithoutNotify("New Player " + Random.Range(0, 999).ToString());
             EnableMenu(welcomeMenu);
@@ -231,7 +244,8 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
     /// Enables the target menu and disables all other menus.
     /// </summary>
     /// <param name="activeMenu">The menu to activate.</param>
-    public void EnableMenu(GameObject activeMenu) {
+    public void EnableMenu(GameObject activeMenu)
+    {
 
         welcomeMenu.SetActive(false);
         mainMenu.SetActive(false);
@@ -250,7 +264,8 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
 
     }
 
-    private void Start() {
+    private void Start()
+    {
 
         HR_API_OnPlayerNameChanged();
         HR_API_OnPlayerMoneyChanged();
@@ -260,7 +275,8 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
     /// <summary>
     /// Subscribes to the vehicle changed event when the object is enabled.
     /// </summary>
-    private void OnEnable() {
+    private void OnEnable()
+    {
 
         HR_Events.OnVehicleChanged += HR_Events_OnVehicleChanged;
         HR_API.OnPlayerNameChanged += HR_API_OnPlayerNameChanged;
@@ -268,13 +284,15 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
 
     }
 
-    private void HR_API_OnPlayerMoneyChanged() {
+    private void HR_API_OnPlayerMoneyChanged()
+    {
 
         currency.text = "$ " + HR_API.GetCurrency().ToString("F0");
 
     }
 
-    private void HR_API_OnPlayerNameChanged() {
+    private void HR_API_OnPlayerNameChanged()
+    {
 
         playerName.text = HR_API.GetPlayerName();
 
@@ -283,7 +301,8 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
     /// <summary>
     /// Unsubscribes from the vehicle changed event when the object is disabled.
     /// </summary>
-    private void OnDisable() {
+    private void OnDisable()
+    {
 
         HR_Events.OnVehicleChanged -= HR_Events_OnVehicleChanged;
         HR_API.OnPlayerNameChanged -= HR_API_OnPlayerNameChanged;
@@ -295,7 +314,8 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
     /// Updates the UI when the vehicle is changed.
     /// </summary>
     /// <param name="carIndex">The index of the selected car.</param>
-    private void HR_Events_OnVehicleChanged(int carIndex) {
+    private void HR_Events_OnVehicleChanged(int carIndex)
+    {
 
         CheckCurrentVehicle(carIndex);
 
@@ -305,26 +325,32 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
     /// Checks the current vehicle and updates the UI accordingly.
     /// </summary>
     /// <param name="carIndex">The index of the selected car.</param>
-    private void CheckCurrentVehicle(int carIndex) {
+    private void CheckCurrentVehicle(int carIndex)
+    {
 
         if (vehicleNameText)
             vehicleNameText.text = HR_PlayerCars.Instance.cars[carIndex].vehicleName;
 
-        if (HR_API.OwnedVehicle(carIndex)) {
+        if (HR_API.OwnedVehicle(carIndex))
+        {
 
             if (buyCarButton.GetComponentInChildren<TextMeshProUGUI>())
                 buyCarButton.GetComponentInChildren<TextMeshProUGUI>().text = "";
 
             buyCarButton.SetActive(false);
+            buyCarButtonAd.SetActive(false);
             selectCarButton.SetActive(true);
 
-        } else {
+        }
+        else
+        {
 
             if (buyCarButton.GetComponentInChildren<TextMeshProUGUI>())
                 buyCarButton.GetComponentInChildren<TextMeshProUGUI>().text = "$ " + HR_PlayerCars.Instance.cars[carIndex].price.ToString("F0");
 
             selectCarButton.SetActive(false);
             buyCarButton.SetActive(true);
+            buyCarButtonAd.SetActive(true);
 
         }
 
@@ -333,7 +359,8 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
     /// <summary>
     /// Adds money for testing purposes.
     /// </summary>
-    public void Testing_AddMoney() {
+    public void Testing_AddMoney()
+    {
 
         MainMenuManager.Testing_AddMoney();
 
@@ -342,7 +369,8 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
     /// <summary>
     /// Unlocks all vehicles for testing purposes.
     /// </summary>
-    public void Testing_UnlockAllCars() {
+    public void Testing_UnlockAllCars()
+    {
 
         MainMenuManager.Testing_UnlockAllCars();
 
@@ -351,7 +379,8 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
     /// <summary>
     /// Deletes the save data and restarts the game for testing purposes.
     /// </summary>
-    public void Testing_ResetSave() {
+    public void Testing_ResetSave()
+    {
 
         MainMenuManager.Testing_ResetSave();
 
@@ -361,7 +390,8 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
     /// Sets the panel title text.
     /// </summary>
     /// <param name="title">The title to set.</param>
-    public void SetPanelTitleText(string title) {
+    public void SetPanelTitleText(string title)
+    {
 
         panelTitleText.text = title;
 
@@ -371,7 +401,8 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
     /// Sets the mods panel state.
     /// </summary>
     /// <param name="state">The state to set.</param>
-    public void SetModsPanel(bool state) {
+    public void SetModsPanel(bool state)
+    {
 
         carStatsPanel.SetActive(state);
 
@@ -380,7 +411,8 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
     /// <summary>
     /// Purchases the current car.
     /// </summary>
-    public void BuyCar() {
+    public void BuyCar()
+    {
 
         MainMenuManager.BuyCar();
 
@@ -389,7 +421,8 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
     /// <summary>
     /// Selects the current car.
     /// </summary>
-    public void SelectCar() {
+    public void SelectCar()
+    {
 
         MainMenuManager.SelectCar();
 
@@ -398,7 +431,8 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
     /// <summary>
     /// Switches to the next car.
     /// </summary>
-    public void PositiveCarIndex() {
+    public void PositiveCarIndex()
+    {
 
         MainMenuManager.PositiveCarIndex();
 
@@ -407,7 +441,8 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
     /// <summary>
     /// Switches to the previous car.
     /// </summary>
-    public void NegativeCarIndex() {
+    public void NegativeCarIndex()
+    {
 
         MainMenuManager.NegativeCarIndex();
 
@@ -417,7 +452,8 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
     /// Selects the scene with the specified name.
     /// </summary>
     /// <param name="levelName">The name of the scene to load.</param>
-    public void SelectScene(string levelName) {
+    public void SelectScene(string levelName)
+    {
 
         MainMenuManager.SelectScene(levelName);
 
@@ -427,7 +463,8 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
     /// Selects the mode with the specified index.
     /// </summary>
     /// <param name="_modeIndex">The index of the mode to select.</param>
-    public void SelectMode(int _modeIndex) {
+    public void SelectMode(int _modeIndex)
+    {
 
         MainMenuManager.SelectMode(_modeIndex);
 
@@ -436,7 +473,8 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
     /// <summary>
     /// Starts the race.
     /// </summary>
-    public void StartRace() {
+    public void StartRace()
+    {
 
         MainMenuManager.StartRace();
 
@@ -445,7 +483,8 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
     /// <summary>
     /// Quits the game.
     /// </summary>
-    public void QuitGame() {
+    public void QuitGame()
+    {
 
         MainMenuManager.QuitGame();
 
@@ -454,11 +493,13 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
     /// <summary>
     /// Called once per frame.
     /// </summary>
-    private void Update() {
+    private void Update()
+    {
 
         HR_Player currentVehicle = MainMenuManager.currentCar;
 
-        if (currentVehicle) {
+        if (currentVehicle)
+        {
 
             CheckCurrentVehicle();
 
@@ -467,7 +508,8 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
 
         }
 
-        if (MainMenuManager) {
+        if (MainMenuManager)
+        {
 
             if (MainMenuManager.async != null && !MainMenuManager.async.isDone)
                 loadingBar.value = MainMenuManager.async.progress;
@@ -476,7 +518,8 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
 
     }
 
-    public void CheckCurrentVehicle() {
+    public void CheckCurrentVehicle()
+    {
 
         //  Return if main manager couldn't found.
         if (!HR_MainMenuManager.Instance)
@@ -486,7 +529,8 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
         RCCP_CarController currentVehicle = HR_MainMenuManager.Instance.currentCar.CarController;
 
         //  If current vehicle is not null, display stats of the vehicle.
-        if (currentVehicle) {
+        if (currentVehicle)
+        {
 
             //  Fill amount of the engine torque.
             if (vehicleStats_Engine && currentVehicle.Engine)
@@ -526,11 +570,13 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
     /// Checks if the upgrade item is purchased and updates the cart accordingly.
     /// </summary>
     /// <param name="newItem">The upgrade item to check.</param>
-    public void CheckUpgradePurchased(HR_CartItem newItem) {
+    public void CheckUpgradePurchased(HR_CartItem newItem)
+    {
 
         HR_Player currentVehicle = MainMenuManager.currentCar;
 
-        if (!currentVehicle.CarController.Customizer) {
+        if (!currentVehicle.CarController.Customizer)
+        {
 
             Debug.LogWarning("Customizer couldn't found on this player vehicle named " + currentVehicle.transform.name + ", please add customizer component through the RCCP_CarController!");
             return;
@@ -548,7 +594,8 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
     /// Checks if the purchasable item is in the cart and updates the cart accordingly.
     /// </summary>
     /// <param name="newItem">The item to check.</param>
-    public void CheckItemPurchased(HR_CartItem newItem) {
+    public void CheckItemPurchased(HR_CartItem newItem)
+    {
 
         if (PlayerPrefs.HasKey(newItem.saveKey))
             RemoveItemFromCart(newItem);
@@ -564,7 +611,8 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
     /// Adds a new item to the cart.
     /// </summary>
     /// <param name="newItem">The item to add.</param>
-    public void AddItemToCart(HR_CartItem newItem) {
+    public void AddItemToCart(HR_CartItem newItem)
+    {
 
         MainMenuManager.AddItemToCart(newItem);
 
@@ -574,7 +622,8 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
     /// Removes an item from the cart.
     /// </summary>
     /// <param name="newItem">The item to remove.</param>
-    public void RemoveItemFromCart(HR_CartItem newItem) {
+    public void RemoveItemFromCart(HR_CartItem newItem)
+    {
 
         MainMenuManager.RemoveItemFromCart(newItem);
 
@@ -583,7 +632,8 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
     /// <summary>
     /// Clears the cart and restores the player's vehicle to the last loadout.
     /// </summary>
-    public void ClearCart() {
+    public void ClearCart()
+    {
 
         MainMenuManager.ClearCart();
 
@@ -602,7 +652,8 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
     /// <summary>
     /// Purchases all items in the cart and saves the player's vehicle loadout.
     /// </summary>
-    public void PurchaseCart() {
+    public void PurchaseCart()
+    {
 
         MainMenuManager.PurchaseCart();
 
@@ -621,11 +672,13 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
     /// <summary>
     /// Updates all items in the cart list.
     /// </summary>
-    public void UpdateCartItemsList() {
+    public void UpdateCartItemsList()
+    {
 
         HR_UI_CartItem[] items = cartItemsContent.GetComponentsInChildren<HR_UI_CartItem>(true);
 
-        foreach (HR_UI_CartItem item in items) {
+        foreach (HR_UI_CartItem item in items)
+        {
 
             if (!Equals(item.gameObject, cartItemReference.gameObject))
                 Destroy(item.gameObject);
@@ -634,7 +687,8 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
 
         }
 
-        for (int i = 0; i < itemsInCart.Count; i++) {
+        for (int i = 0; i < itemsInCart.Count; i++)
+        {
 
             HR_UI_CartItem cartItem = Instantiate(cartItemReference.gameObject, cartItemsContent.transform).GetComponent<HR_UI_CartItem>();
             cartItem.gameObject.SetActive(true);
@@ -644,7 +698,8 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
 
         int totalPrice = 0;
 
-        for (int i = 0; i < itemsInCart.Count; i++) {
+        for (int i = 0; i < itemsInCart.Count; i++)
+        {
 
             if (itemsInCart[i] != null)
                 totalPrice += itemsInCart[i].price;
@@ -664,7 +719,8 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
     /// <summary>
     /// Saves the current vehicle customization.
     /// </summary>
-    public void SaveCustomization() {
+    public void SaveCustomization()
+    {
 
         MainMenuManager.SaveCustomization();
 
@@ -673,7 +729,8 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
     /// <summary>
     /// Loads the latest saved vehicle customization.
     /// </summary>
-    public void LoadCustomization() {
+    public void LoadCustomization()
+    {
 
         MainMenuManager.LoadCustomization();
 
@@ -682,13 +739,15 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
     /// <summary>
     /// Applies the loaded vehicle customization.
     /// </summary>
-    public void ApplyCustomization() {
+    public void ApplyCustomization()
+    {
 
         MainMenuManager.ApplyCustomization();
 
     }
 
-    public void EnterPlayerName() {
+    public void EnterPlayerName()
+    {
 
         HR_API.SetPlayerName(playerNameInputField.text);
         HR_UI_InfoDisplayer.Instance.ShowInfo("Welcome " + HR_API.GetPlayerName() + "!");
@@ -699,7 +758,8 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
     /// <summary>
     /// Displays the best scores of all four modes.
     /// </summary>
-    private void BestScores() {
+    private void BestScores()
+    {
 
         int[] scores = HR_API.GetHighScores();
 
@@ -710,7 +770,8 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
 
     }
 
-    public void Quit() {
+    public void Quit()
+    {
 
 #if UNITY_EDITOR
         // This will stop play mode when running in the Unity Editor
@@ -720,6 +781,40 @@ public class HR_UI_MainmenuPanel : MonoBehaviour {
             Application.Quit();
 #endif
 
+    }
+
+
+    [Header("My Properties")]
+    [SerializeField] RectTransform[] flowPanels;
+
+    public void SelectPanel(int panelIndex)
+    {
+        for (int i = 0; i < flowPanels.Length; i++)
+        {
+            flowPanels[i].gameObject.SetActive(i == panelIndex);
+        }
+    }
+    public void SelectPanel(RectTransform panel)
+    {
+        for (int i = 0; i < flowPanels.Length; i++)
+        {
+            flowPanels[i].gameObject.SetActive(flowPanels[i] == panel);
+        }
+    }
+    public void Back()
+    {
+        int activePanel = 0;
+        for (int i = 0; i < flowPanels.Length; i++)
+        {
+            if (flowPanels[i].gameObject.activeInHierarchy)
+                activePanel = i;
+        }
+        activePanel -= 1;
+        activePanel = Mathf.Clamp(activePanel, 0, flowPanels.Length);
+        for (int i = 0; i < flowPanels.Length; i++)
+        {
+            flowPanels[i].gameObject.SetActive(i == activePanel);
+        }
     }
 
 }
