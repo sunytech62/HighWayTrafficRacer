@@ -29,9 +29,6 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
     }
     #endregion
 
-    /// <summary>
-    /// Mainmenu manager instance.
-    /// </summary>
     private HR_MainMenuManager mainmenuManager;
     public HR_MainMenuManager MainMenuManager
     {
@@ -44,167 +41,56 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Welcome menu panel GameObject.
-    /// </summary>
     public GameObject welcomeMenu;
-
-    /// <summary>
-    /// Main menu panel GameObject.
-    /// </summary>
     public GameObject mainMenu;
-
-    /// <summary>
-    /// Car selection menu GameObject.
-    /// </summary>
     public GameObject carSelectionMenu;
-
-    /// <summary>
-    /// Modifications selection menu GameObject.
-    /// </summary>
     public GameObject customizationSelectionMenu;
-
-    /// <summary>
-    /// Modifications selection menu GameObject.
-    /// </summary>
     public GameObject modsSelectionMenu;
-
-    /// <summary>
-    /// Scene selection menu GameObject.
-    /// </summary>
     public GameObject sceneSelectionMenu;
-
-    /// <summary>
-    /// Car stats panel GameObject.
-    /// </summary>
     public GameObject carStatsPanel;
-
-    /// <summary>
-    /// Options menu GameObject.
-    /// </summary>
     public GameObject optionsMenu;
-
-    /// <summary>
-    /// Controls menu GameObject.
-    /// </summary>
     public GameObject controlsMenu;
 
     [Header("UI Loading Section")]
-    /// <summary>
-    /// Loading screen GameObject.
-    /// </summary>
     public GameObject loadingScreen;
-
-    /// <summary>
-    /// Loading bar slider.
-    /// </summary>
     public Slider loadingBar;
 
     [Header("Buttons")]
-    /// <summary>
-    /// Button for buying a car.
-    /// </summary>
     public GameObject buyCarButton;
     public GameObject buyCarButtonAd;
-
-    /// <summary>
-    /// Button for selecting a car.
-    /// </summary>
     public GameObject selectCarButton;
-
-    /// <summary>
-    /// Button for PC controls.
-    /// </summary>
     public GameObject controlsButton;
 
     [Header("Texts")]
-    /// <summary>
-    /// Text component for displaying the player name.
-    /// </summary>
     public TextMeshProUGUI playerName;
-
-    /// <summary>
-    /// Text component for displaying currency.
-    /// </summary>
     public TextMeshProUGUI currency;
-
-    /// <summary>
-    /// Text component for displaying current panel's title.
-    /// </summary>
     public TextMeshProUGUI panelTitleText;
 
     [Header("InputTexts")]
-    /// <summary>
-    /// Text component for displaying the player name.
-    /// </summary>
     public TMP_InputField playerNameInputField;
 
     [Header("Best Score Texts")]
-    /// <summary>
-    /// Text component for displaying the current vehicle name.
-    /// </summary>
     public TextMeshProUGUI vehicleNameText;
-
-    /// <summary>
-    /// Text component for displaying the best score in one way mode.
-    /// </summary>
     public TextMeshProUGUI bestScoreOneWay;
-
-    /// <summary>
-    /// Text component for displaying the best score in two way mode.
-    /// </summary>
     public TextMeshProUGUI bestScoreTwoWay;
-
-    /// <summary>
-    /// Text component for displaying the best score with time left.
-    /// </summary>
     public TextMeshProUGUI bestScoreTimeLeft;
-
-    /// <summary>
-    /// Text component for displaying the best score in bomb mode.
-    /// </summary>
     public TextMeshProUGUI bestScoreBomb;
 
-    /// <summary>
-    /// UI sliders for the vehicle stats.
-    /// </summary>
     [Header("UI Sliders For Vehicle Stats")]
     public Image vehicleStats_Engine;
     public Image vehicleStats_Handling;
     public Image vehicleStats_Speed;
 
-    /// <summary>
-    /// UI sliders for the upgraded vehicle stats.
-    /// </summary>
     [Space()] public Image vehicleStats_Engine_Upgraded;
     public Image vehicleStats_Handling_Upgraded;
     public Image vehicleStats_Speed_Upgraded;
 
-    /// <summary>
-    /// UI cart panel GameObject.
-    /// </summary>
     [Header("Cart")]
     public GameObject cartPanel;
-
-    /// <summary>
-    /// Button for purchasing cart items.
-    /// </summary>
     public GameObject purchaseCartButton;
-
-    /// <summary>
-    /// Target content GameObject where all cart items will be located.
-    /// </summary>
     public GameObject cartItemsContent;
-
-    /// <summary>
-    /// Prefab or GameObject to instantiate new cart items.
-    /// </summary>
     public HR_UI_CartItem cartItemReference;
     private HR_UI_PurchaseItem[] itemPurchaseButtons;
-
-    /// <summary>
-    /// List of all purchasable items in the cart.
-    /// </summary>
     public List<HR_CartItem> itemsInCart
     {
         get
@@ -212,10 +98,6 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
             return MainMenuManager.itemsInCart;
         }
     }
-
-    /// <summary>
-    /// Called when the script instance is being loaded.
-    /// </summary>
     private void Awake()
     {
 
@@ -240,10 +122,6 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Enables the target menu and disables all other menus.
-    /// </summary>
-    /// <param name="activeMenu">The menu to activate.</param>
     public void EnableMenu(GameObject activeMenu)
     {
 
@@ -272,9 +150,6 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Subscribes to the vehicle changed event when the object is enabled.
-    /// </summary>
     private void OnEnable()
     {
 
@@ -298,9 +173,6 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Unsubscribes from the vehicle changed event when the object is disabled.
-    /// </summary>
     private void OnDisable()
     {
 
@@ -309,11 +181,6 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
         HR_API.OnPlayerMoneyChanged -= HR_API_OnPlayerMoneyChanged;
 
     }
-
-    /// <summary>
-    /// Updates the UI when the vehicle is changed.
-    /// </summary>
-    /// <param name="carIndex">The index of the selected car.</param>
     private void HR_Events_OnVehicleChanged(int carIndex)
     {
 
@@ -321,10 +188,6 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Checks the current vehicle and updates the UI accordingly.
-    /// </summary>
-    /// <param name="carIndex">The index of the selected car.</param>
     private void CheckCurrentVehicle(int carIndex)
     {
 
@@ -356,9 +219,6 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Adds money for testing purposes.
-    /// </summary>
     public void Testing_AddMoney()
     {
 
@@ -366,9 +226,6 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Unlocks all vehicles for testing purposes.
-    /// </summary>
     public void Testing_UnlockAllCars()
     {
 
@@ -376,9 +233,6 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Deletes the save data and restarts the game for testing purposes.
-    /// </summary>
     public void Testing_ResetSave()
     {
 
@@ -386,10 +240,6 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Sets the panel title text.
-    /// </summary>
-    /// <param name="title">The title to set.</param>
     public void SetPanelTitleText(string title)
     {
 
@@ -397,10 +247,6 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Sets the mods panel state.
-    /// </summary>
-    /// <param name="state">The state to set.</param>
     public void SetModsPanel(bool state)
     {
 
@@ -408,9 +254,6 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Purchases the current car.
-    /// </summary>
     public void BuyCar()
     {
 
@@ -418,9 +261,6 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Selects the current car.
-    /// </summary>
     public void SelectCar()
     {
 
@@ -428,9 +268,6 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Switches to the next car.
-    /// </summary>
     public void PositiveCarIndex()
     {
 
@@ -438,9 +275,6 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Switches to the previous car.
-    /// </summary>
     public void NegativeCarIndex()
     {
 
@@ -448,10 +282,6 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Selects the scene with the specified name.
-    /// </summary>
-    /// <param name="levelName">The name of the scene to load.</param>
     public void SelectScene(string levelName)
     {
 
@@ -459,10 +289,6 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Selects the mode with the specified index.
-    /// </summary>
-    /// <param name="_modeIndex">The index of the mode to select.</param>
     public void SelectMode(int _modeIndex)
     {
 
@@ -470,9 +296,6 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Starts the race.
-    /// </summary>
     public void StartRace()
     {
 
@@ -480,9 +303,6 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Quits the game.
-    /// </summary>
     public void QuitGame()
     {
 
@@ -490,9 +310,6 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Called once per frame.
-    /// </summary>
     private void Update()
     {
 
@@ -566,10 +383,6 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Checks if the upgrade item is purchased and updates the cart accordingly.
-    /// </summary>
-    /// <param name="newItem">The upgrade item to check.</param>
     public void CheckUpgradePurchased(HR_CartItem newItem)
     {
 
@@ -590,10 +403,6 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Checks if the purchasable item is in the cart and updates the cart accordingly.
-    /// </summary>
-    /// <param name="newItem">The item to check.</param>
     public void CheckItemPurchased(HR_CartItem newItem)
     {
 
@@ -607,10 +416,6 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Adds a new item to the cart.
-    /// </summary>
-    /// <param name="newItem">The item to add.</param>
     public void AddItemToCart(HR_CartItem newItem)
     {
 
@@ -618,10 +423,6 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Removes an item from the cart.
-    /// </summary>
-    /// <param name="newItem">The item to remove.</param>
     public void RemoveItemFromCart(HR_CartItem newItem)
     {
 
@@ -629,9 +430,6 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Clears the cart and restores the player's vehicle to the last loadout.
-    /// </summary>
     public void ClearCart()
     {
 
@@ -649,9 +447,6 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Purchases all items in the cart and saves the player's vehicle loadout.
-    /// </summary>
     public void PurchaseCart()
     {
 
@@ -669,9 +464,6 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Updates all items in the cart list.
-    /// </summary>
     public void UpdateCartItemsList()
     {
 
@@ -716,9 +508,6 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Saves the current vehicle customization.
-    /// </summary>
     public void SaveCustomization()
     {
 
@@ -726,9 +515,6 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Loads the latest saved vehicle customization.
-    /// </summary>
     public void LoadCustomization()
     {
 
@@ -736,9 +522,6 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Applies the loaded vehicle customization.
-    /// </summary>
     public void ApplyCustomization()
     {
 
@@ -755,9 +538,6 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Displays the best scores of all four modes.
-    /// </summary>
     private void BestScores()
     {
 
@@ -772,7 +552,6 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
 
     public void Quit()
     {
-
 #if UNITY_EDITOR
         // This will stop play mode when running in the Unity Editor
         UnityEditor.EditorApplication.isPlaying = false;
@@ -780,41 +559,78 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
             // This will quit the standalone build
             Application.Quit();
 #endif
-
     }
 
-
     [Header("My Properties")]
-    [SerializeField] RectTransform[] flowPanels;
+    [SerializeField] PanelRef[] panels;
+    [SerializeField] PanelName selectedPanel;
 
     public void SelectPanel(int panelIndex)
     {
-        for (int i = 0; i < flowPanels.Length; i++)
+        selectedPanel = panelIndex switch
         {
-            flowPanels[i].gameObject.SetActive(i == panelIndex);
-        }
-    }
-    public void SelectPanel(RectTransform panel)
-    {
-        for (int i = 0; i < flowPanels.Length; i++)
-        {
-            flowPanels[i].gameObject.SetActive(flowPanels[i] == panel);
-        }
+            1 => PanelName.MainMenu,
+            2 => PanelName.Garage,
+            3 => PanelName.ModeSelection,
+            4 => PanelName.Store,
+            5 => PanelName.ChaLvlSelection,
+            6 => PanelName.Setting,
+            7 => PanelName.Exit,
+            _ => PanelName.None,
+        };
+        UpdateUI();
     }
     public void Back()
     {
-        int activePanel = 0;
-        for (int i = 0; i < flowPanels.Length; i++)
+        PanelName activePanel = PanelName.None;
+        for (int i = 0; i < panels.Length; i++)
         {
-            if (flowPanels[i].gameObject.activeInHierarchy)
-                activePanel = i;
+            if (panels[i].panel.activeInHierarchy)
+            {
+                activePanel = panels[i].panelName;
+            }
         }
-        activePanel -= 1;
-        activePanel = Mathf.Clamp(activePanel, 0, flowPanels.Length);
-        for (int i = 0; i < flowPanels.Length; i++)
+        selectedPanel = activePanel switch
         {
-            flowPanels[i].gameObject.SetActive(i == activePanel);
+            PanelName.MainMenu => PanelName.Exit,
+            PanelName.Garage => PanelName.MainMenu,
+            PanelName.ModeSelection => PanelName.Garage,
+            PanelName.ChaLvlSelection => PanelName.ModeSelection,
+            PanelName.Store => PanelName.MainMenu,
+            PanelName.Setting => PanelName.MainMenu,
+            PanelName.Exit => PanelName.MainMenu,
+            _ => PanelName.None,
+        };
+        UpdateUI();
+    }
+
+    void UpdateUI()
+    {
+        for (int i = 0; i < panels.Length; i++)
+        {
+            if (panels[i].panelName == selectedPanel)
+                panels[i].panel.SetActive(true);
+            else
+                panels[i].panel.SetActive(false);
         }
     }
 
+
+    [System.Serializable]
+    public class PanelRef
+    {
+        public PanelName panelName;
+        public GameObject panel;
+    }
+    public enum PanelName
+    {
+        None = 0,
+        MainMenu = 1,
+        Garage = 2,
+        ModeSelection = 3,
+        ChaLvlSelection = 4,
+        Store = 5,
+        Setting = 6,
+        Exit = 7,
+    }
 }

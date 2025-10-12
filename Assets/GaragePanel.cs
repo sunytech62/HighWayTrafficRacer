@@ -20,6 +20,7 @@ public class GaragePanel : MonoBehaviour
     [SerializeField] PanelitemRef[] spoilerBtnRefs;
 
     [SerializeField] GameObject buyBtnObj;
+    [SerializeField] GameObject playBtnObj;
 
     [SerializeField] Sprite selectedSpr;
     [SerializeField] Sprite unSelectedSpr;
@@ -64,6 +65,7 @@ public class GaragePanel : MonoBehaviour
         spoiler.panel.SetActive(selectedCustomization == SelectedCustomization.Spoiler);
 
         buyBtnObj.SetActive(true);
+        playBtnObj.SetActive(false);
         switch (selectedCustomization)
         {
             case SelectedCustomization.None:
@@ -72,7 +74,11 @@ public class GaragePanel : MonoBehaviour
                     if (i == 0) carBtnRefs[i].lockObj.SetActive(false);
                     bool isUnlocked = IsCarUnlocked(i);
                     carBtnRefs[i].lockObj.SetActive(!isUnlocked);
-                    if (i == selectedCar) buyBtnObj.SetActive(!isUnlocked);
+                    if (i == selectedCar)
+                    {
+                        buyBtnObj.SetActive(!isUnlocked);
+                        playBtnObj.SetActive(isUnlocked);
+                    }
                     carBtnRefs[i].highlighter.SetActive(selectedCar == i);
                 }
                 break;
@@ -85,7 +91,11 @@ public class GaragePanel : MonoBehaviour
                     if (i == 0) paintBtnRefs[i].lockObj.SetActive(false);
                     bool isUnlocked = IsPaintUnlocked(i);
                     paintBtnRefs[i].lockObj.SetActive(!isUnlocked);
-                    if (i == selectedPaint) buyBtnObj.SetActive(!isUnlocked);
+                    if (i == selectedPaint)
+                    {
+                        buyBtnObj.SetActive(!isUnlocked);
+                        playBtnObj.SetActive(isUnlocked);
+                    }
                     paintBtnRefs[i].highlighter.SetActive(selectedPaint == i);
                 }
                 break;
@@ -95,7 +105,11 @@ public class GaragePanel : MonoBehaviour
                     if (i == 0) tyreBtnRefs[i].lockObj.SetActive(false);
                     bool isUnlocked = IsTyreUnlocked(i);
                     tyreBtnRefs[i].lockObj.SetActive(!isUnlocked);
-                    if (i == selectedTyre) buyBtnObj.SetActive(!isUnlocked);
+                    if (i == selectedTyre)
+                    {
+                        buyBtnObj.SetActive(!isUnlocked);
+                        playBtnObj.SetActive(isUnlocked);
+                    }
                     tyreBtnRefs[i].highlighter.SetActive(selectedTyre == i);
                 }
                 break;
@@ -105,7 +119,11 @@ public class GaragePanel : MonoBehaviour
                     if (i == 0) rimBtnRefs[i].lockObj.SetActive(false);
                     bool isUnlocked = IsRimUnlocked(i);
                     rimBtnRefs[i].lockObj.SetActive(!isUnlocked);
-                    if (i == selectedRim) buyBtnObj.SetActive(!isUnlocked);
+                    if (i == selectedRim)
+                    {
+                        buyBtnObj.SetActive(!isUnlocked);
+                        playBtnObj.SetActive(isUnlocked);
+                    }
                     rimBtnRefs[i].highlighter.SetActive(selectedRim == i);
                 }
                 break;
@@ -115,7 +133,11 @@ public class GaragePanel : MonoBehaviour
                     if (i == 0) spoilerBtnRefs[i].lockObj.SetActive(false);
                     bool isUnlocked = IsSpowilerUnlocked(i);
                     spoilerBtnRefs[i].lockObj.SetActive(!isUnlocked);
-                    if (i == selectedSpoiler) buyBtnObj.SetActive(!isUnlocked);
+                    if (i == selectedSpoiler)
+                    {
+                        buyBtnObj.SetActive(!isUnlocked);
+                        playBtnObj.SetActive(isUnlocked);
+                    }
                     spoilerBtnRefs[i].highlighter.SetActive(selectedSpoiler == i);
                 }
                 break;
