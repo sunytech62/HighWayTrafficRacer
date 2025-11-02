@@ -1,5 +1,12 @@
 fileFormatVersion: 2
 guid: f62cee1a280599440a6369d2908cf498
+AssetOrigin:
+  serializedVersion: 1
+  productId: 292882
+  packageName: Highway Racer 2
+  packageVersion: 1.51
+  assetPath: Assets/HR2/Models/Town Buildings/TownBuildings.FBX
+  uploadId: 739365
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -114,7 +121,7 @@ ModelImporter:
   meshes:
     lODScreenPercentages: []
     globalScale: 1
-    meshCompression: 0
+    meshCompression: 3
     addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
@@ -185,10 +192,3 @@ ModelImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 292882
-  packageName: Highway Racer 2
-  packageVersion: 1.51
-  assetPath: Assets/HR2/Models/Town Buildings/TownBuildings.FBX
-  uploadId: 739365

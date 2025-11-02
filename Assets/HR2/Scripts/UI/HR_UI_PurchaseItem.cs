@@ -1,76 +1,40 @@
-//----------------------------------------------
-//                   Highway Racer
-//
-// Copyright © 2014 - 2025 BoneCracker Games
-// https://www.bonecrackergames.com
-//----------------------------------------------
-
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using TMPro;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-/// <summary>
-/// UI button for purchasing the items.
-/// </summary>
-public class HR_UI_PurchaseItem : MonoBehaviour, IPointerClickHandler {
-    /// <summary>
-    /// The cart item associated with this button.
-    /// </summary>
+public class HR_UI_PurchaseItem : MonoBehaviour, IPointerClickHandler
+{
     public HR_CartItem item;
-
-    /// <summary>
-    /// The panel displaying the price.
-    /// </summary>
     public GameObject pricePanel;
-
-    /// <summary>
-    /// The text displaying the item's price.
-    /// </summary>
     public TextMeshProUGUI priceText;
-
-    /// <summary>
-    /// The button component for purchasing the item.
-    /// </summary>
     private Button button;
-
-    /// <summary>
-    /// Indicates whether the item is purchased.
-    /// </summary>
     public bool isPurchased = false;
 
-    /// <summary>
-    /// Initializes the button and UI elements.
-    /// </summary>
-    private void Awake() {
+    private void Awake()
+    {
         // Get required references
         button = GetComponent<Button>();
 
         // Basic null checks
-        if (item == null)
-            Debug.LogError($"{name}: No HR_CartItem assigned!");
-        if (!pricePanel)
-            Debug.LogError($"{name}: No pricePanel assigned!");
-        if (!priceText)
-            Debug.LogError($"{name}: No priceText assigned!");
+        /* if (item == null)
+             Debug.LogError($"{name}: No HR_CartItem assigned!");
+         if (!pricePanel)
+             Debug.LogError($"{name}: No pricePanel assigned!");
+         if (!priceText)
+             Debug.LogError($"{name}: No priceText assigned!");*/
 
         // Update UI on awake
         UpdatePurchaseState();
     }
 
-    /// <summary>
-    /// Updates the UI elements when the object is enabled.
-    /// </summary>
-    public void OnEnable() {
+    public void OnEnable()
+    {
         UpdatePurchaseState();
     }
 
-    /// <summary>
-    /// Refreshes the purchase state and updates the UI (price panel, text, etc).
-    /// </summary>
-    private void UpdatePurchaseState() {
+    private void UpdatePurchaseState()
+    {
         // Check whether the user already purchased the item
         isPurchased = item != null && PlayerPrefs.HasKey(item.saveKey);
 
@@ -82,20 +46,14 @@ public class HR_UI_PurchaseItem : MonoBehaviour, IPointerClickHandler {
             priceText.text = isPurchased ? "" : $"${item.price:F0}";
     }
 
-    /// <summary>
-    /// Returns true if the item is already purchased, otherwise false.
-    /// (Kept for compatibility in case other scripts call it.)
-    /// </summary>
-    public bool CheckPurchase() {
+    public bool CheckPurchase()
+    {
         UpdatePurchaseState();
         return isPurchased;
     }
 
-    /// <summary>
-    /// Handles the click event to purchase the item (or trigger purchase flow in another script).
-    /// </summary>
-    /// <param name="eventData">Event data for the pointer click.</param>
-    public void OnPointerClick(PointerEventData eventData) {
+    public void OnPointerClick(PointerEventData eventData)
+    {
         // If the button isn't interactable or not active, do nothing
         if (!button.interactable || !button.gameObject.activeSelf)
             return;

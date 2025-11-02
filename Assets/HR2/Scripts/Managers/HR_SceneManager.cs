@@ -1,118 +1,97 @@
-//----------------------------------------------
-//                   Highway Racer
-//
-// Copyright © 2014 - 2025 BoneCracker Games
-// https://www.bonecrackergames.com
-//----------------------------------------------
-
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-/// <summary>
-/// Manages and observes all major systems such as gameplay, missions, markers, spawn positions, and minimap.
-/// </summary>
-public class HR_SceneManager : HR_Singleton<HR_SceneManager> {
-
+public class HR_SceneManager : HR_Singleton<HR_SceneManager>
+{
     public enum LevelType { MainMenu, Gameplay }
     public LevelType levelType = LevelType.Gameplay;
 
     #region GAMEPLAYCOMPONENTS
 
-    /// <summary>
-    /// Gameplay manager.
-    /// </summary>
-    public HR_GamePlayManager GameplayManager {
-        get {
+    public HR_GamePlayManager GameplayManager
+    {
+        get
+        {
             if (gameplayManager == null)
                 gameplayManager = FindFirstObjectByType<HR_GamePlayManager>();
             return gameplayManager;
         }
     }
 
-    /// <summary>
-    /// Curved road manager.
-    /// </summary>
-    public HR_CurvedRoadManager CurvedRoadManager {
-        get {
+    public HR_CurvedRoadManager CurvedRoadManager
+    {
+        get
+        {
             if (curvedRoadManager == null)
                 curvedRoadManager = FindFirstObjectByType<HR_CurvedRoadManager>();
             return curvedRoadManager;
         }
     }
 
-    /// <summary>
-    /// Path manager.
-    /// </summary>
-    public HR_PathManager PathManager {
-        get {
+    public HR_PathManager PathManager
+    {
+        get
+        {
             if (pathManager == null)
                 pathManager = FindFirstObjectByType<HR_PathManager>();
             return pathManager;
         }
     }
 
-    /// <summary>
-    /// Traffic manager.
-    /// </summary>
-    public HR_TrafficManager TrafficManager {
-        get {
+    public HR_TrafficManager TrafficManager
+    {
+        get
+        {
             if (trafficManager == null)
                 trafficManager = FindFirstObjectByType<HR_TrafficManager>();
             return trafficManager;
         }
     }
 
-    /// <summary>
-    /// Lane manager.
-    /// </summary>
-    public HR_LaneManager LaneManager {
-        get {
+    public HR_LaneManager LaneManager
+    {
+        get
+        {
             if (laneManager == null)
                 laneManager = FindFirstObjectByType<HR_LaneManager>();
             return laneManager;
         }
     }
 
-    /// <summary>
-    /// Player camera.
-    /// </summary>
-    public HR_Camera PlayerCamera {
-        get {
+    public HR_Camera PlayerCamera
+    {
+        get
+        {
             if (playerCamera == null)
                 playerCamera = FindFirstObjectByType<HR_Camera>();
             return playerCamera;
         }
     }
 
-    /// <summary>
-    /// UI Gameplay panel.
-    /// </summary>
-    public HR_UI_GameplayPanel GameplayPanel {
-        get {
+    public HR_UI_GameplayPanel GameplayPanel
+    {
+        get
+        {
             if (gameplayPanel == null)
                 gameplayPanel = FindFirstObjectByType<HR_UI_GameplayPanel>();
             return gameplayPanel;
         }
     }
 
-    /// <summary>
-    /// UI Gameover panel.
-    /// </summary>
-    public HR_UI_GameOverPanel GameoverPanel {
-        get {
+    public HR_UI_GameOverPanel GameoverPanel
+    {
+        get
+        {
             if (gameoverPanel == null)
                 gameoverPanel = FindFirstObjectByType<HR_UI_GameOverPanel>();
             return gameoverPanel;
         }
     }
 
-    /// <summary>
-    /// Event system.
-    /// </summary>
-    public EventSystem Event {
-        get {
+    public EventSystem Event
+    {
+        get
+        {
             if (eventSystem == null)
                 eventSystem = FindFirstObjectByType<EventSystem>();
             return eventSystem;
@@ -123,33 +102,30 @@ public class HR_SceneManager : HR_Singleton<HR_SceneManager> {
 
     #region MAINMENUCOMPONENTS
 
-    /// <summary>
-    /// Mainmenu manager.
-    /// </summary>
-    public HR_MainMenuManager MainMenuManager {
-        get {
+    public HR_MainMenuManager MainMenuManager
+    {
+        get
+        {
             if (mainmenuManager == null)
                 mainmenuManager = FindFirstObjectByType<HR_MainMenuManager>();
             return mainmenuManager;
         }
     }
 
-    /// <summary>
-    /// Mainmenu UI panel.
-    /// </summary>
-    public HR_UI_MainmenuPanel MainMenuPanel {
-        get {
+    public HR_UI_MainmenuPanel MainMenuPanel
+    {
+        get
+        {
             if (mainmenuPanel == null)
                 mainmenuPanel = FindFirstObjectByType<HR_UI_MainmenuPanel>();
             return mainmenuPanel;
         }
     }
 
-    /// <summary>
-    /// Showroom camera.
-    /// </summary>
-    public HR_Camera_Showroom ShowroomCamera {
-        get {
+    public HR_Camera_Showroom ShowroomCamera
+    {
+        get
+        {
             if (showroomCamera == null)
                 showroomCamera = FindFirstObjectByType<HR_Camera_Showroom>();
             return showroomCamera;
@@ -160,11 +136,10 @@ public class HR_SceneManager : HR_Singleton<HR_SceneManager> {
 
     #region RCCPCOMPONENTS
 
-    /// <summary>
-    /// RCCP Scene Manager.
-    /// </summary>
-    public RCCP_SceneManager RCCPSceneManager {
-        get {
+    public RCCP_SceneManager RCCPSceneManager
+    {
+        get
+        {
             if (rccpSceneManager == null)
                 rccpSceneManager = FindFirstObjectByType<RCCP_SceneManager>();
             return rccpSceneManager;
@@ -191,21 +166,17 @@ public class HR_SceneManager : HR_Singleton<HR_SceneManager> {
     private RCCP_SceneManager rccpSceneManager;
     #endregion
 
-    /// <summary>
-    /// Called when the script instance is being loaded.
-    /// </summary>
-    private void Awake() {
-        // Getting and checking all components.
+    [SerializeField] GameObject challengePrefab;
+
+    private void Awake()
+    {
         GetAllComponents();
     }
 
-    /// <summary>
-    /// Gets all major manager components.
-    /// </summary>
-    public void GetAllComponents() {
-
-        switch (levelType) {
-
+    public void GetAllComponents()
+    {
+        switch (levelType)
+        {
             case LevelType.Gameplay:
 
                 HR_GamePlayManager _gameplayManager = GameplayManager;
@@ -217,15 +188,11 @@ public class HR_SceneManager : HR_Singleton<HR_SceneManager> {
                 HR_Camera _playerCamera = PlayerCamera;
 
                 break;
-
             case LevelType.MainMenu:
 
                 HR_MainMenuManager _mainmenuManager = MainMenuManager;
 
                 break;
-
         }
-
     }
-
 }

@@ -1,91 +1,73 @@
-//----------------------------------------------
-//           	   Highway Racer
-//
-// Copyright © 2014 - 2025 BoneCracker Games
-// https://www.bonecrackergames.com
-//
-//----------------------------------------------
-
 using UnityEngine;
-using System.Collections;
 
-public class HR_UI_OptionsManager : MonoBehaviour {
+public class HR_UI_OptionsManager : MonoBehaviour
+{
 
     public GameObject pausedMenu;
-    public GameObject pausedButtons;
-    public GameObject optionsMenu;
-    public GameObject restartButton;
+    // public GameObject pausedButtons;
+    // public GameObject optionsMenu;
+    // public GameObject restartButton;
 
-    private void OnEnable() {
-
+    private void OnEnable()
+    {
         HR_Events.OnPaused += OnPaused;
         HR_Events.OnResumed += OnResumed;
 
-        restartButton.SetActive(true);
-
+        //  restartButton.SetActive(true);
     }
 
-    public void ResumeGame() {
-
+    public void ResumeGame()
+    {
         HR_GamePlayManager.Instance.Paused();
-
     }
 
-    public void RestartGame() {
-
+    public void RestartGame()
+    {
         HR_API.RestartGame();
-
     }
 
-    public void MainMenu() {
-
+    public void MainMenu()
+    {
         HR_API.MainMenu();
-
     }
 
-    public void OptionsMenu(bool open) {
+    public void OptionsMenu(bool open)
+    {
+        // optionsMenu.SetActive(open);
 
-        optionsMenu.SetActive(open);
-
-        if (open)
-            pausedButtons.SetActive(false);
-        else
-            pausedButtons.SetActive(true);
-
+        // if (open)
+        //    pausedButtons.SetActive(false);
+        // else
+        //     pausedButtons.SetActive(true);
     }
 
-    private void OnPaused() {
-
+    private void OnPaused()
+    {
         pausedMenu.SetActive(true);
-        pausedButtons.SetActive(true);
+        //pausedButtons.SetActive(true);
 
         AudioListener.pause = true;
         Time.timeScale = 0;
-
     }
 
-    public void OnResumed() {
-
+    public void OnResumed()
+    {
         pausedMenu.SetActive(false);
-        pausedButtons.SetActive(false);
+        //pausedButtons.SetActive(false);
 
         AudioListener.pause = false;
         Time.timeScale = 1;
-
     }
 
-    public void ChangeCamera() {
-
+    public void ChangeCamera()
+    {
         if (FindFirstObjectByType<HR_Camera>())
             FindFirstObjectByType<HR_Camera>().ChangeCameraMode();
-
     }
 
-    private void OnDisable() {
-
+    private void OnDisable()
+    {
         HR_Events.OnPaused -= OnPaused;
         HR_Events.OnResumed -= OnResumed;
-
     }
-
 }

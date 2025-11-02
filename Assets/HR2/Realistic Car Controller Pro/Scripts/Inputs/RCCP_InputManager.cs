@@ -1,20 +1,8 @@
-//----------------------------------------------
-//        Realistic Car Controller Pro
-//
-// Copyright © 2014 - 2025 BoneCracker Games
-// https://www.bonecrackergames.com
-// Ekrem Bugra Ozdoganlar
-//
-//----------------------------------------------
-
 using UnityEngine;
-using System.Collections.Generic;
 using UnityEngine.InputSystem;
 
-/// <summary>
-/// Main input manager of the RCCP. Receives inputs from the corresponding device and let the other components use them.
-/// </summary>
-public class RCCP_InputManager : RCCP_Singleton<RCCP_InputManager> {
+public class RCCP_InputManager : RCCP_Singleton<RCCP_InputManager>
+{
 
     public RCCP_Inputs inputs = new RCCP_Inputs();
 
@@ -100,10 +88,12 @@ public class RCCP_InputManager : RCCP_Singleton<RCCP_InputManager> {
     public delegate void onOptions();
     public static event onOptions OnOptions;
 
-    private void Awake() {
+    private void Awake()
+    {
 
         // If there is already an instance and it is not this one, destroy this one.
-        if (Instance != this) {
+        if (Instance != this)
+        {
 
             Destroy(gameObject);
             return;
@@ -118,10 +108,12 @@ public class RCCP_InputManager : RCCP_Singleton<RCCP_InputManager> {
 
     }
 
-    private void OnEnable() {
+    private void OnEnable()
+    {
 
         // Get the Input Actions from your RCCP_InputActions
-        if (RCCP_InputActions.Instance != null) {
+        if (RCCP_InputActions.Instance != null)
+        {
 
             inputActionsInstance = RCCP_InputActions.Instance.inputActions;
 
@@ -137,10 +129,12 @@ public class RCCP_InputManager : RCCP_Singleton<RCCP_InputManager> {
 
     }
 
-    private void OnDisable() {
+    private void OnDisable()
+    {
 
         // Safely unsubscribe from all performed/canceled events here
-        if (inputActionsInstance != null) {
+        if (inputActionsInstance != null)
+        {
 
             UnsubscribeDrivingMapEvents();
             UnsubscribeCameraMapEvents();
@@ -150,34 +144,38 @@ public class RCCP_InputManager : RCCP_Singleton<RCCP_InputManager> {
 
     }
 
-    private void Update() {
-
+    private void Update()
+    {
         // Re-create inputs if somehow null
         if (inputs == null)
             inputs = new RCCP_Inputs();
 
         // Receive inputs from the controller only if we're not overriding
-        if (!overrideInputs) {
-
+        if (!overrideInputs)
+        {
             if (!RCCPSettings.mobileControllerEnabled)
                 inputs = KeyboardInputs();
             else
                 inputs = MobileInputs();
-
+            /*   #if UNITY_EDITOR
+               inputs = KeyboardInputs();
+               else
+               inputs = MobileInputs();
+               #endif*/
         }
-
     }
 
     /// <summary>
     /// Keyboard inputs with old and new input system.
     /// Simply read input values from the action maps (already enabled in OnEnable).
     /// </summary>
-    private RCCP_Inputs KeyboardInputs() {
+    private RCCP_Inputs KeyboardInputs()
+    {
 
         // If for some reason there's no action asset, just return what we have.
         if (inputActionsInstance == null)
             return inputs;
-
+        Debug.LogError("KEyboard");
         // read from the actions...
         var drivingMap = inputActionsInstance.actionMaps[0];
         inputs.throttleInput = drivingMap.actions[0].ReadValue<float>();
@@ -198,11 +196,14 @@ public class RCCP_InputManager : RCCP_Singleton<RCCP_InputManager> {
     /// <summary>
     /// Receiving mobile player inputs from RCCP_MobileInputs (attached to RCCP_Canvas).
     /// </summary>
-    private RCCP_Inputs MobileInputs() {
+    private RCCP_Inputs MobileInputs()
+    {
 
         RCCP_MobileInputs mobileInputs = RCCP_MobileInputs.Instance;
 
-        if (mobileInputs) {
+        if (mobileInputs)
+        {
+            Debug.LogError("mobileInput");
 
             inputs.throttleInput = mobileInputs.throttleInput;
             inputs.brakeInput = mobileInputs.brakeInput;
@@ -217,14 +218,16 @@ public class RCCP_InputManager : RCCP_Singleton<RCCP_InputManager> {
     }
 
     #region Input Overrides
-    public void OverrideInputs(RCCP_Inputs overriddenInputs) {
+    public void OverrideInputs(RCCP_Inputs overriddenInputs)
+    {
 
         overrideInputs = true;
         inputs = overriddenInputs;
 
     }
 
-    public void DisableOverrideInputs() {
+    public void DisableOverrideInputs()
+    {
 
         overrideInputs = false;
 
@@ -233,7 +236,8 @@ public class RCCP_InputManager : RCCP_Singleton<RCCP_InputManager> {
     /// <summary>
     /// Returns player inputs.
     /// </summary>
-    public RCCP_Inputs GetInputs() {
+    public RCCP_Inputs GetInputs()
+    {
 
         return inputs;
 
@@ -241,175 +245,200 @@ public class RCCP_InputManager : RCCP_Singleton<RCCP_InputManager> {
     #endregion
 
     #region Public Methods Called by the Rest of the Game
-    public void GearShiftUp() {
+    public void GearShiftUp()
+    {
 
         if (OnGearShiftedUp != null)
             OnGearShiftedUp();
 
     }
 
-    public void GearShiftDown() {
+    public void GearShiftDown()
+    {
 
         if (OnGearShiftedDown != null)
             OnGearShiftedDown();
 
     }
 
-    public void GearShiftToN() {
+    public void GearShiftToN()
+    {
 
         if (OnGearShiftedToN != null)
             OnGearShiftedToN();
 
     }
 
-    public void ToggleGear(RCCP_Gearbox.TransmissionType transmissionType) {
+    public void ToggleGear(RCCP_Gearbox.TransmissionType transmissionType)
+    {
 
         if (OnGearToggle != null)
             OnGearToggle(transmissionType);
 
     }
 
-    public void AutomaticGear(RCCP_Gearbox.SemiAutomaticDNRPGear semiAutomaticDNRPGear) {
+    public void AutomaticGear(RCCP_Gearbox.SemiAutomaticDNRPGear semiAutomaticDNRPGear)
+    {
 
         if (OnAutomaticGear != null)
             OnAutomaticGear(semiAutomaticDNRPGear);
 
     }
 
-    public void ChangeCamera() {
+    public void ChangeCamera()
+    {
 
         if (OnChangedCamera != null)
             OnChangedCamera();
 
     }
 
-    public void LowBeamHeadlights() {
+    public void LowBeamHeadlights()
+    {
 
         if (OnPressedLowBeamLights != null)
             OnPressedLowBeamLights();
 
     }
 
-    public void HighBeamHeadlights(bool state) {
+    public void HighBeamHeadlights(bool state)
+    {
 
         if (OnPressedHighBeamLights != null)
             OnPressedHighBeamLights(state);
 
     }
 
-    public void IndicatorLeftlights() {
+    public void IndicatorLeftlights()
+    {
 
         if (OnPressedLeftIndicatorLights != null)
             OnPressedLeftIndicatorLights();
 
     }
 
-    public void IndicatorRightlights() {
+    public void IndicatorRightlights()
+    {
 
         if (OnPressedRightIndicatorLights != null)
             OnPressedRightIndicatorLights();
 
     }
 
-    public void Indicatorlights() {
+    public void Indicatorlights()
+    {
 
         if (OnPressedIndicatorLights != null)
             OnPressedIndicatorLights();
 
     }
 
-    public void LookBackCamera(bool state) {
+    public void LookBackCamera(bool state)
+    {
 
         if (OnLookBackCamera != null)
             OnLookBackCamera(state);
 
     }
 
-    public void HoldOrbitCamera(bool state) {
+    public void HoldOrbitCamera(bool state)
+    {
 
         if (OnHoldOrbitCamera != null)
             OnHoldOrbitCamera(state);
 
     }
 
-    public void StartEngine() {
+    public void StartEngine()
+    {
 
         if (OnStartEngine != null)
             OnStartEngine();
 
     }
 
-    public void StopEngine() {
+    public void StopEngine()
+    {
 
         if (OnStopEngine != null)
             OnStopEngine();
 
     }
 
-    public void SteeringHelper() {
+    public void SteeringHelper()
+    {
 
         if (OnSteeringHelper != null)
             OnSteeringHelper();
 
     }
 
-    public void TractionHelper() {
+    public void TractionHelper()
+    {
 
         if (OnTractionHelper != null)
             OnTractionHelper();
 
     }
 
-    public void AngularDragHelper() {
+    public void AngularDragHelper()
+    {
 
         if (OnAngularDragHelper != null)
             OnAngularDragHelper();
 
     }
 
-    public void ABS() {
+    public void ABS()
+    {
 
         if (OnABS != null)
             OnABS();
 
     }
 
-    public void ESP() {
+    public void ESP()
+    {
 
         if (OnESP != null)
             OnESP();
 
     }
 
-    public void TCS() {
+    public void TCS()
+    {
 
         if (OnTCS != null)
             OnTCS();
 
     }
 
-    public void Record() {
+    public void Record()
+    {
 
         if (OnRecord != null)
             OnRecord();
 
     }
 
-    public void Replay() {
+    public void Replay()
+    {
 
         if (OnReplay != null)
             OnReplay();
 
     }
 
-    public void TrailDetach() {
+    public void TrailDetach()
+    {
 
         if (OnTrailerDetach != null)
             OnTrailerDetach();
 
     }
 
-    public void Options() {
+    public void Options()
+    {
 
         if (OnOptions != null)
             OnOptions();
@@ -422,49 +451,56 @@ public class RCCP_InputManager : RCCP_Singleton<RCCP_InputManager> {
     private void GearShiftDown_performed(InputAction.CallbackContext ctx) => GearShiftDown();
     private void NGear_performed(InputAction.CallbackContext ctx) => GearShiftToN();
 
-    private void _1stGear_performed(InputAction.CallbackContext ctx) {
+    private void _1stGear_performed(InputAction.CallbackContext ctx)
+    {
 
         if (OnGearShiftedTo != null)
             OnGearShiftedTo(0);
 
     }
 
-    private void _2ndGear_performed(InputAction.CallbackContext ctx) {
+    private void _2ndGear_performed(InputAction.CallbackContext ctx)
+    {
 
         if (OnGearShiftedTo != null)
             OnGearShiftedTo(1);
 
     }
 
-    private void _3rdGear_performed(InputAction.CallbackContext ctx) {
+    private void _3rdGear_performed(InputAction.CallbackContext ctx)
+    {
 
         if (OnGearShiftedTo != null)
             OnGearShiftedTo(2);
 
     }
 
-    private void _4thGear_performed(InputAction.CallbackContext ctx) {
+    private void _4thGear_performed(InputAction.CallbackContext ctx)
+    {
 
         if (OnGearShiftedTo != null)
             OnGearShiftedTo(3);
 
     }
 
-    private void _5thGear_performed(InputAction.CallbackContext ctx) {
+    private void _5thGear_performed(InputAction.CallbackContext ctx)
+    {
 
         if (OnGearShiftedTo != null)
             OnGearShiftedTo(4);
 
     }
 
-    private void _6thGear_performed(InputAction.CallbackContext ctx) {
+    private void _6thGear_performed(InputAction.CallbackContext ctx)
+    {
 
         if (OnGearShiftedTo != null)
             OnGearShiftedTo(5);
 
     }
 
-    private void _RGear_performed(InputAction.CallbackContext ctx) {
+    private void _RGear_performed(InputAction.CallbackContext ctx)
+    {
 
         if (OnGearShiftedTo != null)
             OnGearShiftedTo(-1);
@@ -497,7 +533,8 @@ public class RCCP_InputManager : RCCP_Singleton<RCCP_InputManager> {
 
     #region Subscribe / Unsubscribe Helpers
 
-    private void SubscribeDrivingMapEvents() {
+    private void SubscribeDrivingMapEvents()
+    {
 
         // "Driving" might be your first action map (index 0):
         var drivingMap = inputActionsInstance.actionMaps[0];
@@ -524,7 +561,8 @@ public class RCCP_InputManager : RCCP_Singleton<RCCP_InputManager> {
 
     }
 
-    private void UnsubscribeDrivingMapEvents() {
+    private void UnsubscribeDrivingMapEvents()
+    {
 
         var drivingMap = inputActionsInstance.actionMaps[0];
 
@@ -550,7 +588,8 @@ public class RCCP_InputManager : RCCP_Singleton<RCCP_InputManager> {
 
     }
 
-    private void SubscribeCameraMapEvents() {
+    private void SubscribeCameraMapEvents()
+    {
 
         // "Camera" might be your second action map (index 1)
         var cameraMap = inputActionsInstance.actionMaps[1];
@@ -563,7 +602,8 @@ public class RCCP_InputManager : RCCP_Singleton<RCCP_InputManager> {
 
     }
 
-    private void UnsubscribeCameraMapEvents() {
+    private void UnsubscribeCameraMapEvents()
+    {
 
         var cameraMap = inputActionsInstance.actionMaps[1];
 
@@ -575,7 +615,8 @@ public class RCCP_InputManager : RCCP_Singleton<RCCP_InputManager> {
 
     }
 
-    private void SubscribeReplayMapEvents() {
+    private void SubscribeReplayMapEvents()
+    {
 
         // "Replay" might be your third action map (index 2)
         var replayMap = inputActionsInstance.actionMaps[2];
@@ -585,7 +626,8 @@ public class RCCP_InputManager : RCCP_Singleton<RCCP_InputManager> {
 
     }
 
-    private void UnsubscribeReplayMapEvents() {
+    private void UnsubscribeReplayMapEvents()
+    {
 
         var replayMap = inputActionsInstance.actionMaps[2];
 

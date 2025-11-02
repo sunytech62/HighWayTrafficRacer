@@ -1,22 +1,10 @@
-//----------------------------------------------
-//                   Highway Racer
-//
-// Copyright © 2014 - 2025 BoneCracker Games
-// https://www.bonecrackergames.com
-//----------------------------------------------
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// Manages various game events for Highway Racer.
-/// </summary>
-public class HR_Events {
 
-    /// <summary>
-    /// Delegate for when the countdown starts.
-    /// </summary>
+public class HR_Events
+{
     public delegate void onCountDownStarted();
     public static event onCountDownStarted OnCountDownStarted;
 
@@ -65,81 +53,72 @@ public class HR_Events {
     /// <summary>
     /// Triggers the OnCountDownStarted event.
     /// </summary>
-    public static void Event_OnCountDownStarted() {
-
+    public static void Event_OnCountDownStarted()
+    {
         if (OnCountDownStarted != null)
             OnCountDownStarted();
-
     }
 
     /// <summary>
     /// Triggers the OnRaceStarted event.
     /// </summary>
-    public static void Event_OnRaceStarted() {
-
+    public static void Event_OnRaceStarted()
+    {
         if (OnRaceStarted != null)
             OnRaceStarted();
-
     }
 
     /// <summary>
     /// Triggers the OnPlayerSpawned event.
     /// </summary>
-    public static void Event_OnPlayerSpawned(HR_Player player) {
-
+    public static void Event_OnPlayerSpawned(HR_Player player)
+    {
         if (OnPlayerSpawned != null)
             OnPlayerSpawned(player);
-
     }
 
     /// <summary>
     /// Triggers the OnPlayerDied event.
     /// </summary>
-    public static void Event_OnPlayerDied(HR_Player player, int[] scores) {
-
+    public static void Event_OnPlayerDied(HR_Player player, int[] scores)
+    {
         if (OnPlayerDied != null)
             OnPlayerDied(player, scores);
-
     }
 
     /// <summary>
     /// Triggers the OnPaused event.
     /// </summary>
-    public static void Event_OnPaused() {
-
+    public static void Event_OnPaused()
+    {
         if (OnPaused != null)
             OnPaused();
-
     }
 
     /// <summary>
     /// Triggers the OnResumed event.
     /// </summary>
-    public static void Event_OnResumed() {
-
+    public static void Event_OnResumed()
+    {
         if (OnResumed != null)
             OnResumed();
-
     }
 
     /// <summary>
     /// Triggers the audio changed event.
     /// </summary>
-    public static void Event_OnOptionsChanged() {
-
+    public static void Event_OnOptionsChanged()
+    {
         if (OnOptionsChanged != null)
             OnOptionsChanged();
-
     }
 
     /// <summary>
     /// Triggers the player vehicle changed event.
     /// </summary>
-    public static void Event_OnVehicleChanged(int carIndex) {
-
+    public static void Event_OnVehicleChanged(int carIndex)
+    {
         if (OnVehicleChanged != null)
             OnVehicleChanged(carIndex);
-
     }
-
 }

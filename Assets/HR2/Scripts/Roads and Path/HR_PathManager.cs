@@ -1,25 +1,18 @@
-//----------------------------------------------
-//                   Highway Racer
-//
-// Copyright © 2014 - 2025 BoneCracker Games
-// https://www.bonecrackergames.com
-//----------------------------------------------
-
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-/// <summary>
-/// Manages the path points and calculates the closest path points to the player.
-/// </summary>
 [DefaultExecutionOrder(-20)]
-public class HR_PathManager : MonoBehaviour {
+public class HR_PathManager : MonoBehaviour
+{
 
     #region SINGLETON PATTERN
     private static HR_PathManager instance;
-    public static HR_PathManager Instance {
-        get {
+    public static HR_PathManager Instance
+    {
+        get
+        {
             if (instance == null)
                 instance = FindFirstObjectByType<HR_PathManager>();
 
@@ -32,30 +25,14 @@ public class HR_PathManager : MonoBehaviour {
     }
     #endregion
 
-    /// <summary>
-    /// Reference to the player.
-    /// </summary>
     public HR_Player player;
 
-    /// <summary>
-    /// List of all path points. These are appended by roads via AddPath().
-    /// </summary>
     public List<Transform> pathPoints = new List<Transform>();
 
-    /// <summary>
-    /// List of path points close to the player (within some threshold). 
-    /// This is updated periodically in CheckPathPoints().
-    /// </summary>
     public List<Transform> closestPathPointsToPlayer = new List<Transform>();
 
-    /// <summary>
-    /// The single closest path point to the player, discovered in ProcessPath().
-    /// </summary>
     public Transform closestPathPointToPlayer;
 
-    /// <summary>
-    /// Time interval (in seconds) at which ProcessPath() is called from Update().
-    /// </summary>
     [Tooltip("Update path processing every X seconds.")]
     public float interval = 0.5f;
     private float nextTime = 0f;
@@ -77,7 +54,8 @@ public class HR_PathManager : MonoBehaviour {
     /// <summary>
     /// Called when the object becomes enabled and active.
     /// </summary>
-    private void OnEnable() {
+    private void OnEnable()
+    {
 
         HR_CurvedRoadManager.OnAllRoadsAligned += HR_CurvedRoadManager_OnAllRoadsAligned;
         HR_CurvedRoadManager.OnRoadAligned += HR_CurvedRoadManager_OnRoadAligned;
@@ -85,12 +63,14 @@ public class HR_PathManager : MonoBehaviour {
 
     }
 
-    private void HR_CurvedRoadManager_OnRoadAligned(HR_CurvedRoad road) {
+    private void HR_CurvedRoadManager_OnRoadAligned(HR_CurvedRoad road)
+    {
         // Re-check path after a single road is realigned
         ProcessPath();
     }
 
-    private void HR_CurvedRoadManager_OnAllRoadsAligned(List<HR_CurvedRoad> allRoads) {
+    private void HR_CurvedRoadManager_OnAllRoadsAligned(List<HR_CurvedRoad> allRoads)
+    {
         // After all roads are aligned, add their bones to pathPoints
         for (int i = 0; i < allRoads.Count; i++)
             AddPath(allRoads[i]);
@@ -99,7 +79,8 @@ public class HR_PathManager : MonoBehaviour {
     /// <summary>
     /// Called when the object becomes disabled.
     /// </summary>
-    private void OnDisable() {
+    private void OnDisable()
+    {
 
         HR_CurvedRoadManager.OnAllRoadsAligned -= HR_CurvedRoadManager_OnAllRoadsAligned;
         HR_CurvedRoadManager.OnRoadAligned -= HR_CurvedRoadManager_OnRoadAligned;
@@ -111,9 +92,11 @@ public class HR_PathManager : MonoBehaviour {
     /// Called once per frame to update the closest path point to the player, 
     /// but only if Time.time >= nextTime.
     /// </summary>
-    private void Update() {
+    private void Update()
+    {
 
-        if (Time.time >= nextTime) {
+        if (Time.time >= nextTime)
+        {
             nextTime += interval;
             ProcessPath();
         }
@@ -124,12 +107,14 @@ public class HR_PathManager : MonoBehaviour {
     /// Main logic for updating the path data. Checks path points near the player,
     /// finds the truly closest path point, and adjusts this transform's forward direction.
     /// </summary>
-    public void ProcessPath() {
+    public void ProcessPath()
+    {
 
         if (pathPoints != null && pathPoints.Count > 2)
             CheckPathPoints();
 
-        if (player != null) {
+        if (player != null)
+        {
             // Attempt to find the single closest path point
             closestPathPointToPlayer = FindClosestPointOnPathWithTransform(
                 player.transform.position,
@@ -147,15 +132,18 @@ public class HR_PathManager : MonoBehaviour {
     /// skipping duplicates.
     /// </summary>
     /// <param name="curvedRoad">The curved road containing path points.</param>
-    public void AddPath(HR_CurvedRoad curvedRoad) {
+    public void AddPath(HR_CurvedRoad curvedRoad)
+    {
 
         // Null-check
         if (!curvedRoad || curvedRoad.bones == null)
             return;
 
-        for (int i = 0; i < curvedRoad.bones.Length; i++) {
+        for (int i = 0; i < curvedRoad.bones.Length; i++)
+        {
             Transform bone = curvedRoad.bones[i];
-            if (bone != null && !pathPoints.Contains(bone)) {
+            if (bone != null && !pathPoints.Contains(bone))
+            {
                 pathPoints.Add(bone);
             }
         }
@@ -170,7 +158,8 @@ public class HR_PathManager : MonoBehaviour {
     /// in closestPathPointsToPlayer.
     /// </summary>
     /// <returns>A direction vector from first to middle. If insufficient points, returns Vector3.zero.</returns>
-    public Vector3 GetPathAngle() {
+    public Vector3 GetPathAngle()
+    {
 
         Transform first = GetFirstClosestPoint();
         Transform middle = GetMiddleClosestPoint(first);
@@ -185,7 +174,8 @@ public class HR_PathManager : MonoBehaviour {
     /// Event handler for when the player is spawned. Store reference to newly spawned player.
     /// </summary>
     /// <param name="spawnedPlayer">The spawned player.</param>
-    private void HR_GamePlayHandler_OnPlayerSpawned(HR_Player spawnedPlayer) {
+    private void HR_GamePlayHandler_OnPlayerSpawned(HR_Player spawnedPlayer)
+    {
         player = spawnedPlayer;
     }
 
@@ -193,10 +183,12 @@ public class HR_PathManager : MonoBehaviour {
     /// Finds the position on the path that is closest to the given targetPosition.
     /// Returns that position as a Vector3. Also sets pathDirection for the segment's direction.
     /// </summary>
-    public Vector3 FindClosestPointOnPath(Vector3 targetPosition, out Vector3 pathDirection) {
+    public Vector3 FindClosestPointOnPath(Vector3 targetPosition, out Vector3 pathDirection)
+    {
 
         // If path is invalid or has < 2 points, just return zero
-        if (pathPoints == null || pathPoints.Count < 2) {
+        if (pathPoints == null || pathPoints.Count < 2)
+        {
             pathDirection = Vector3.forward;
             return Vector3.zero;
         }
@@ -208,7 +200,8 @@ public class HR_PathManager : MonoBehaviour {
         float minDistance = Vector3.Distance(targetPosition, closestPoint);
 
         // Iterate through each pair of points
-        for (int i = 0; i < pathPoints.Count - 1; i++) {
+        for (int i = 0; i < pathPoints.Count - 1; i++)
+        {
 
             Vector3 pointA = pathPoints[i].position;
             Vector3 pointB = pathPoints[i + 1].position;
@@ -216,7 +209,8 @@ public class HR_PathManager : MonoBehaviour {
 
             float distance = Vector3.Distance(targetPosition, projectedPoint);
 
-            if (distance < minDistance) {
+            if (distance < minDistance)
+            {
                 closestPoint = projectedPoint;
                 pathDirection = pointB - pointA; // direction of that segment
                 minDistance = distance;
@@ -230,10 +224,12 @@ public class HR_PathManager : MonoBehaviour {
     /// Similar to FindClosestPointOnPath, but returns the actual Transform 
     /// from pathPoints rather than a projected position on a segment.
     /// </summary>
-    public Transform FindClosestPointOnPathWithTransform(Vector3 targetPosition, out Vector3 pathDirection) {
+    public Transform FindClosestPointOnPathWithTransform(Vector3 targetPosition, out Vector3 pathDirection)
+    {
 
         // If path is invalid or has < 2 points, just return null
-        if (pathPoints == null || pathPoints.Count < 2) {
+        if (pathPoints == null || pathPoints.Count < 2)
+        {
             pathDirection = Vector3.forward;
             return null;
         }
@@ -243,7 +239,8 @@ public class HR_PathManager : MonoBehaviour {
 
         float minDistance = Vector3.Distance(targetPosition, closestPoint.position);
 
-        for (int i = 0; i < pathPoints.Count - 1; i++) {
+        for (int i = 0; i < pathPoints.Count - 1; i++)
+        {
 
             Vector3 pointA = pathPoints[i].position;
             Vector3 pointB = pathPoints[i + 1].position;
@@ -251,7 +248,8 @@ public class HR_PathManager : MonoBehaviour {
 
             float distance = Vector3.Distance(targetPosition, projectedPoint);
 
-            if (distance < minDistance) {
+            if (distance < minDistance)
+            {
                 // we update 'closestPoint' to be the actual Transform 
                 // at index i (the start of that segment).
                 closestPoint = pathPoints[i];
@@ -266,7 +264,8 @@ public class HR_PathManager : MonoBehaviour {
     /// <summary>
     /// Projects a point onto a line segment (A-B).
     /// </summary>
-    public Vector3 ProjectPointOnLineSegment(Vector3 pointA, Vector3 pointB, Vector3 point) {
+    public Vector3 ProjectPointOnLineSegment(Vector3 pointA, Vector3 pointB, Vector3 point)
+    {
 
         Vector3 AB = pointB - pointA;
         float t = Vector3.Dot(point - pointA, AB) / Vector3.Dot(AB, AB);
@@ -277,10 +276,12 @@ public class HR_PathManager : MonoBehaviour {
     /// <summary>
     /// Gets the first item from closestPathPointsToPlayer, if any exist.
     /// </summary>
-    public Transform GetFirstClosestPoint() {
+    public Transform GetFirstClosestPoint()
+    {
 
         // We'll return the first valid transform in the list
-        for (int i = 0; i < closestPathPointsToPlayer.Count; i++) {
+        for (int i = 0; i < closestPathPointsToPlayer.Count; i++)
+        {
             if (closestPathPointsToPlayer[i] != null)
                 return closestPathPointsToPlayer[i];
         }
@@ -292,7 +293,8 @@ public class HR_PathManager : MonoBehaviour {
     /// Tries to get a 'middle' point from closestPathPointsToPlayer, 
     /// using the provided 'target' to find its index and offset a bit.
     /// </summary>
-    public Transform GetMiddleClosestPoint(Transform target) {
+    public Transform GetMiddleClosestPoint(Transform target)
+    {
 
         if (target == null)
             return null;
@@ -316,9 +318,11 @@ public class HR_PathManager : MonoBehaviour {
     /// <summary>
     /// Gets the last valid item in closestPathPointsToPlayer, if it exists.
     /// </summary>
-    public Transform GetLastClosestPoint() {
+    public Transform GetLastClosestPoint()
+    {
 
-        for (int i = closestPathPointsToPlayer.Count - 1; i >= 0; i--) {
+        for (int i = closestPathPointsToPlayer.Count - 1; i >= 0; i--)
+        {
             if (closestPathPointsToPlayer[i] != null)
                 return closestPathPointsToPlayer[i];
         }
@@ -330,7 +334,8 @@ public class HR_PathManager : MonoBehaviour {
     /// Scans pathPoints to see which are "close enough" to the player. 
     /// Maintains the closestPathPointsToPlayer list accordingly.
     /// </summary>
-    private void CheckPathPoints() {
+    private void CheckPathPoints()
+    {
 
         if (!player)
             return;
@@ -338,7 +343,8 @@ public class HR_PathManager : MonoBehaviour {
         Vector3 playerPos = player.transform.position;
 
         // We'll iterate once over pathPoints
-        for (int i = 0; i < pathPoints.Count; i++) {
+        for (int i = 0; i < pathPoints.Count; i++)
+        {
 
             if (!pathPoints[i])
                 continue;  // skip null entries
@@ -346,8 +352,10 @@ public class HR_PathManager : MonoBehaviour {
             float distance = Vector3.Distance(pathPoints[i].position, playerPos);
 
             // If within maxCloseDistance, ensure it's in the list
-            if (distance < maxCloseDistance) {
-                if (!closestPathPointsToPlayer.Contains(pathPoints[i])) {
+            if (distance < maxCloseDistance)
+            {
+                if (!closestPathPointsToPlayer.Contains(pathPoints[i]))
+                {
                     closestPathPointsToPlayer.Add(pathPoints[i]);
                 }
 
@@ -355,23 +363,30 @@ public class HR_PathManager : MonoBehaviour {
                 // The existing code uses an approach that if it's in front 
                 // AND not in the list, add it. We'll do the same:
                 // But if it's very close (< minFrontDistance), skip the "in front" check.
-                if (distance > minFrontDistance && IsInFront(player.gameObject, pathPoints[i].gameObject)) {
-                    if (!closestPathPointsToPlayer.Contains(pathPoints[i])) {
+                if (distance > minFrontDistance && IsInFront(player.gameObject, pathPoints[i].gameObject))
+                {
+                    if (!closestPathPointsToPlayer.Contains(pathPoints[i]))
+                    {
                         closestPathPointsToPlayer.Add(pathPoints[i]);
                     }
                 }
 
-            } else {
+            }
+            else
+            {
                 // If it's in the list but now too far, remove it
-                if (closestPathPointsToPlayer.Contains(pathPoints[i])) {
+                if (closestPathPointsToPlayer.Contains(pathPoints[i]))
+                {
                     closestPathPointsToPlayer.Remove(pathPoints[i]);
                 }
             }
 
             // If it's behind the player, also remove it from the list
             // (Same as the original logic)
-            if (!IsInFront(player.gameObject, pathPoints[i].gameObject)) {
-                if (closestPathPointsToPlayer.Contains(pathPoints[i])) {
+            if (!IsInFront(player.gameObject, pathPoints[i].gameObject))
+            {
+                if (closestPathPointsToPlayer.Contains(pathPoints[i]))
+                {
                     closestPathPointsToPlayer.Remove(pathPoints[i]);
                 }
             }
@@ -385,7 +400,8 @@ public class HR_PathManager : MonoBehaviour {
     /// Finds the road that contains the specified transform (point) 
     /// by checking if point.IsChildOf(...) each spawned HR_CurvedRoad.
     /// </summary>
-    public HR_CurvedRoad FindRoadByTransform(Transform point) {
+    public HR_CurvedRoad FindRoadByTransform(Transform point)
+    {
 
         if (!point)
             return null;
@@ -394,9 +410,12 @@ public class HR_PathManager : MonoBehaviour {
         if (!roadsInstance || roadsInstance.spawnedRoads == null)
             return null;
 
-        for (int i = 0; i < roadsInstance.spawnedRoads.Count; i++) {
-            if (roadsInstance.spawnedRoads[i] != null) {
-                if (point.IsChildOf(roadsInstance.spawnedRoads[i].transform)) {
+        for (int i = 0; i < roadsInstance.spawnedRoads.Count; i++)
+        {
+            if (roadsInstance.spawnedRoads[i] != null)
+            {
+                if (point.IsChildOf(roadsInstance.spawnedRoads[i].transform))
+                {
                     return roadsInstance.spawnedRoads[i];
                 }
             }
@@ -409,7 +428,8 @@ public class HR_PathManager : MonoBehaviour {
     /// Finds the road that contains closestPathPointToPlayer, 
     /// or null if none is found.
     /// </summary>
-    public HR_CurvedRoad FindRoadByPlayer() {
+    public HR_CurvedRoad FindRoadByPlayer()
+    {
 
         if (!closestPathPointToPlayer)
             return null;
@@ -418,9 +438,12 @@ public class HR_PathManager : MonoBehaviour {
         if (!roadsInstance || roadsInstance.spawnedRoads == null || roadsInstance.spawnedRoads.Count < 1)
             return null;
 
-        for (int i = 0; i < roadsInstance.spawnedRoads.Count; i++) {
-            if (roadsInstance.spawnedRoads[i] != null) {
-                if (closestPathPointToPlayer.IsChildOf(roadsInstance.spawnedRoads[i].transform)) {
+        for (int i = 0; i < roadsInstance.spawnedRoads.Count; i++)
+        {
+            if (roadsInstance.spawnedRoads[i] != null)
+            {
+                if (closestPathPointToPlayer.IsChildOf(roadsInstance.spawnedRoads[i].transform))
+                {
                     return roadsInstance.spawnedRoads[i];
                 }
             }
@@ -433,7 +456,8 @@ public class HR_PathManager : MonoBehaviour {
     /// Checks if 'target' is in front of 'other' using a dot product test,
     /// but also disregards if distance < minFrontDistance (by original code).
     /// </summary>
-    private bool IsInFront(GameObject target, GameObject other) {
+    private bool IsInFront(GameObject target, GameObject other)
+    {
 
         // If they're too close, original code returns true automatically
         if (Vector3.Distance(target.transform.position, other.transform.position) < minFrontDistance)
@@ -450,7 +474,8 @@ public class HR_PathManager : MonoBehaviour {
     /// ignoring any that are null. 
     /// Then reassign the pathPoints list in sorted order.
     /// </summary>
-    private void SortByZPosition() {
+    private void SortByZPosition()
+    {
         // Filter out any nulls that might appear
         pathPoints = pathPoints.Where(item => item != null).ToList();
         // Sort

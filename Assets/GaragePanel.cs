@@ -29,11 +29,24 @@ public class GaragePanel : MonoBehaviour
 
     [SerializeField] int[] carUnlockPrice;
 
-    int selectedCar;
+    public static int selectedCar;
     int selectedPaint;
     int selectedTyre;
     int selectedRim;
     int selectedSpoiler;
+
+    [SerializeField] GameObject statsObj;
+    [SerializeField] Camera garageCam;
+
+    private void OnEnable()
+    {
+        garageCam.enabled = true;
+    }
+
+    private void OnDisable()
+    {
+        garageCam.enabled = false;
+    }
 
     private void Start()
     {
@@ -45,10 +58,16 @@ public class GaragePanel : MonoBehaviour
 
         selectedCustomization = SelectedCustomization.None;
         UpdateUI();
+
+        RCCP_CustomizationLoadout load = RCCP_Customizer.instance.GetLoadout();
+        Debug.LogError(load.paint);
+        Debug.LogError(load.spoiler);
     }
 
     private void UpdateUI()
     {
+        //statsObj.SetActive(selectedCustomization != SelectedCustomization.None);
+
         upgrade.selectorHighlighter.SetActive(selectedCustomization == SelectedCustomization.Upgrade);
         upgrade.panel.SetActive(selectedCustomization == SelectedCustomization.Upgrade);
 
@@ -86,6 +105,8 @@ public class GaragePanel : MonoBehaviour
                 buyBtnObj.SetActive(false);
                 break;
             case SelectedCustomization.Paint:
+
+
                 for (int i = 0; i < paintBtnRefs.Length; i++)
                 {
                     if (i == 0) paintBtnRefs[i].lockObj.SetActive(false);
@@ -95,11 +116,16 @@ public class GaragePanel : MonoBehaviour
                     {
                         buyBtnObj.SetActive(!isUnlocked);
                         playBtnObj.SetActive(isUnlocked);
+                        Color col = paintBtnRefs[i].GetComponent<RCCP_UI_Color>().GetColor();
+                        RCCP_SceneManager.Instance.activePlayerVehicle.Customizer.PaintManager.Paint(col, isUnlocked);
                     }
                     paintBtnRefs[i].highlighter.SetActive(selectedPaint == i);
                 }
+
+
                 break;
             case SelectedCustomization.Tyre:
+
                 for (int i = 0; i < tyreBtnRefs.Length; i++)
                 {
                     if (i == 0) tyreBtnRefs[i].lockObj.SetActive(false);
@@ -109,9 +135,11 @@ public class GaragePanel : MonoBehaviour
                     {
                         buyBtnObj.SetActive(!isUnlocked);
                         playBtnObj.SetActive(isUnlocked);
+                        RCCP_SceneManager.Instance.activePlayerVehicle.Customizer.WheelManager.UpdateWheel(i, isUnlocked);
                     }
                     tyreBtnRefs[i].highlighter.SetActive(selectedTyre == i);
                 }
+
                 break;
             case SelectedCustomization.Rim:
                 for (int i = 0; i < rimBtnRefs.Length; i++)
@@ -128,6 +156,7 @@ public class GaragePanel : MonoBehaviour
                 }
                 break;
             case SelectedCustomization.Spoiler:
+
                 for (int i = 0; i < spoilerBtnRefs.Length; i++)
                 {
                     if (i == 0) spoilerBtnRefs[i].lockObj.SetActive(false);
@@ -137,11 +166,20 @@ public class GaragePanel : MonoBehaviour
                     {
                         buyBtnObj.SetActive(!isUnlocked);
                         playBtnObj.SetActive(isUnlocked);
+                        RCCP_SceneManager.Instance.activePlayerVehicle.Customizer.SpoilerManager.Upgrade(i, isUnlocked);
                     }
                     spoilerBtnRefs[i].highlighter.SetActive(selectedSpoiler == i);
                 }
+
                 break;
         }
+
+        var totalWheels = RCCP_RuntimeSettings.RCCPChangableWheelsInstance.wheels.Length;
+        for (int i = 0; i < tyreBtnRefs.Length; i++)
+        {
+            tyreBtnRefs[i].gameObject.SetActive(i <= totalWheels);
+        }
+
     }
 
     public void UnlockItem(bool isUnlockOnCurrency)
@@ -266,12 +304,17 @@ public class GaragePanel : MonoBehaviour
     public void SelectCustomization(int index)
     {
         if (!IsCarUnlocked(selectedCar)) return;
+        RCCP_SceneManager.Instance.activePlayerVehicle.Customizer.PaintManager.Initialize();
+        RCCP_SceneManager.Instance.activePlayerVehicle.Customizer.UpgradeManager.Initialize();
+        RCCP_SceneManager.Instance.activePlayerVehicle.Customizer.SpoilerManager.Initialize();
+        RCCP_SceneManager.Instance.activePlayerVehicle.Customizer.WheelManager.Initialize();
 
         selectedPaint = SelectedPaint;
         selectedTyre = SelectedTyre;
         selectedRim = SelectedRim;
         selectedSpoiler = SelectedSpoiler;
 
+        if (index == 0) selectedCustomization = SelectedCustomization.None;
         if (index == 1) selectedCustomization = SelectedCustomization.Upgrade;
         if (index == 2) selectedCustomization = SelectedCustomization.Paint;
         if (index == 3) selectedCustomization = SelectedCustomization.Tyre;
@@ -288,17 +331,24 @@ public class GaragePanel : MonoBehaviour
         if (IsCarUnlocked(index)) GameManager.SelectedCar = selectedCar;
         UpdateUI();
     }
+
     public void SelectPaint(int index)
     {
-        selectedPaint = index;
-        if (IsPaintUnlocked(index)) SelectedPaint = selectedPaint;
+        selectedPaint = Mathf.Clamp(index, 0, 100);
+        if (IsPaintUnlocked(index))
+        {
+            SelectedPaint = selectedPaint;
+        }
         UpdateUI();
     }
 
     public void SelectTyre(int index)
     {
         selectedTyre = index;
-        if (IsTyreUnlocked(index)) SelectedTyre = selectedTyre;
+        if (IsTyreUnlocked(index))
+        {
+            SelectedTyre = selectedTyre;
+        }
         UpdateUI();
     }
 
@@ -311,8 +361,11 @@ public class GaragePanel : MonoBehaviour
 
     public void SelectSpoiler(int index)
     {
-        selectedSpoiler = index;
-        if (IsSpowilerUnlocked(index)) SelectedSpoiler = selectedSpoiler;
+        selectedSpoiler = Mathf.Clamp(index, 0, 100);
+        if (IsSpowilerUnlocked(index))
+        {
+            SelectedSpoiler = selectedSpoiler;
+        }
         UpdateUI();
     }
 
@@ -322,29 +375,29 @@ public class GaragePanel : MonoBehaviour
     }
 
 
-    bool IsCarUnlocked(int index)
+    public static bool IsCarUnlocked(int index)
     {
-        if (index == 0) return true;
+        if (index <= 0) return true;
         return PlayerPrefs.GetInt($"IsCarUnlocked_{index}") == 0 ? false : true;
     }
-    bool IsPaintUnlocked(int index)
+    public static bool IsPaintUnlocked(int index)
     {
-        if (index == 0) return true;
+        // if (index < 0) return true;
         return PlayerPrefs.GetInt($"IsPaintUnlocked_{selectedCar}_{index}") == 0 ? false : true;
     }
-    bool IsTyreUnlocked(int index)
+    public static bool IsTyreUnlocked(int index)
     {
-        if (index == 0) return true;
+        //if (index < 0) return true;
         return PlayerPrefs.GetInt($"IsTyreUnlocked_{selectedCar}_{index}") == 0 ? false : true;
     }
-    bool IsRimUnlocked(int index)
+    public static bool IsRimUnlocked(int index)
     {
-        if (index == 0) return true;
+        // if (index < 0) return true;
         return PlayerPrefs.GetInt($"IsRimUnlocked_{selectedCar}_{index}") == 0 ? false : true;
     }
-    bool IsSpowilerUnlocked(int index)
+    public static bool IsSpowilerUnlocked(int index)
     {
-        if (index == 0) return true;
+        // if (index < 0) return true;
         return PlayerPrefs.GetInt($"IsSpowilerUnlocked_{selectedCar}_{index}") == 0 ? false : true;
     }
 
@@ -390,6 +443,18 @@ public class GaragePanel : MonoBehaviour
         get => PlayerPrefs.GetInt($"Selected_{selectedCar}_Spoiler");
         set => PlayerPrefs.SetInt($"Selected_{selectedCar}_Spoiler", value);
     }
+
+    public bool IsCustomizationSelected()
+    {
+        var isCusSelected = false;
+        if (upgrade.panel.activeInHierarchy) isCusSelected = true;
+        if (paint.panel.activeInHierarchy) isCusSelected = true;
+        if (tyre.panel.activeInHierarchy) isCusSelected = true;
+        if (rim.panel.activeInHierarchy) isCusSelected = true;
+        if (spoiler.panel.activeInHierarchy) isCusSelected = true;
+        return isCusSelected;
+    }
+
 
     [ContextMenu(nameof(SetReferences))]
     void SetReferences()

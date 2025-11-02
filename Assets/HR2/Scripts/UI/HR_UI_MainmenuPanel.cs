@@ -98,6 +98,10 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
             return MainMenuManager.itemsInCart;
         }
     }
+
+    [Header("Garage")]
+    [SerializeField] GaragePanel garagePanelScr;
+
     private void Awake()
     {
 
@@ -144,7 +148,7 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
 
     private void Start()
     {
-
+        GameManager.Instance.LoadingPanel(false);
         HR_API_OnPlayerNameChanged();
         HR_API_OnPlayerMoneyChanged();
 
@@ -291,9 +295,7 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
 
     public void SelectMode(int _modeIndex)
     {
-
         MainMenuManager.SelectMode(_modeIndex);
-
     }
 
     public void StartRace()
@@ -572,10 +574,11 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
             1 => PanelName.MainMenu,
             2 => PanelName.Garage,
             3 => PanelName.ModeSelection,
-            4 => PanelName.Store,
-            5 => PanelName.ChaLvlSelection,
-            6 => PanelName.Setting,
-            7 => PanelName.Exit,
+            4 => PanelName.Environment,
+            5 => PanelName.Store,
+            6 => PanelName.ChaLvlSelection,
+            7 => PanelName.Setting,
+            8 => PanelName.Exit,
             _ => PanelName.None,
         };
         UpdateUI();
@@ -590,17 +593,26 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
                 activePanel = panels[i].panelName;
             }
         }
-        selectedPanel = activePanel switch
+        if (activePanel == PanelName.Garage && garagePanelScr.IsCustomizationSelected())
         {
-            PanelName.MainMenu => PanelName.Exit,
-            PanelName.Garage => PanelName.MainMenu,
-            PanelName.ModeSelection => PanelName.Garage,
-            PanelName.ChaLvlSelection => PanelName.ModeSelection,
-            PanelName.Store => PanelName.MainMenu,
-            PanelName.Setting => PanelName.MainMenu,
-            PanelName.Exit => PanelName.MainMenu,
-            _ => PanelName.None,
-        };
+            garagePanelScr.SelectCustomization(0);
+        }
+        else
+        {
+            selectedPanel = activePanel switch
+            {
+                // PanelName.MainMenu => PanelName.Exit,
+                PanelName.Garage => PanelName.Garage,
+                PanelName.ModeSelection => PanelName.Garage,
+                PanelName.ChaLvlSelection => PanelName.ModeSelection,
+                PanelName.Store => PanelName.Garage,
+                PanelName.Setting => PanelName.Garage,
+                PanelName.Environment => PanelName.ModeSelection,
+                PanelName.Exit => PanelName.Garage,
+                _ => PanelName.Garage,
+            };
+        }
+        Debug.LogError("---" + activePanel.ToString() + " " + selectedPanel);
         UpdateUI();
     }
 
@@ -632,5 +644,6 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
         Store = 5,
         Setting = 6,
         Exit = 7,
+        Environment = 8,
     }
 }

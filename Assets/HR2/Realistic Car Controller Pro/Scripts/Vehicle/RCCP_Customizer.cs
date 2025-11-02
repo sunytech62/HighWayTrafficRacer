@@ -8,9 +8,9 @@
 //----------------------------------------------
 
 
-using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// Customization applier for vehicles.
@@ -18,8 +18,9 @@ using System.Collections.Generic;
 /// </summary>
 [DefaultExecutionOrder(10)]
 [AddComponentMenu("BoneCracker Games/Realistic Car Controller Pro/Addons/RCCP Customizer")]
-public class RCCP_Customizer : RCCP_Component {
-
+public class RCCP_Customizer : RCCP_Component
+{
+    public static RCCP_Customizer instance;
     /// <summary>
     /// Save file name of the vehicle.
     /// </summary>
@@ -62,9 +63,11 @@ public class RCCP_Customizer : RCCP_Component {
     /// Paint manager.
     /// </summary>
     private RCCP_VehicleUpgrade_PaintManager _paintManager;
-    public RCCP_VehicleUpgrade_PaintManager PaintManager {
+    public RCCP_VehicleUpgrade_PaintManager PaintManager
+    {
 
-        get {
+        get
+        {
 
             if (_paintManager == null)
                 _paintManager = GetComponentInChildren<RCCP_VehicleUpgrade_PaintManager>(true);
@@ -79,9 +82,11 @@ public class RCCP_Customizer : RCCP_Component {
     /// Wheel Manager.
     /// </summary>
     private RCCP_VehicleUpgrade_WheelManager _wheelManager;
-    public RCCP_VehicleUpgrade_WheelManager WheelManager {
+    public RCCP_VehicleUpgrade_WheelManager WheelManager
+    {
 
-        get {
+        get
+        {
 
             if (_wheelManager == null)
                 _wheelManager = GetComponentInChildren<RCCP_VehicleUpgrade_WheelManager>(true);
@@ -96,9 +101,11 @@ public class RCCP_Customizer : RCCP_Component {
     /// Upgrade Manager.
     /// </summary>
     private RCCP_VehicleUpgrade_UpgradeManager _upgradeManager;
-    public RCCP_VehicleUpgrade_UpgradeManager UpgradeManager {
+    public RCCP_VehicleUpgrade_UpgradeManager UpgradeManager
+    {
 
-        get {
+        get
+        {
 
             if (_upgradeManager == null)
                 _upgradeManager = GetComponentInChildren<RCCP_VehicleUpgrade_UpgradeManager>(true);
@@ -113,9 +120,11 @@ public class RCCP_Customizer : RCCP_Component {
     /// Spoiler Manager.
     /// </summary>
     private RCCP_VehicleUpgrade_SpoilerManager _spoilerManager;
-    public RCCP_VehicleUpgrade_SpoilerManager SpoilerManager {
+    public RCCP_VehicleUpgrade_SpoilerManager SpoilerManager
+    {
 
-        get {
+        get
+        {
 
             if (_spoilerManager == null)
                 _spoilerManager = GetComponentInChildren<RCCP_VehicleUpgrade_SpoilerManager>(true);
@@ -130,9 +139,11 @@ public class RCCP_Customizer : RCCP_Component {
     /// Siren Manager.
     /// </summary>
     private RCCP_VehicleUpgrade_SirenManager _sirenManager;
-    public RCCP_VehicleUpgrade_SirenManager SirenManager {
+    public RCCP_VehicleUpgrade_SirenManager SirenManager
+    {
 
-        get {
+        get
+        {
 
             if (_sirenManager == null)
                 _sirenManager = GetComponentInChildren<RCCP_VehicleUpgrade_SirenManager>(true);
@@ -147,9 +158,11 @@ public class RCCP_Customizer : RCCP_Component {
     /// Customization Manager.
     /// </summary>
     private RCCP_VehicleUpgrade_CustomizationManager _customizationManager;
-    public RCCP_VehicleUpgrade_CustomizationManager CustomizationManager {
+    public RCCP_VehicleUpgrade_CustomizationManager CustomizationManager
+    {
 
-        get {
+        get
+        {
 
             if (_customizationManager == null)
                 _customizationManager = GetComponentInChildren<RCCP_VehicleUpgrade_CustomizationManager>(true);
@@ -164,9 +177,11 @@ public class RCCP_Customizer : RCCP_Component {
     /// Decal Manager.
     /// </summary>
     private RCCP_VehicleUpgrade_DecalManager _decalManager;
-    public RCCP_VehicleUpgrade_DecalManager DecalManager {
+    public RCCP_VehicleUpgrade_DecalManager DecalManager
+    {
 
-        get {
+        get
+        {
 
             if (_decalManager == null)
                 _decalManager = GetComponentInChildren<RCCP_VehicleUpgrade_DecalManager>(true);
@@ -181,9 +196,11 @@ public class RCCP_Customizer : RCCP_Component {
     /// Neon Manager.
     /// </summary>
     private RCCP_VehicleUpgrade_NeonManager _neonManager;
-    public RCCP_VehicleUpgrade_NeonManager NeonManager {
+    public RCCP_VehicleUpgrade_NeonManager NeonManager
+    {
 
-        get {
+        get
+        {
 
             if (_neonManager == null)
                 _neonManager = GetComponentInChildren<RCCP_VehicleUpgrade_NeonManager>(true);
@@ -196,8 +213,9 @@ public class RCCP_Customizer : RCCP_Component {
 
     #endregion
 
-    public override void Awake() {
-
+    public override void Awake()
+    {
+        instance = this;
         base.Awake();
 
         //  Loads the latest loadout.
@@ -210,7 +228,8 @@ public class RCCP_Customizer : RCCP_Component {
 
     }
 
-    public override void OnEnable() {
+    public override void OnEnable()
+    {
 
         base.OnEnable();
 
@@ -220,7 +239,8 @@ public class RCCP_Customizer : RCCP_Component {
 
     }
 
-    public override void Start() {
+    public override void Start()
+    {
 
         base.Start();
 
@@ -238,7 +258,8 @@ public class RCCP_Customizer : RCCP_Component {
     /// Delayed initialization via coroutine if needed.
     /// </summary>
     /// <returns></returns>
-    private IEnumerator Delayed() {
+    private IEnumerator Delayed()
+    {
 
         yield return new WaitForFixedUpdate();
         Initialize();
@@ -248,7 +269,8 @@ public class RCCP_Customizer : RCCP_Component {
     /// <summary>
     /// Initialize all upgrade managers.
     /// </summary>
-    public void Initialize() {
+    public void Initialize()
+    {
 
         if (loadout == null)
             loadout = new RCCP_CustomizationLoadout();
@@ -291,13 +313,17 @@ public class RCCP_Customizer : RCCP_Component {
     /// Retrieves the current customization loadout.
     /// </summary>
     /// <returns></returns>
-    public RCCP_CustomizationLoadout GetLoadout() {
+    public RCCP_CustomizationLoadout GetLoadout()
+    {
 
-        if (loadout != null) {
+        if (loadout != null)
+        {
 
             return loadout;
 
-        } else {
+        }
+        else
+        {
 
             loadout = new RCCP_CustomizationLoadout();
             return loadout;
@@ -309,29 +335,28 @@ public class RCCP_Customizer : RCCP_Component {
     /// <summary>
     /// Saves the current loadout to PlayerPrefs (JSON).
     /// </summary>
-    public void Save() {
-
+    public void Save()
+    {
         if (loadout == null)
             loadout = new RCCP_CustomizationLoadout();
 
         PlayerPrefs.SetString(saveFileName, JsonUtility.ToJson(loadout));
-
     }
 
     /// <summary>
     /// Loads the previously saved loadout from PlayerPrefs (JSON).
     /// </summary>
-    public void Load() {
-
+    public void Load()
+    {
         if (PlayerPrefs.HasKey(saveFileName))
             loadout = (RCCP_CustomizationLoadout)JsonUtility.FromJson(PlayerPrefs.GetString(saveFileName), typeof(RCCP_CustomizationLoadout));
-
     }
 
     /// <summary>
     /// Deletes the last saved loadout and restores vehicle upgrades to default.
     /// </summary>
-    public void Delete() {
+    public void Delete()
+    {
 
         if (PlayerPrefs.HasKey(saveFileName))
             PlayerPrefs.DeleteKey(saveFileName);
@@ -375,7 +400,8 @@ public class RCCP_Customizer : RCCP_Component {
     /// <summary>
     /// Hides all visual upgrades such as spoilers, sirens, decals, and neon.
     /// </summary>
-    public void HideAll() {
+    public void HideAll()
+    {
 
         if (SpoilerManager)
             SpoilerManager.DisableAll();
@@ -394,7 +420,8 @@ public class RCCP_Customizer : RCCP_Component {
     /// <summary>
     /// Shows all visual upgrades such as spoilers, sirens, decals, and neon.
     /// </summary>
-    public void ShowAll() {
+    public void ShowAll()
+    {
 
         if (SpoilerManager)
             SpoilerManager.EnableAll();
@@ -413,13 +440,15 @@ public class RCCP_Customizer : RCCP_Component {
     /// <summary>
     /// Reload method reserved for future usage (currently empty).
     /// </summary>
-    public void Reload() {
+    public void Reload()
+    {
 
         //
 
     }
 
-    private void Reset() {
+    private void Reset()
+    {
 
         saveFileName = GetComponentInParent<RCCP_CarController>(true).transform.name;
 

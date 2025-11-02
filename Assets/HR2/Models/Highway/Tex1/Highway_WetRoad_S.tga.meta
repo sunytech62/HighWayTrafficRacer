@@ -1,5 +1,12 @@
 fileFormatVersion: 2
 guid: af9dc4bc9906cbb4bbfdfca2a47be441
+AssetOrigin:
+  serializedVersion: 1
+  productId: 292882
+  packageName: Highway Racer 2
+  packageVersion: 1.51
+  assetPath: Assets/HR2/Models/Highway/Tex1/Highway_WetRoad_S.tga
+  uploadId: 739365
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,12 +104,12 @@ TextureImporter:
     buildTarget: Android
     maxTextureSize: 1024
     resizeAlgorithm: 0
-    textureFormat: 29
+    textureFormat: 65
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 0
+    overridden: 1
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
@@ -167,10 +174,3 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 292882
-  packageName: Highway Racer 2
-  packageVersion: 1.51
-  assetPath: Assets/HR2/Models/Highway/Tex1/Highway_WetRoad_S.tga
-  uploadId: 739365

@@ -7,15 +7,16 @@
 //
 //----------------------------------------------
 
-using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// Manager for painters.
 /// </summary>
 [AddComponentMenu("BoneCracker Games/Realistic Car Controller Pro/Customization/RCCP Vehicle Upgrade Paint Manager")]
-public class RCCP_VehicleUpgrade_PaintManager : RCCP_UpgradeComponent, IRCCP_UpgradeComponent {
+public class RCCP_VehicleUpgrade_PaintManager : RCCP_UpgradeComponent, IRCCP_UpgradeComponent
+{
 
     /// <summary>
     /// All painters.
@@ -35,7 +36,8 @@ public class RCCP_VehicleUpgrade_PaintManager : RCCP_UpgradeComponent, IRCCP_Upg
     /// <summary>
     /// Initializes all painters.
     /// </summary>
-    public void Initialize() {
+    public void Initialize()
+    {
 
         //  Return if no painters found.
         if (paints == null)
@@ -57,7 +59,8 @@ public class RCCP_VehicleUpgrade_PaintManager : RCCP_UpgradeComponent, IRCCP_Upg
         defaultColors.Clear();
 
         //  Getting default colors for restoring.
-        for (int i = 0; i < paints.Length; i++) {
+        for (int i = 0; i < paints.Length; i++)
+        {
 
             if (paints[i] != null && paints[i].paintMaterial)
                 defaultColors.Add(paints[i].paintMaterial.GetColor(paints[i].id));
@@ -66,7 +69,8 @@ public class RCCP_VehicleUpgrade_PaintManager : RCCP_UpgradeComponent, IRCCP_Upg
 
     }
 
-    public void GetAllPainters() {
+    public void GetAllPainters()
+    {
 
         paints = GetComponentsInChildren<RCCP_VehicleUpgrade_Paint>(true);
 
@@ -76,8 +80,10 @@ public class RCCP_VehicleUpgrade_PaintManager : RCCP_UpgradeComponent, IRCCP_Upg
     /// Runs all painters with the target color.
     /// </summary>
     /// <param name="newColor"></param>
-    public void Paint(Color newColor) {
+    public void Paint(Color newColor, bool isSave = false)
+    {
 
+        Debug.LogError("Paint");
         //  Return if no painters found.
         if (paints == null)
             return;
@@ -90,7 +96,8 @@ public class RCCP_VehicleUpgrade_PaintManager : RCCP_UpgradeComponent, IRCCP_Upg
         color = newColor;
 
         //  Painting.
-        for (int i = 0; i < paints.Length; i++) {
+        for (int i = 0; i < paints.Length; i++)
+        {
 
             if (paints[i] != null)
                 paints[i].UpdatePaint(color);
@@ -105,7 +112,7 @@ public class RCCP_VehicleUpgrade_PaintManager : RCCP_UpgradeComponent, IRCCP_Upg
         Refresh(this);
 
         //  Saving the loadout.
-        if (CarController.Customizer.autoSave)
+        if (CarController.Customizer.autoSave || isSave)
             Save();
 
     }
@@ -114,8 +121,9 @@ public class RCCP_VehicleUpgrade_PaintManager : RCCP_UpgradeComponent, IRCCP_Upg
     /// Runs all painters with the target color.
     /// </summary>
     /// <param name="newColor"></param>
-    public void PaintWithoutSave(Color newColor) {
-
+    public void PaintWithoutSave(Color newColor)
+    {
+        Debug.LogError("Paint Not Save");
         //  Return if no painters found.
         if (paints == null)
             return;
@@ -128,7 +136,8 @@ public class RCCP_VehicleUpgrade_PaintManager : RCCP_UpgradeComponent, IRCCP_Upg
         color = newColor;
 
         //  Painting.
-        for (int i = 0; i < paints.Length; i++) {
+        for (int i = 0; i < paints.Length; i++)
+        {
 
             if (paints[i] != null)
                 paints[i].UpdatePaint(color);
@@ -141,11 +150,13 @@ public class RCCP_VehicleUpgrade_PaintManager : RCCP_UpgradeComponent, IRCCP_Upg
 
     }
 
-    private void Reset() {
+    private void Reset()
+    {
 
         paints = GetComponentsInChildren<RCCP_VehicleUpgrade_Paint>(true);
 
-        if (paints == null || (paints != null && paints.Length == 0)) {
+        if (paints == null || (paints != null && paints.Length == 0))
+        {
 
             paints = new RCCP_VehicleUpgrade_Paint[1];
             GameObject newPaint = new GameObject("Paint_1");
@@ -161,16 +172,20 @@ public class RCCP_VehicleUpgrade_PaintManager : RCCP_UpgradeComponent, IRCCP_Upg
     /// <summary>
     /// Restores the settings to default.
     /// </summary>
-    public void Restore() {
+    public void Restore()
+    {
 
         //  Loadout color.
         color = Loadout.paint;
 
-        if (defaultColors != null) {
+        if (defaultColors != null)
+        {
 
-            if (defaultColors.Count >= 1) {
+            if (defaultColors.Count >= 1)
+            {
 
-                for (int i = 0; i < defaultColors.Count; i++) {
+                for (int i = 0; i < defaultColors.Count; i++)
+                {
 
                     if (paints[i] != null)
                         paints[i].UpdatePaint(defaultColors[i]);

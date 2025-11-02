@@ -7,15 +7,16 @@
 //
 //----------------------------------------------
 
-using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// Manager for upgradable wheels.
 /// </summary>
 [AddComponentMenu("BoneCracker Games/Realistic Car Controller Pro/Customization/RCCP Vehicle Upgrade Wheel Manager")]
-public class RCCP_VehicleUpgrade_WheelManager : RCCP_UpgradeComponent, IRCCP_UpgradeComponent {
+public class RCCP_VehicleUpgrade_WheelManager : RCCP_UpgradeComponent, IRCCP_UpgradeComponent
+{
 
     /// <summary>
     /// Current wheel index.
@@ -25,12 +26,15 @@ public class RCCP_VehicleUpgrade_WheelManager : RCCP_UpgradeComponent, IRCCP_Upg
     /// <summary>
     /// Default wheel.
     /// </summary>
-    private GameObject DefaultWheelObj {
+    private GameObject DefaultWheelObj
+    {
 
-        get {
+        get
+        {
 
             //  Getting default wheelmodel.
-            if (defaultWheelObj == null) {
+            if (defaultWheelObj == null)
+            {
 
                 RCCP_WheelCollider foundWheel = CarController.GetComponentInChildren<RCCP_WheelCollider>();
                 GameObject defaultWheelRef = null;
@@ -38,7 +42,8 @@ public class RCCP_VehicleUpgrade_WheelManager : RCCP_UpgradeComponent, IRCCP_Upg
                 if (foundWheel != null && foundWheel.wheelModel != null)
                     defaultWheelRef = CarController.GetComponentInChildren<RCCP_WheelCollider>().wheelModel.gameObject;
 
-                if (defaultWheelRef != null) {
+                if (defaultWheelRef != null)
+                {
 
                     defaultWheelObj = Instantiate(defaultWheelRef, transform);
                     defaultWheelObj.transform.localPosition = Vector3.zero;
@@ -61,7 +66,8 @@ public class RCCP_VehicleUpgrade_WheelManager : RCCP_UpgradeComponent, IRCCP_Upg
     /// <summary>
     /// Initializing.
     /// </summary>
-    public void Initialize() {
+    public void Initialize()
+    {
 
         GameObject defaultWheel = DefaultWheelObj;
         defaultWheel.SetActive(false);
@@ -80,7 +86,8 @@ public class RCCP_VehicleUpgrade_WheelManager : RCCP_UpgradeComponent, IRCCP_Upg
     /// Changes the wheel with the target wheel index.
     /// </summary>
     /// <param name="wheelIndex"></param>
-    public void UpdateWheel(int index) {
+    public void UpdateWheel(int index, bool isSave = false)
+    {
 
         //  Setting wheel index.
         wheelIndex = index;
@@ -90,13 +97,15 @@ public class RCCP_VehicleUpgrade_WheelManager : RCCP_UpgradeComponent, IRCCP_Upg
             return;
 
         //  Checking the RCCP_ChangableWheels for selected wheel index.
-        if (RCCPChangableWheels.wheels[wheelIndex] == null) {
+        if (RCCPChangableWheels.wheels[wheelIndex] == null)
+        {
 
             Debug.LogError("RCCP_ChangableWheels doesn't have that wheelIndex numbered " + wheelIndex.ToString());
             return;
 
         }
 
+        Debug.LogError("updateWheel " + wheelIndex.ToString());
         //  Changing the wheels.
         ChangeWheels(RCCPChangableWheels.wheels[wheelIndex].wheel, true);
 
@@ -104,7 +113,7 @@ public class RCCP_VehicleUpgrade_WheelManager : RCCP_UpgradeComponent, IRCCP_Upg
         Refresh(this);
 
         //  Saving the loadout.
-        if (CarController.Customizer.autoSave)
+        if (CarController.Customizer.autoSave || isSave)
             Save();
 
     }
@@ -113,7 +122,8 @@ public class RCCP_VehicleUpgrade_WheelManager : RCCP_UpgradeComponent, IRCCP_Upg
     /// Changes the wheel with the target wheel index.
     /// </summary>
     /// <param name="wheelIndex"></param>
-    public void UpdateWheelWithoutSave(int index) {
+    public void UpdateWheelWithoutSave(int index)
+    {
 
         //  Setting wheel index.
         wheelIndex = index;
@@ -123,7 +133,8 @@ public class RCCP_VehicleUpgrade_WheelManager : RCCP_UpgradeComponent, IRCCP_Upg
             return;
 
         //  Checking the RCCP_ChangableWheels for selected wheel index.
-        if (RCCPChangableWheels.wheels[wheelIndex] == null) {
+        if (RCCPChangableWheels.wheels[wheelIndex] == null)
+        {
 
             Debug.LogError("RCCP_ChangableWheels doesn't have that wheelIndex numbered " + wheelIndex.ToString());
             return;
@@ -138,7 +149,8 @@ public class RCCP_VehicleUpgrade_WheelManager : RCCP_UpgradeComponent, IRCCP_Upg
     /// <summary>
     /// Change wheel models. You can find your wheel models array in Tools --> BCG --> RCCP --> Configure Changable Wheels.
     /// </summary>
-    public void ChangeWheels(GameObject wheel, bool applyRadius) {
+    public void ChangeWheels(GameObject wheel, bool applyRadius)
+    {
 
         //  Return if no wheel or wheel is deactivated.
         if (!wheel || (wheel && !wheel.activeSelf))
@@ -151,13 +163,15 @@ public class RCCP_VehicleUpgrade_WheelManager : RCCP_UpgradeComponent, IRCCP_Upg
         //  Return if no any wheelcolliders found.
         if (CarController.AllWheelColliders.Length < 1)
             return;
-
+        Debug.LogError("1");
         //  Looping all wheelcolliders.
-        for (int i = 0; i < CarController.AllWheelColliders.Length; i++) {
+        for (int i = 0; i < CarController.AllWheelColliders.Length; i++)
+        {
 
             RCCP_WheelCollider wheelCollider = CarController.AllWheelColliders[i];
 
-            if (wheelCollider != null && wheelCollider.wheelModel != null) {
+            if (wheelCollider != null && wheelCollider.wheelModel != null)
+            {
 
                 //  Disabling all child models of the wheel.
                 foreach (Transform t in wheelCollider.wheelModel.GetComponentInChildren<Transform>())
@@ -186,16 +200,20 @@ public class RCCP_VehicleUpgrade_WheelManager : RCCP_UpgradeComponent, IRCCP_Upg
     /// <summary>
     /// Restores the settings to default.
     /// </summary>
-    public void Restore() {
+    public void Restore()
+    {
 
         wheelIndex = 0;
 
         //  Changing the wheels.
-        if (DefaultWheelObj == null) {
+        if (DefaultWheelObj == null)
+        {
 
             ChangeWheels(RCCPChangableWheels.wheels[wheelIndex].wheel, true);
 
-        } else {
+        }
+        else
+        {
 
             DefaultWheelObj.SetActive(true);
 

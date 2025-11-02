@@ -5,19 +5,22 @@
 // https://www.bonecrackergames.com
 //----------------------------------------------
 
-using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// Manages the traffic cars in the game.
 /// </summary>
-public class HR_TrafficManager : MonoBehaviour {
+public class HR_TrafficManager : MonoBehaviour
+{
 
     #region SINGLETON PATTERN
     private static HR_TrafficManager instance;
-    public static HR_TrafficManager Instance {
-        get {
+    public static HR_TrafficManager Instance
+    {
+        get
+        {
             if (instance == null)
                 instance = FindFirstObjectByType<HR_TrafficManager>();
             return instance;
@@ -28,8 +31,10 @@ public class HR_TrafficManager : MonoBehaviour {
     #region HR_GamePlayManager Instance
     // Cache reference to the gameplay manager for quick access.
     private HR_GamePlayManager _GameplayManager;
-    public HR_GamePlayManager GameplayManager {
-        get {
+    public HR_GamePlayManager GameplayManager
+    {
+        get
+        {
             if (_GameplayManager == null)
                 _GameplayManager = HR_GamePlayManager.Instance;
             return _GameplayManager;
@@ -41,8 +46,10 @@ public class HR_TrafficManager : MonoBehaviour {
     /// Reference to the lane manager (populated lazily).
     /// </summary>
     private HR_LaneManager laneManager;
-    public HR_LaneManager LaneManager {
-        get {
+    public HR_LaneManager LaneManager
+    {
+        get
+        {
             if (laneManager == null)
                 laneManager = HR_LaneManager.Instance;
             return laneManager;
@@ -53,7 +60,8 @@ public class HR_TrafficManager : MonoBehaviour {
     /// Contains prefabs and spawn amounts for traffic cars.
     /// </summary>
     [System.Serializable]
-    public class TrafficCars {
+    public class TrafficCars
+    {
         [Tooltip("The traffic car prefab.")]
         public HR_TrafficCar trafficCar;
 
@@ -95,14 +103,16 @@ public class HR_TrafficManager : MonoBehaviour {
     /// <summary>
     /// Called when the script instance is being loaded (start of play).
     /// </summary>
-    private void Start() {
+    private void Start()
+    {
         CreateTraffic();
     }
 
     /// <summary>
     /// Called once per frame; if the game is started, we animate traffic.
     /// </summary>
-    private void Update() {
+    private void Update()
+    {
         if (GameplayManager != null && GameplayManager.gameStarted)
             AnimateTraffic();
     }
@@ -110,20 +120,24 @@ public class HR_TrafficManager : MonoBehaviour {
     /// <summary>
     /// Instantiates all traffic cars and disables them initially, storing them in a container object.
     /// </summary>
-    private void CreateTraffic() {
+    private void CreateTraffic()
+    {
 
         // Create container for the spawned traffic cars.
         spawnedTrafficCarsContainer = new GameObject("HR_TrafficContainer");
 
         // Loop through each trafficCar config
-        for (int i = 0; i < trafficCars.Length; i++) {
-            if (!trafficCars[i].trafficCar) {
+        for (int i = 0; i < trafficCars.Length; i++)
+        {
+            if (!trafficCars[i].trafficCar)
+            {
                 // If no prefab reference, skip
                 continue;
             }
 
             // Spawn 'amount' copies of this trafficCar
-            for (int k = 0; k < trafficCars[i].amount; k++) {
+            for (int k = 0; k < trafficCars[i].amount; k++)
+            {
                 GameObject go = Instantiate(
                     trafficCars[i].trafficCar.gameObject,
                     Vector3.zero,
@@ -132,7 +146,8 @@ public class HR_TrafficManager : MonoBehaviour {
 
                 HR_TrafficCar trafficCarComp = go.GetComponent<HR_TrafficCar>();
                 // If no HR_TrafficCar component, skip
-                if (!trafficCarComp) {
+                if (!trafficCarComp)
+                {
                     Destroy(go);
                     continue;
                 }
@@ -155,14 +170,16 @@ public class HR_TrafficManager : MonoBehaviour {
     /// <summary>
     /// Performs an initial placement (Populate) of the traffic cars.
     /// </summary>
-    private void Populate() {
+    private void Populate()
+    {
 
         // If no main camera, we can't position cars meaningfully
         if (!Camera.main)
             return;
 
         // For each traffic car, realign it
-        for (int i = 0; i < spawnedTrafficCars.Count; i++) {
+        for (int i = 0; i < spawnedTrafficCars.Count; i++)
+        {
             // We pass 'true' to ignoreDistanceToRef, meaning we might place them closer than minDistance
             ReAlignTraffic(spawnedTrafficCars[i], ignoreDistanceToRef: true);
         }
@@ -171,12 +188,14 @@ public class HR_TrafficManager : MonoBehaviour {
     /// <summary>
     /// Animates the traffic each frame. If the traffic car is too far behind or ahead of the camera, we reposition it.
     /// </summary>
-    private void AnimateTraffic() {
+    private void AnimateTraffic()
+    {
 
         if (!Camera.main)
             return;
 
-        for (int i = 0; i < spawnedTrafficCars.Count; i++) {
+        for (int i = 0; i < spawnedTrafficCars.Count; i++)
+        {
             HR_TrafficCar car = spawnedTrafficCars[i];
             // If camera has gone beyond the car's z + 100, or if the car is beyond camera's z - maxDistance, realign it
             float cameraZ = Camera.main.transform.position.z;
@@ -185,7 +204,8 @@ public class HR_TrafficManager : MonoBehaviour {
             bool behindCamTooFar = cameraZ > (carZ + 100f);
             bool aheadCamTooFar = cameraZ < (carZ - maxDistance);
 
-            if (behindCamTooFar || aheadCamTooFar) {
+            if (behindCamTooFar || aheadCamTooFar)
+            {
                 ReAlignTraffic(car, ignoreDistanceToRef: false);
             }
         }
@@ -194,10 +214,12 @@ public class HR_TrafficManager : MonoBehaviour {
     /// <summary>
     /// Realigns (teleports) a traffic car to a new position ahead of or behind the camera, along a lane.
     /// </summary>
-    private void ReAlignTraffic(HR_TrafficCar realignableObject, bool ignoreDistanceToRef) {
+    private void ReAlignTraffic(HR_TrafficCar realignableObject, bool ignoreDistanceToRef)
+    {
 
         // 1) If no lane manager or lanes array is empty, we can't place this properly
-        if (!LaneManager || LaneManager.lanes == null || LaneManager.lanes.Length == 0) {
+        if (!LaneManager || LaneManager.lanes == null || LaneManager.lanes.Length == 0)
+        {
             realignableObject.gameObject.SetActive(false);
             return;
         }
@@ -208,7 +230,8 @@ public class HR_TrafficManager : MonoBehaviour {
 
         // 3) Determine the distance to spawn the car from the camera
         float spawnDistance = Random.Range(minDistance, maxDistance);
-        if (ignoreDistanceToRef) {
+        if (ignoreDistanceToRef)
+        {
             // If ignoring distance, spawn somewhat closer
             spawnDistance = Random.Range(60f, minDistance);
         }
@@ -225,12 +248,13 @@ public class HR_TrafficManager : MonoBehaviour {
         realignableObject.transform.position = pos;
 
         // 7) Adjust orientation based on the game mode
-        switch (GameplayManager.mode) {
-            case HR_GamePlayManager.Mode.OneWay:
+        switch (PlayerPrefs.GetInt("SelectedTraffic"))
+        {
+            case 0/*HR_GamePlayManager.Mode.OneWay*/:
                 realignableObject.transform.forward = dir;
                 break;
 
-            case HR_GamePlayManager.Mode.TwoWay:
+            case 1/*HR_GamePlayManager.Mode.TwoWay*/:
                 // If this lane is leftSide, invert direction
                 realignableObject.transform.forward = randomLane.lane.leftSide ? -dir : dir;
                 break;
@@ -249,7 +273,8 @@ public class HR_TrafficManager : MonoBehaviour {
         realignableObject.OnEnable();
 
         // 10) Check if this newly placed car overlaps with another
-        if (CheckIfClipping(realignableObject.triggerCollider)) {
+        if (CheckIfClipping(realignableObject.triggerCollider))
+        {
             // If clipping, disable it
             realignableObject.gameObject.SetActive(false);
         }
@@ -260,16 +285,19 @@ public class HR_TrafficManager : MonoBehaviour {
     /// </summary>
     /// <param name="trafficCarBound">The bounding box collider of the newly placed car.</param>
     /// <returns>True if it is clipping with another traffic car, otherwise false.</returns>
-    private bool CheckIfClipping(BoxCollider trafficCarBound) {
+    private bool CheckIfClipping(BoxCollider trafficCarBound)
+    {
 
         if (!trafficCarBound)
             return false;
 
-        for (int i = 0; i < spawnedTrafficCars.Count; i++) {
+        for (int i = 0; i < spawnedTrafficCars.Count; i++)
+        {
             HR_TrafficCar otherCar = spawnedTrafficCars[i];
             // Skip if same car or if other is inactive
             if (!otherCar.gameObject.activeSelf
-                || trafficCarBound.transform.IsChildOf(otherCar.transform)) {
+                || trafficCarBound.transform.IsChildOf(otherCar.transform))
+            {
                 continue;
             }
 
@@ -277,7 +305,8 @@ public class HR_TrafficManager : MonoBehaviour {
             if (HR_BoundsExtension.ContainBounds(
                 trafficCarBound.transform,
                 trafficCarBound.bounds,
-                otherCar.triggerCollider.bounds)) {
+                otherCar.triggerCollider.bounds))
+            {
                 return true;
             }
         }

@@ -35,6 +35,7 @@ public class HR_MainMenuManager : MonoBehaviour
     public List<HR_CartItem> itemsInCart = new List<HR_CartItem>();
 
     public AsyncOperation async;
+    [SerializeField] GameObject garageModel;
 
     private void Awake()
     {
@@ -58,7 +59,10 @@ public class HR_MainMenuManager : MonoBehaviour
         CreateCars(); // Creating all selectable cars at once.
         SpawnCar(); // Spawning only target car (carIndex).
     }
-
+    private void Start()
+    {
+        garageModel.SetActive(true);
+    }
     private void CreateCars()
     {
         createdCars = new GameObject[HR_PlayerCars.Instance.cars.Length];
@@ -163,15 +167,22 @@ public class HR_MainMenuManager : MonoBehaviour
 
     public void SelectMode(int _modeIndex)
     {
-        // Saving the selected mode, and enabling the scene selection menu.
-        PlayerPrefs.SetInt("SelectedModeIndex", _modeIndex);
+        GameManager.SelectedMode = _modeIndex switch
+        {
+            0 => GameMode.Endless,
+            1 => GameMode.Challenge,
+            2 => GameMode.TimeTrial,
+            3 => GameMode.LowSpeedBomb,
+            4 => GameMode.PolliceChase,
+            _ => GameMode.Endless,
+        };
     }
 
     public void StartRace()
     {
         SelectCar();
         SaveCustomization();
-
+        GameManager.Instance.LoadingPanel(true);
         async = SceneManager.LoadSceneAsync(PlayerPrefs.GetString("SelectedScene", ""));
     }
 
@@ -237,6 +248,7 @@ public class HR_MainMenuManager : MonoBehaviour
     }
     public void AddItemToCart(HR_CartItem newItem)
     {
+        Debug.LogError("ffff");
         for (int i = 0; i < itemsInCart.Count; i++)
         {
             if (itemsInCart[i] != null)

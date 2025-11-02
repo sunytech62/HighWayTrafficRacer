@@ -1,35 +1,38 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ModeSelectionPanel : MonoBehaviour
 {
-    [SerializeField] ModeRef missionMode;
-    [SerializeField] ModeRef dualMode;
+    [FormerlySerializedAs("missionMode")]
+    [SerializeField] ModeRef lowSpeedBombMode;
+    [SerializeField] ModeRef timeTrialMode;
     [SerializeField] ModeRef endlessMode;
     [SerializeField] ModeRef challengeMode;
     [SerializeField] ModeRef policeChaseMode;
 
     static int modeSelected;
-    public static bool IsDualModeUnlocked
-    {
-        get => PlayerPrefs.GetInt("IsDualModeUnlocked") != 0;
-        set => PlayerPrefs.SetInt("IsDualModeUnlocked", 1);
-    }
-    public static bool IsEndlessModeUnlocked
-    {
-        get => PlayerPrefs.GetInt("IsEndlessModeUnlocked") == 1;
-        set => PlayerPrefs.SetInt("IsEndlessModeUnlocked", 1);
-    }
     public static bool IsChallengeModeUnlocked
     {
         get => PlayerPrefs.GetInt("IsChallengeModeUnlocked") != 0;
         set => PlayerPrefs.SetInt("IsChallengeModeUnlocked", 1);
+    }
+    public static bool IsTimeTrialUnlocked
+    {
+        get => PlayerPrefs.GetInt("IsTimeTrialUnlocked") != 0;
+        set => PlayerPrefs.SetInt("IsTimeTrialUnlocked", 1);
+    }
+    public static bool IsLowSpeedBomb
+    {
+        get => PlayerPrefs.GetInt("IsLowSpeedBomb") == 1;
+        set => PlayerPrefs.SetInt("IsLowSpeedBomb", 1);
     }
     public static bool IsPoliceChaseModeUnlocked
     {
         get => PlayerPrefs.GetInt("IsPoliceChaseModeUnlocked") != 0;
         set => PlayerPrefs.SetInt("IsPoliceChaseModeUnlocked", 1);
     }
+
 
     void Start()
     {
@@ -38,43 +41,14 @@ public class ModeSelectionPanel : MonoBehaviour
 
     private void UpdateUI()
     {
-        Debug.LogError(IsEndlessModeUnlocked);
-        missionMode.selected.SetActive(modeSelected == 0 ? true : false);
-        missionMode.unSelected.SetActive(modeSelected == 0 ? false : true);
-
-        if (IsDualModeUnlocked)
-        {
-            dualMode.locker.SetActive(false);
-            dualMode.selected.SetActive(modeSelected == 1 ? true : false);
-            dualMode.unSelected.SetActive(modeSelected == 1 ? false : true);
-        }
-        else
-        {
-            dualMode.locker.SetActive(true);
-            dualMode.selected.SetActive(false);
-            dualMode.unSelected.SetActive(true);
-        }
-
-        if (IsEndlessModeUnlocked)
-        {
-            Debug.LogError("End UnL");
-            endlessMode.locker.SetActive(false);
-            endlessMode.selected.SetActive(modeSelected == 2 ? true : false);
-            endlessMode.unSelected.SetActive(modeSelected == 2 ? false : true);
-        }
-        else
-        {
-            Debug.LogError("End L");
-            endlessMode.locker.SetActive(true);
-            endlessMode.selected.SetActive(false);
-            endlessMode.unSelected.SetActive(true);
-        }
+        endlessMode.selected.SetActive(GameManager.SelectedMode == GameMode.Endless ? true : false);
+        endlessMode.unSelected.SetActive(GameManager.SelectedMode == GameMode.Endless ? false : true);
 
         if (IsChallengeModeUnlocked)
         {
             challengeMode.locker.SetActive(false);
-            challengeMode.selected.SetActive(modeSelected == 3 ? true : false);
-            challengeMode.unSelected.SetActive(modeSelected == 3 ? false : true);
+            challengeMode.selected.SetActive(GameManager.SelectedMode == GameMode.Challenge ? true : false);
+            challengeMode.unSelected.SetActive(GameManager.SelectedMode == GameMode.Challenge ? false : true);
         }
         else
         {
@@ -83,11 +57,38 @@ public class ModeSelectionPanel : MonoBehaviour
             challengeMode.unSelected.SetActive(true);
         }
 
+
+        if (IsTimeTrialUnlocked)
+        {
+            timeTrialMode.locker.SetActive(false);
+            timeTrialMode.selected.SetActive(GameManager.SelectedMode == GameMode.TimeTrial ? true : false);
+            timeTrialMode.unSelected.SetActive(GameManager.SelectedMode == GameMode.TimeTrial ? false : true);
+        }
+        else
+        {
+            timeTrialMode.locker.SetActive(true);
+            timeTrialMode.selected.SetActive(false);
+            timeTrialMode.unSelected.SetActive(true);
+        }
+
+        if (IsLowSpeedBomb)
+        {
+            lowSpeedBombMode.locker.SetActive(false);
+            lowSpeedBombMode.selected.SetActive(GameManager.SelectedMode == GameMode.Endless ? true : false);
+            lowSpeedBombMode.unSelected.SetActive(GameManager.SelectedMode == GameMode.Endless ? false : true);
+        }
+        else
+        {
+            lowSpeedBombMode.locker.SetActive(true);
+            lowSpeedBombMode.selected.SetActive(false);
+            lowSpeedBombMode.unSelected.SetActive(true);
+        }
+
         if (IsPoliceChaseModeUnlocked)
         {
             policeChaseMode.locker.SetActive(false);
-            policeChaseMode.selected.SetActive(modeSelected == 4 ? true : false);
-            policeChaseMode.unSelected.SetActive(modeSelected == 4 ? false : true);
+            policeChaseMode.selected.SetActive(GameManager.SelectedMode == GameMode.PolliceChase ? true : false);
+            policeChaseMode.unSelected.SetActive(GameManager.SelectedMode == GameMode.PolliceChase ? false : true);
         }
         else
         {
@@ -99,22 +100,34 @@ public class ModeSelectionPanel : MonoBehaviour
 
     public void SelectMode(int index)
     {
-        modeSelected = index;
+        GameManager.SelectedMode = index switch
+        {
+            0 => GameMode.Endless,
+            1 => GameMode.Challenge,
+            2 => GameMode.TimeTrial,
+            3 => GameMode.LowSpeedBomb,
+            4 => GameMode.PolliceChase,
+            _ => GameMode.Endless,
+        };
         UpdateUI();
+        if (GameManager.SelectedMode == GameMode.Challenge)
+            HR_UI_MainmenuPanel.Instance.SelectPanel(6);
+        else
+            HR_UI_MainmenuPanel.Instance.SelectPanel(4);
     }
-    public void UnlockDualMode()
+    public void UnlockLowSpeedBombMode()
     {
-        IsDualModeUnlocked = true;
+        IsLowSpeedBomb = true;
         UpdateUI();
     }
-    public void UnlockEndlessMode()
-    {
-        IsEndlessModeUnlocked = true;
-        UpdateUI();
-    }
-    public void UnlocChallengeMode()
+    public void UnlockChallengeMode()
     {
         IsChallengeModeUnlocked = true;
+        UpdateUI();
+    }
+    public void UnlockTimeTrialMode()
+    {
+        IsTimeTrialUnlocked = true;
         UpdateUI();
     }
     public void UnlockPoliceChaseMode()

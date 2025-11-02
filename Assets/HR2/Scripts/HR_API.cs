@@ -135,12 +135,14 @@ public class HR_API
 
     public static void MainMenu()
     {
+        GameManager.Instance.LoadingPanel(true);
         SceneManager.LoadSceneAsync(0);
         SetTotalPlayedTime();
     }
 
     public static void RestartGame()
     {
+        GameManager.Instance.LoadingPanel(true);
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
         SetTotalPlayedTime();
     }
@@ -231,15 +233,17 @@ public class HR_API
         }
 
         HR_Events.Event_OnOptionsChanged();
+    }
 
+    public static int GetSelectedControl()
+    {
+        return PlayerPrefs.GetInt("ControllerType");
     }
 
     public static int GetControllerType()
     {
-
         switch (RCCP_Settings.Instance.mobileController)
         {
-
             case RCCP_Settings.MobileController.TouchScreen:
                 return 0;
             case RCCP_Settings.MobileController.Gyro:
@@ -248,7 +252,6 @@ public class HR_API
                 return 2;
             case RCCP_Settings.MobileController.Joystick:
                 return 3;
-
         }
 
         return 0;

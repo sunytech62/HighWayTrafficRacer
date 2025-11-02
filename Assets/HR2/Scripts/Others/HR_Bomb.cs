@@ -5,13 +5,14 @@
 // https://www.bonecrackergames.com
 //----------------------------------------------
 
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 /// <summary>
 /// Bomb with timer and SFX.
 /// </summary>
-public class HR_Bomb : MonoBehaviour {
+public class HR_Bomb : MonoBehaviour
+{
 
     // Player.
     private HR_Player player;
@@ -19,9 +20,11 @@ public class HR_Bomb : MonoBehaviour {
     /// <summary>
     /// Property to get the player component.
     /// </summary>
-    private HR_Player Player {
+    private HR_Player Player
+    {
 
-        get {
+        get
+        {
 
             if (player == null)
                 player = GetComponentInParent<HR_Player>();
@@ -41,17 +44,21 @@ public class HR_Bomb : MonoBehaviour {
     /// <summary>
     /// Called when the script instance is being loaded.
     /// </summary>
-    private void Awake() {
+    private void Awake()
+    {
 
         // If game mode is bomb, enable the bomb, otherwise disable it.
-        if (HR_GamePlayManager.Instance) {
+        if (HR_GamePlayManager.Instance)
+        {
 
-            if (HR_GamePlayManager.Instance.mode == HR_GamePlayManager.Mode.Bomb)
+            if (GameManager.SelectedMode == GameMode.LowSpeedBomb)
                 gameObject.SetActive(true);
             else
                 gameObject.SetActive(false);
 
-        } else {
+        }
+        else
+        {
 
             gameObject.SetActive(false);
             return;
@@ -69,7 +76,8 @@ public class HR_Bomb : MonoBehaviour {
     /// <summary>
     /// Called every fixed framerate frame, if the MonoBehaviour is enabled.
     /// </summary>
-    private void FixedUpdate() {
+    private void FixedUpdate()
+    {
 
         // If no player found, return.
         if (!Player)
@@ -89,7 +97,8 @@ public class HR_Bomb : MonoBehaviour {
             bombLight.intensity = Mathf.Lerp(bombLight.intensity, .1f, Time.fixedDeltaTime * 50f);
 
         // Playing the bomb timer sound effect at regular intervals.
-        if (bombTimer >= 1f) {
+        if (bombTimer >= 1f)
+        {
 
             bombTimer = 0f;
             bombTimerAudioSource.Play();

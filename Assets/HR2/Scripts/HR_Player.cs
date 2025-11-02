@@ -1,111 +1,79 @@
-﻿//----------------------------------------------
-//                   Highway Racer
-//
-// Copyright © 2014 - 2025 BoneCracker Games
-// https://www.bonecrackergames.com
-//----------------------------------------------
-
-using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Events;
 
-/// <summary>
-/// Player manager that contains current score, near misses, and other gameplay-related stats.
-/// </summary>
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(RCCP_CarController))]
 [RequireComponent(typeof(HR_PlayerStabilizer))]
-public class HR_Player : MonoBehaviour {
-// Events
+public class HR_Player : MonoBehaviour
+{
+    public static HR_Player Instance;
+
+    // Events
     public static UnityAction<HR_Player> OnPlayerSpawned;
     // public static UnityAction<HR_PlayerHandler, int,int> OnGameOver;
-   // public static UnityAction</*HR_PlayerHandler, */int, HR_UI_DynamicScoreDisplayer.Side> OnNearMiss;
+    // public static UnityAction</*HR_PlayerHandler, */int, HR_UI_DynamicScoreDisplayer.Side> OnNearMiss;
     public static UnityAction OnBikeCrashed;
     public static UnityAction<HR_Player> OnGameOver;
     private RCCP_CarController carController;
-    public RCCP_CarController CarController {
-
-        get {
-
-            if (!carController)
-                carController = GetComponent<RCCP_CarController>();
-
+    public RCCP_CarController CarController
+    {
+        get
+        {
+            if (!carController) carController = GetComponent<RCCP_CarController>();
             return carController;
-
         }
-
     }
 
     private Rigidbody rigid;
-    public Rigidbody Rigid {
-
-        get {
-
-            if (!rigid)
-                rigid = GetComponent<Rigidbody>();
-
+    public Rigidbody Rigid
+    {
+        get
+        {
+            if (!rigid) rigid = GetComponent<Rigidbody>();
             return rigid;
-
         }
-
     }
 
     private HR_Settings settings;
-    public HR_Settings Settings {
-
-        get {
-
-            if (!settings)
-                settings = HR_Settings.Instance;
-
+    public HR_Settings Settings
+    {
+        get
+        {
+            if (!settings) settings = HR_Settings.Instance;
             return settings;
-
         }
-
     }
 
     private HR_GamePlayManager gamePlayManager;
-    public HR_GamePlayManager GameplayManager {
-
-        get {
-
-            if (!gamePlayManager)
-                gamePlayManager = HR_GamePlayManager.Instance;
-
+    public HR_GamePlayManager GameplayManager
+    {
+        get
+        {
+            if (!gamePlayManager) gamePlayManager = HR_GamePlayManager.Instance;
             return gamePlayManager;
-
         }
-
     }
 
     private HR_PathManager pathManager;
-    public HR_PathManager PathManager {
-
-        get {
-
-            if (!pathManager)
-                pathManager = HR_PathManager.Instance;
-
+    public HR_PathManager PathManager
+    {
+        get
+        {
+            if (!pathManager) pathManager = HR_PathManager.Instance;
             return pathManager;
-
         }
-
     }
 
     private HR_LaneManager laneManager;
-    public HR_LaneManager LaneManager {
-
-        get {
-
-            if (!laneManager)
-                laneManager = HR_LaneManager.Instance;
-
+    public HR_LaneManager LaneManager
+    {
+        get
+        {
+            if (!laneManager) laneManager = HR_LaneManager.Instance;
             return laneManager;
-
         }
-
     }
 
     public bool canCrash = true;
@@ -128,34 +96,46 @@ public class HR_Player : MonoBehaviour {
     private float comboTime;        // Combo time for near misses.
     private Vector3 previousPosition; // Previous position used to calculate total traveled distance.
 
-    private int MinimumSpeedToScore {
-        get {
+    private int MinimumSpeedToScore
+    {
+        get
+        {
             return Settings.minimumSpeedForGainScore;
         }
     }
-    private int MinimumSpeedToHighSpeed {
-        get {
+    private int MinimumSpeedToHighSpeed
+    {
+        get
+        {
             return Settings.minimumSpeedForHighSpeed;
         }
     }
 
-    public int TotalDistanceMoneyMP {
-        get {
+    public int TotalDistanceMoneyMP
+    {
+        get
+        {
             return Settings.totalDistanceMoneyMP;
         }
     }
-    public int TotalNearMissMoneyMP {
-        get {
+    public int TotalNearMissMoneyMP
+    {
+        get
+        {
             return Settings.totalNearMissMoneyMP;
         }
     }
-    public int TotalOverspeedMoneyMP {
-        get {
+    public int TotalOverspeedMoneyMP
+    {
+        get
+        {
             return Settings.totalOverspeedMoneyMP;
         }
     }
-    public int TotalOppositeDirectionMP {
-        get {
+    public int TotalOppositeDirectionMP
+    {
+        get
+        {
             return Settings.totalOppositeDirectionMP;
         }
     }
@@ -175,21 +155,19 @@ public class HR_Player : MonoBehaviour {
     public delegate void onNearMiss(HR_Player player, int score, HR_UI_DynamicScoreDisplayer.Side side);
     public static event onNearMiss OnNearMiss;
 
-    /// <summary>
-    /// Called when the script instance is being loaded.
-    /// </summary>
-    private void Awake() {
-
+    private void Awake()
+    {
+        Instance = this;
         // Creating horn audio source.
         hornSource = HR_CreateAudioSource.NewAudioSource(gameObject, "Horn", 10f, 100f, 1f, Settings.hornClip, true, false, false);
-
+    }
+    private void OnDestroy()
+    {
+        Instance = null;
     }
 
-    /// <summary>
-    /// Called when the object becomes enabled and active.
-    /// </summary>
-    private void OnEnable() {
-
+    private void OnEnable()
+    {
         CheckGroundGap();
 
         WheelCollider[] wheelColliders = GetComponentsInChildren<WheelCollider>(true);
@@ -197,16 +175,14 @@ public class HR_Player : MonoBehaviour {
         foreach (WheelCollider item in wheelColliders)
             item.forceAppPointDistance = .15f;
 
+        OnPlayerSpawned?.Invoke(this);
     }
 
-    /// <summary>
-    /// Called once per frame.
-    /// </summary>
-    private void Update() {
-
+    private void Update()
+    {
         // If scene doesn't include gameplay manager, return.
-        if (!GameplayManager) {
-
+        if (!GameplayManager)
+        {
             speed = 0f;
             previousPosition = transform.position;
             highSpeedCurrent = 0f;
@@ -214,12 +190,11 @@ public class HR_Player : MonoBehaviour {
             combo = 0;
             comboTime = 2f;
             return;
-
         }
 
         // If game is not started yet or if crashed, return.
-        if (crashed || !GameplayManager.gameStarted) {
-
+        if (crashed || !GameplayManager.gameStarted)
+        {
             speed = 0f;
             previousPosition = transform.position;
             highSpeedCurrent = 0f;
@@ -227,7 +202,6 @@ public class HR_Player : MonoBehaviour {
             combo = 0;
             comboTime = 2f;
             return;
-
         }
 
         // Total distance traveled.
@@ -239,15 +213,14 @@ public class HR_Player : MonoBehaviour {
             score += CarController.speed * (Time.deltaTime * .05f);
 
         // If speed is higher than high speed threshold, gain “high speed” time.
-        if (speed >= MinimumSpeedToHighSpeed) {
-
+        if (speed >= MinimumSpeedToHighSpeed)
+        {
             highSpeedCurrent += Time.deltaTime;
             highSpeedTotal += Time.deltaTime;
-
-        } else {
-
+        }
+        else
+        {
             highSpeedCurrent = 0f;
-
         }
 
         // 1) Try to find the closest lane from HR_LaneManager
@@ -259,56 +232,52 @@ public class HR_Player : MonoBehaviour {
             oppositeDirection = false;
 
         // If car is at opposite direction in TwoWay mode, gain “opposite direction” time.
-        if (speed >= MinimumSpeedToHighSpeed && oppositeDirection && GameplayManager.mode == HR_GamePlayManager.Mode.TwoWay) {
-
+        if (speed >= MinimumSpeedToHighSpeed && oppositeDirection)
+        {
             opposideDirectionCurrent += Time.deltaTime;
             opposideDirectionTotal += Time.deltaTime;
-
-        } else {
-
+        }
+        else
+        {
             opposideDirectionCurrent = 0f;
-
         }
 
         // If mode is time attack, reduce the timer.
-        if (GameplayManager.mode == HR_GamePlayManager.Mode.TimeAttack) {
-
+        if (GameManager.SelectedMode == GameMode.TimeTrial)
+        {
             timeLeft -= Time.deltaTime;
 
             // If timer hits 0, game over.
-            if (timeLeft < 0) {
-
+            if (timeLeft < 0)
+            {
                 timeLeft = 0;
                 GameOver();
-
             }
-
         }
 
         comboTime += Time.deltaTime;
 
         // If game mode is bomb...
-        if (GameplayManager.mode == HR_GamePlayManager.Mode.Bomb) {
-
+        if (GameManager.SelectedMode == GameMode.LowSpeedBomb)
+        {
             // Bomb will be triggered below 80 km/h.
-            if (speed > 80f) {
-
+            if (speed > 80f)
+            {
                 if (!bombTriggered)
                     bombTriggered = true;
                 else
                     bombHealth += Time.deltaTime * 5f;
-
-            } else if (bombTriggered) {
-
+            }
+            else if (bombTriggered)
+            {
                 bombHealth -= Time.deltaTime * 10f;
-
             }
 
             bombHealth = Mathf.Clamp(bombHealth, 0f, 100f);
 
             // If bomb health hits 0, blow and game over.
-            if (bombHealth <= 0f) {
-
+            if (bombHealth <= 0f)
+            {
                 GameObject explosion = Instantiate(Settings.explosionEffect, transform.position, transform.rotation);
                 explosion.transform.SetParent(null);
 
@@ -323,17 +292,14 @@ public class HR_Player : MonoBehaviour {
 
                 GameOver();
 
-                for (int i = 0; i < CarController.AllWheelColliders.Length; i++) {
-
+                for (int i = 0; i < CarController.AllWheelColliders.Length; i++)
+                {
                     if (CarController.AllWheelColliders[i] == null)
                         continue;
 
                     CarController.AllWheelColliders[i].DetachWheel();
-
                 }
-
             }
-
         }
 
         // Reset combo if no near-miss for a while.
@@ -341,14 +307,10 @@ public class HR_Player : MonoBehaviour {
             combo = 0;
 
         IndicatorLights();
-
     }
 
-    /// <summary>
-    /// Called every fixed framerate frame.
-    /// </summary>
-    private void FixedUpdate() {
-
+    private void FixedUpdate()
+    {
         // If scene doesn't include gameplay manager, return.
         if (!GameplayManager)
             return;
@@ -357,25 +319,24 @@ public class HR_Player : MonoBehaviour {
         speed = CarController.speed;
 
         // >>> ADDED <<< Make sure game is started and not crashed before auto-aligning
-        if (!crashed && GameplayManager.gameStarted) {
-
+        if (!crashed && GameplayManager.gameStarted)
+        {
             AlignToRoad();
             CheckNearMiss();
             Stability();
             IndicatorLights();
-
         }
 
         CheckPosition();
         CheckOutOfRoad();
-
     }
 
     // >>> ADDED <<<
     /// <summary>
     /// Slightly nudges the player’s steering toward the road’s forward direction.
     /// </summary>
-    private void AlignToRoad() {
+    private void AlignToRoad()
+    {
 
         // If there's no path manager or no car controller, do nothing
         if (!PathManager || !CarController)
@@ -405,7 +366,8 @@ public class HR_Player : MonoBehaviour {
     /// <summary>
     /// Checks near vehicles by drawing raycasts to the left and right sides.
     /// </summary>
-    private void CheckNearMiss() {
+    private void CheckNearMiss()
+    {
 
         Debug.DrawRay(CarController.AeroDynamics.COM.position, (-transform.right * 2f), Color.white);
         Debug.DrawRay(CarController.AeroDynamics.COM.position, (transform.right * 2f), Color.white);
@@ -416,13 +378,16 @@ public class HR_Player : MonoBehaviour {
         // Raycasting to the left side.
         RaycastHit[] leftHits = Physics.RaycastAll(CarController.AeroDynamics.COM.position, (-transform.right), 2f, layerMaskCombined);
 
-        if (leftHits != null && leftHits.Length > 0) {
+        if (leftHits != null && leftHits.Length > 0)
+        {
 
             Transform trafficCar = null;
 
-            for (int i = 0; i < leftHits.Length; i++) {
+            for (int i = 0; i < leftHits.Length; i++)
+            {
 
-                if (leftHits[i].collider.attachedRigidbody) {
+                if (leftHits[i].collider.attachedRigidbody)
+                {
 
                     trafficCar = leftHits[i].collider.attachedRigidbody.transform;
                     break;
@@ -431,16 +396,20 @@ public class HR_Player : MonoBehaviour {
 
             }
 
-            if (trafficCar) {
+            if (trafficCar)
+            {
 
                 // If hits, get its name.
                 currentTrafficCarNameLeft = trafficCar.name;
 
             }
 
-        } else {
+        }
+        else
+        {
 
-            if (currentTrafficCarNameLeft != null && speed > Settings.minimumSpeedForGainScore) {
+            if (currentTrafficCarNameLeft != null && speed > Settings.minimumSpeedForGainScore)
+            {
 
                 nearMisses++;
                 combo++;
@@ -461,13 +430,16 @@ public class HR_Player : MonoBehaviour {
         // Raycasting to the right side.
         RaycastHit[] rightHits = Physics.RaycastAll(CarController.AeroDynamics.COM.position, (transform.right), 2f, layerMaskCombined);
 
-        if (rightHits != null && rightHits.Length > 0) {
+        if (rightHits != null && rightHits.Length > 0)
+        {
 
             Transform trafficCar = null;
 
-            for (int i = 0; i < rightHits.Length; i++) {
+            for (int i = 0; i < rightHits.Length; i++)
+            {
 
-                if (rightHits[i].collider.attachedRigidbody) {
+                if (rightHits[i].collider.attachedRigidbody)
+                {
 
                     trafficCar = rightHits[i].collider.attachedRigidbody.transform;
                     break;
@@ -476,16 +448,20 @@ public class HR_Player : MonoBehaviour {
 
             }
 
-            if (trafficCar) {
+            if (trafficCar)
+            {
 
                 // If hits, get its name.
                 currentTrafficCarNameRight = trafficCar.name;
 
             }
 
-        } else {
+        }
+        else
+        {
 
-            if (currentTrafficCarNameRight != null && speed > Settings.minimumSpeedForGainScore) {
+            if (currentTrafficCarNameRight != null && speed > Settings.minimumSpeedForGainScore)
+            {
 
                 nearMisses++;
                 combo++;
@@ -506,13 +482,16 @@ public class HR_Player : MonoBehaviour {
         // Raycasting to the front.
         RaycastHit[] frontHits = Physics.RaycastAll(CarController.AeroDynamics.COM.position, (transform.forward), 50f);
 
-        if (frontHits != null && frontHits.Length > 0) {
+        if (frontHits != null && frontHits.Length > 0)
+        {
 
             Transform trafficCar = null;
 
-            for (int i = 0; i < frontHits.Length; i++) {
+            for (int i = 0; i < frontHits.Length; i++)
+            {
 
-                if (frontHits[i].collider.gameObject.layer == LayerMask.NameToLayer(Settings.trafficCarsLayer)) {
+                if (frontHits[i].collider.gameObject.layer == LayerMask.NameToLayer(Settings.trafficCarsLayer))
+                {
 
                     trafficCar = frontHits[i].collider.gameObject.transform;
                     break;
@@ -527,11 +506,13 @@ public class HR_Player : MonoBehaviour {
         }
 
         // Horn and siren.
-        if (CarController.Lights && hornSource) {
+        if (CarController.Lights && hornSource)
+        {
 
             hornSource.volume = Mathf.Lerp(hornSource.volume, CarController.Lights.highBeamHeadlights ? 1f : 0f, Time.deltaTime * 25f);
 
-            if (CarController.Lights.highBeamHeadlights) {
+            if (CarController.Lights.highBeamHeadlights)
+            {
 
                 RCCP_VehicleUpgrade_Siren upgradeSiren = GetComponentInChildren<RCCP_VehicleUpgrade_Siren>();
 
@@ -541,7 +522,9 @@ public class HR_Player : MonoBehaviour {
                 if (!hornSource.isPlaying)
                     hornSource.Play();
 
-            } else {
+            }
+            else
+            {
 
                 hornSource.Stop();
 
@@ -555,32 +538,26 @@ public class HR_Player : MonoBehaviour {
     /// Called when a collision occurs.
     /// </summary>
     /// <param name="col">The collision data associated with this collision.</param>
-    private void OnCollisionEnter(Collision col) {
+    private void OnCollisionEnter(Collision col)
+    {
+        // If scene doesn't include gameplay manager, return.
+        if (!GameplayManager) return;
 
         // If scene doesn't include gameplay manager, return.
-        if (!GameplayManager)
-            return;
+        if (!GameplayManager.gameStarted) return;
 
-        // If scene doesn't include gameplay manager, return.
-        if (!GameplayManager.gameStarted)
-            return;
+        if (!canCrash) return;
 
-        if (!canCrash)
-            return;
-
-        if (crashed)
-            return;
+        if (crashed) return;
 
         // If hit is not a traffic car, return.
-        if (col.collider.gameObject.layer != LayerMask.NameToLayer(Settings.trafficCarsLayer))
-            return;
+        if (col.collider.gameObject.layer != LayerMask.NameToLayer(Settings.trafficCarsLayer)) return;
 
         // Calculating collision impulse.
         float impulse = col.impulse.magnitude / 2000f;
 
         // If impulse is below the limit, return.
-        if (impulse < Settings.minimumCollisionForGameOver)
-            return;
+        if (impulse < Settings.minimumCollisionForGameOver) return;
 
         // Increasing damage.
         damage += impulse * 3f;
@@ -588,29 +565,47 @@ public class HR_Player : MonoBehaviour {
         // Resetting combo to 0.
         combo = 0;
 
-        // If mode is bomb mode, reduce the bomb health.
-        if (GameplayManager.mode == HR_GamePlayManager.Mode.Bomb) {
 
+        if (GameManager.SelectedMode == GameMode.TimeTrial) return;
+        if (GameManager.SelectedMode == GameMode.Endless)
+        {
+            GameOver();
+            return;
+        }
+
+        // If mode is bomb mode, reduce the bomb health.
+        if (GameManager.SelectedMode == GameMode.LowSpeedBomb)
+        {
             bombHealth -= impulse * 3f;
             return;
-
         }
 
-        if (damage > 100f) {
-
+        if (damage > 100f)
+        {
             damage = 100f;
-
             // Game over.
+            if (GameManager.SelectedMode == GameMode.Challenge) return;
             GameOver();
-
         }
-
     }
-
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.LogError("trig " + other.tag);
+        if (other.CompareTag("TimeTrialGate"))
+        {
+            Debug.LogError("timeGate");
+            timeLeft += 30;
+            if (other.TryGetComponent<TimeTrial_Gate>(out var gate))
+            {
+                gate.SetGatePosition(true);
+            }
+        }
+    }
     /// <summary>
     /// Checks the position of the car. If it exceeds limits, respawns it.
     /// </summary>
-    private void CheckPosition() {
+    private void CheckPosition()
+    {
 
         if (Rigid.isKinematic)
             return;
@@ -636,29 +631,21 @@ public class HR_Player : MonoBehaviour {
 
     }
 
-    /// <summary>
-    /// Checks if the car is out of the road.
-    /// </summary>
-    private void CheckOutOfRoad() {
+    private void CheckOutOfRoad()
+    {
+        if (Rigid.isKinematic) return;
 
-        if (Rigid.isKinematic)
-            return;
-
-        if (!CarController.IsGrounded)
-            return;
+        if (!CarController.IsGrounded) return;
 
         HR_PathManager path = HR_PathManager.Instance;
 
-        if (!path)
-            return;
+        if (!path) return;
 
-        if (!path.closestPathPointToPlayer)
-            return;
+        if (!path.closestPathPointToPlayer) return;
 
         HR_CurvedRoad currentRoad = path.FindRoadByTransform(path.closestPathPointToPlayer);
 
-        if (!currentRoad)
-            return;
+        if (!currentRoad) return;
 
         float maxRoadWidth = currentRoad.roadWidth;
 
@@ -668,61 +655,50 @@ public class HR_Player : MonoBehaviour {
         Vector3 closestPoint = FindClosestPointOnPath(transform.position, out Vector3 dir);
         bool right = transform.position.x >= closestPoint.x ? true : false;
 
-        if (Vector3.Distance(transform.position, closestPoint) > maxRoadWidth) {
-
-            if (right) {
-
+        if (Vector3.Distance(transform.position, closestPoint) > maxRoadWidth)
+        {
+            if (right)
+            {
                 CarController.Rigid.AddForce(-Vector3.right * 2f, ForceMode.VelocityChange);
                 locVel.x = Mathf.Clamp(locVel.x, -10f, 0f);
 
                 CarController.Rigid.AddTorque(-Vector3.up * .5f, ForceMode.VelocityChange);
                 locAngVel.y = Mathf.Clamp(locAngVel.y, -.15f, 0f);
-
-            } else {
-
+            }
+            else
+            {
                 CarController.Rigid.AddForce(Vector3.right * 2f, ForceMode.VelocityChange);
                 locVel.x = Mathf.Clamp(locVel.x, 0f, 10f);
 
                 CarController.Rigid.AddTorque(Vector3.up * .5f, ForceMode.VelocityChange);
                 locAngVel.y = Mathf.Clamp(locAngVel.y, 0f, .15f);
-
             }
-
         }
 
         CarController.Rigid.linearVelocity = (locVel);
         CarController.Rigid.angularVelocity = locAngVel;
-
     }
 
-    /// <summary>
-    /// Ensures the stability of the car.
-    /// </summary>
-    private void Stability() {
+    private void Stability()
+    {
+        if (Rigid.isKinematic) return;
 
-        if (Rigid.isKinematic)
-            return;
-
-        if (!CarController.IsGrounded)
-            return;
+        if (!CarController.IsGrounded) return;
 
         float steerInput = CarController.Inputs.inputs.steerInput * 2f;
         steerInput = Mathf.Clamp(steerInput, -1.2f, 1.2f);
 
         CarController.Rigid.AddRelativeForce(Vector3.right * steerInput * 2f, ForceMode.Acceleration);
-
     }
 
-    private void IndicatorLights() {
+    private void IndicatorLights()
+    {
+        if (Rigid.isKinematic) return;
 
-        if (Rigid.isKinematic)
-            return;
+        if (!CarController.canControl) return;
 
-        if (!CarController.canControl)
-            return;
-
-        if (CarController.Lights) {
-
+        if (CarController.Lights)
+        {
             float steerInput = CarController.steerInput_P;
 
             if (steerInput >= .5f)
@@ -748,18 +724,13 @@ public class HR_Player : MonoBehaviour {
                 CarController.Lights.indicatorsLeft = true;
             else
                 CarController.Lights.indicatorsLeft = false;
-
         }
-
     }
 
-    /// <summary>
-    /// Game Over.
-    /// </summary>
-    public void GameOver() {
-
-        if (crashed)
-            return;
+    public void GameOver()
+    {
+        Debug.LogError("GameOver");
+        if (crashed) return;
 
         crashed = true;
 
@@ -788,7 +759,8 @@ public class HR_Player : MonoBehaviour {
     /// <summary>
     /// Eliminates ground gap distance when spawned.
     /// </summary>
-    private void CheckGroundGap() {
+    private void CheckGroundGap()
+    {
 
         WheelCollider wheel = GetComponentInChildren<WheelCollider>();
 
@@ -807,7 +779,8 @@ public class HR_Player : MonoBehaviour {
     /// <summary>
     /// Resets the vehicle to a safe position.
     /// </summary>
-    private void ResetVehicle() {
+    private void ResetVehicle()
+    {
 
         HR_PathManager path = HR_PathManager.Instance;
 
@@ -832,7 +805,8 @@ public class HR_Player : MonoBehaviour {
 
         HR_ResetDecal resetDecal = HR_Settings.Instance.resetDecal;
 
-        if (resetDecal) {
+        if (resetDecal)
+        {
 
             GameObject decalRenderer = Instantiate(resetDecal.gameObject, transform, false);
             decalRenderer.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
@@ -847,7 +821,8 @@ public class HR_Player : MonoBehaviour {
     /// <param name="targetPosition">The target position.</param>
     /// <param name="pathDirection">The direction of the path.</param>
     /// <returns>The closest point on the path.</returns>
-    private Vector3 FindClosestPointOnPath(Vector3 targetPosition, out Vector3 pathDirection) {
+    private Vector3 FindClosestPointOnPath(Vector3 targetPosition, out Vector3 pathDirection)
+    {
 
         List<Transform> closestPathPoints = HR_PathManager.Instance.pathPoints;
         Vector3 closestPoint = closestPathPoints[0].position;
@@ -856,7 +831,8 @@ public class HR_Player : MonoBehaviour {
 
         float minDistance = Vector3.Distance(targetPosition, closestPoint);
 
-        for (int i = 0; i < closestPathPoints.Count - 1; i++) {
+        for (int i = 0; i < closestPathPoints.Count - 1; i++)
+        {
 
             Vector3 pointA = closestPathPoints[i].position;
             Vector3 pointB = closestPathPoints[i + 1].position;
@@ -864,7 +840,8 @@ public class HR_Player : MonoBehaviour {
 
             float distance = Vector3.Distance(targetPosition, projectedPoint);
 
-            if (distance < minDistance) {
+            if (distance < minDistance)
+            {
 
                 closestPoint = projectedPoint;
                 pathDirection = pointB - pointA; // Update direction based on the segment
@@ -885,7 +862,8 @@ public class HR_Player : MonoBehaviour {
     /// <param name="pointB">The end point of the line segment.</param>
     /// <param name="point">The point to project.</param>
     /// <returns>The projected point on the line segment.</returns>
-    private Vector3 ProjectPointOnLineSegment(Vector3 pointA, Vector3 pointB, Vector3 point) {
+    private Vector3 ProjectPointOnLineSegment(Vector3 pointA, Vector3 pointB, Vector3 point)
+    {
 
         Vector3 AB = pointB - pointA;
         float t = Vector3.Dot(point - pointA, AB) / Vector3.Dot(AB, AB);
@@ -895,15 +873,18 @@ public class HR_Player : MonoBehaviour {
     }
 
 #if UNITY_EDITOR
-    public bool CheckVehicleSetup() {
+    public bool CheckVehicleSetup()
+    {
 
         bool changed = false;
 
         RCCP_CarController cController = GetComponent<RCCP_CarController>();
 
-        if (cController) {
+        if (cController)
+        {
 
-            if (cController.ineffectiveBehavior) {
+            if (cController.ineffectiveBehavior)
+            {
 
                 changed = true;
                 cController.ineffectiveBehavior = false;
@@ -914,16 +895,19 @@ public class HR_Player : MonoBehaviour {
 
         Rigidbody rig = GetComponent<Rigidbody>();
 
-        if (rig) {
+        if (rig)
+        {
 
-            if (rig.linearDamping != 0.005f) {
+            if (rig.linearDamping != 0.005f)
+            {
 
                 changed = true;
                 rig.linearDamping = 0.005f;
 
             }
 
-            if (rig.angularDamping != 0.1f) {
+            if (rig.angularDamping != 0.1f)
+            {
 
                 changed = true;
                 rig.angularDamping = 0.1f;
@@ -934,16 +918,19 @@ public class HR_Player : MonoBehaviour {
 
         RCCP_Customizer customizer = GetComponentInChildren<RCCP_Customizer>(true);
 
-        if (customizer) {
+        if (customizer)
+        {
 
-            if (customizer.autoSave) {
+            if (customizer.autoSave)
+            {
 
                 changed = true;
                 customizer.autoSave = false;
 
             }
 
-            if (customizer.autoLoadLoadout) {
+            if (customizer.autoLoadLoadout)
+            {
 
                 changed = true;
                 customizer.autoLoadLoadout = false;
@@ -954,9 +941,11 @@ public class HR_Player : MonoBehaviour {
 
         RCCP_Nos nos = GetComponentInChildren<RCCP_Nos>(true);
 
-        if (nos) {
+        if (nos)
+        {
 
-            if (nos.torqueMultiplier != 3.5f) {
+            if (nos.torqueMultiplier != 3.5f)
+            {
 
                 changed = true;
                 nos.torqueMultiplier = 3.5f;
@@ -967,16 +956,19 @@ public class HR_Player : MonoBehaviour {
 
         RCCP_Input input = GetComponentInChildren<RCCP_Input>(true);
 
-        if (input) {
+        if (input)
+        {
 
-            if (input.applyBrakeOnDisable) {
+            if (input.applyBrakeOnDisable)
+            {
 
                 changed = true;
                 input.applyBrakeOnDisable = false;
 
             }
 
-            if (input.applyHandBrakeOnDisable) {
+            if (input.applyHandBrakeOnDisable)
+            {
 
                 changed = true;
                 input.applyHandBrakeOnDisable = false;
@@ -988,23 +980,27 @@ public class HR_Player : MonoBehaviour {
         RCCP_Clutch clutch = GetComponentInChildren<RCCP_Clutch>(true);
         RCCP_Engine engine = GetComponentInChildren<RCCP_Engine>(true);
 
-        if (clutch) {
+        if (clutch)
+        {
 
-            if (clutch.clutchInputRaw != 0) {
+            if (clutch.clutchInputRaw != 0)
+            {
 
                 changed = true;
                 clutch.clutchInputRaw = 0f;
 
             }
 
-            if (clutch.clutchInput != 0) {
+            if (clutch.clutchInput != 0)
+            {
 
                 changed = true;
                 clutch.clutchInput = 0f;
 
             }
 
-            if (engine && clutch.engageRPM != engine.minEngineRPM) {
+            if (engine && clutch.engageRPM != engine.minEngineRPM)
+            {
 
                 changed = true;
                 clutch.engageRPM = engine.minEngineRPM;
@@ -1015,16 +1011,19 @@ public class HR_Player : MonoBehaviour {
 
         RCCP_AeroDynamics aeroDynamics = GetComponentInChildren<RCCP_AeroDynamics>(true);
 
-        if (aeroDynamics) {
+        if (aeroDynamics)
+        {
 
-            if (aeroDynamics.autoReset) {
+            if (aeroDynamics.autoReset)
+            {
 
                 changed = true;
                 aeroDynamics.autoReset = false;
 
             }
 
-            if (aeroDynamics.ignoreRigidbodyDragOnAccelerate) {
+            if (aeroDynamics.ignoreRigidbodyDragOnAccelerate)
+            {
 
                 changed = true;
                 aeroDynamics.ignoreRigidbodyDragOnAccelerate = false;
@@ -1035,11 +1034,14 @@ public class HR_Player : MonoBehaviour {
 
         RCCP_Axle[] axles = GetComponentsInChildren<RCCP_Axle>();
 
-        if (axles != null && axles.Length > 0) {
+        if (axles != null && axles.Length > 0)
+        {
 
-            for (int i = 0; i < axles.Length; i++) {
+            for (int i = 0; i < axles.Length; i++)
+            {
 
-                if (axles[i].maxBrakeTorque != 15000f) {
+                if (axles[i].maxBrakeTorque != 15000f)
+                {
 
                     changed = true;
                     axles[i].maxBrakeTorque = 15000f;
@@ -1058,7 +1060,8 @@ public class HR_Player : MonoBehaviour {
     /// <summary>
     /// Resets the Rigidbody settings.
     /// </summary>
-    private void Reset() {
+    private void Reset()
+    {
 
         HR_PlayerStabilizer stabilizer = GetComponent<HR_PlayerStabilizer>();
 
@@ -1070,7 +1073,8 @@ public class HR_Player : MonoBehaviour {
     /// <summary>
     /// Finds the lane from HR_LaneManager that is closest to a given position.
     /// </summary>
-    private HR_Lane FindClosestLane(Vector3 position) {
+    private HR_Lane FindClosestLane(Vector3 position)
+    {
 
         if (!HR_LaneManager.Instance)
             return null;
@@ -1083,7 +1087,8 @@ public class HR_Player : MonoBehaviour {
         if (allLaneWrappers == null || allLaneWrappers.Length == 0)
             return null;
 
-        for (int i = 0; i < allLaneWrappers.Length; i++) {
+        for (int i = 0; i < allLaneWrappers.Length; i++)
+        {
 
             HR_Lane candidateLane = allLaneWrappers[i].lane;
             if (!candidateLane)
@@ -1094,7 +1099,8 @@ public class HR_Player : MonoBehaviour {
 
             float distSq = (lanePoint - position).sqrMagnitude;
 
-            if (distSq < closestDistSq) {
+            if (distSq < closestDistSq)
+            {
 
                 closestDistSq = distSq;
                 closestLane = candidateLane;
@@ -1107,4 +1113,8 @@ public class HR_Player : MonoBehaviour {
 
     }
 
+    internal void AddTime(float timeToAdd)
+    {
+        timeLeft += timeToAdd;
+    }
 }

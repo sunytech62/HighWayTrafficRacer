@@ -5,15 +5,16 @@
 // https://www.bonecrackergames.com
 //----------------------------------------------
 
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
 /// <summary>
 /// Handles key press events to trigger button clicks.
 /// </summary>
 [DisallowMultipleComponent]
-public class HR_UI_KeyEnter : MonoBehaviour {
+public class HR_UI_KeyEnter : MonoBehaviour
+{
 
     /// <summary>
     /// The input name to listen for
@@ -28,7 +29,8 @@ public class HR_UI_KeyEnter : MonoBehaviour {
     /// <summary>
     /// Called when the object is initialized
     /// </summary>
-    private void Start() {
+    private void Start()
+    {
 
         button = GetComponent<Button>();
 
@@ -37,11 +39,11 @@ public class HR_UI_KeyEnter : MonoBehaviour {
     /// <summary>
     /// Update method called once per frame
     /// </summary>
-    private void Update() {
+/*    private void Update() {
 
         if (Input.GetButtonDown(inputName))
             button.onClick.Invoke();
 
-    }
+    }*/
 
 }

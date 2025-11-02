@@ -14,7 +14,8 @@ using UnityEngine.SceneManagement;
 /// <summary>
 /// Manages the soundtrack for the game, including main menu and gameplay soundtracks.
 /// </summary>
-public class HR_SoundtrackManager : MonoBehaviour {
+public class HR_SoundtrackManager : MonoBehaviour
+{
 
     private static HR_SoundtrackManager instance;
 
@@ -26,9 +27,11 @@ public class HR_SoundtrackManager : MonoBehaviour {
     /// <summary>
     /// The AudioSource component used to play the soundtracks.
     /// </summary>
-    public AudioSource SoundtrackSource {
+    public AudioSource SoundtrackSource
+    {
 
-        get {
+        get
+        {
 
             if (soundtrackSource == null)
                 soundtrackSource = GetComponent<AudioSource>();
@@ -67,15 +70,19 @@ public class HR_SoundtrackManager : MonoBehaviour {
     /// <summary>
     /// Initializes the singleton instance and sets up the AudioSource.
     /// </summary>
-    private void Awake() {
+    private void Awake()
+    {
 
         // Ensure only one instance exists and mark this object to not be destroyed on load.
-        if (Instance != null) {
+        if (Instance != null)
+        {
 
             Destroy(gameObject);
             return;
 
-        } else {
+        }
+        else
+        {
 
             Instance = this;
             DontDestroyOnLoad(gameObject);
@@ -96,7 +103,8 @@ public class HR_SoundtrackManager : MonoBehaviour {
     /// <summary>
     /// Subscribes to the OnAudioChanged event when the object is enabled.
     /// </summary>
-    private void OnEnable() {
+    private void OnEnable()
+    {
 
         // Subscribe to the event triggered when audio settings are changed.
         HR_Events.OnOptionsChanged += HR_Events_OnAudioChanged;
@@ -106,8 +114,9 @@ public class HR_SoundtrackManager : MonoBehaviour {
     /// <summary>
     /// Handles the event when audio settings are changed.
     /// </summary>
-    private void HR_Events_OnAudioChanged() {
-
+    private void HR_Events_OnAudioChanged()
+    {
+        Debug.LogError("====");
         // Set the music volume level based on the latest saved value.
         SetMusicVolume(HR_API.GetMusicVolume());
 
@@ -116,16 +125,19 @@ public class HR_SoundtrackManager : MonoBehaviour {
     /// <summary>
     /// Updates the AudioSource's volume and plays the appropriate soundtrack based on the active scene.
     /// </summary>
-    private void Update() {
+    private void Update()
+    {
 
         // Limit the AudioSource's volume to the maximum value.
         if (SoundtrackSource.volume > maximumVolume)
             SoundtrackSource.volume = maximumVolume;
 
         // Check if the current scene is the main menu and play the appropriate soundtrack.
-        if (SceneManager.GetActiveScene().buildIndex == HR_Settings.Instance.mainMenuSceneIndex) {
+        if (SceneManager.GetActiveScene().buildIndex == HR_Settings.Instance.mainMenuSceneIndex)
+        {
 
-            if (showroomSoundtracks.Count > 0) {
+            if (showroomSoundtracks.Count > 0)
+            {
 
                 // Select a random audio clip from the showroom soundtracks list.
                 AudioClip randomClip = showroomSoundtracks[Random.Range(0, showroomSoundtracks.Count)];
@@ -141,7 +153,8 @@ public class HR_SoundtrackManager : MonoBehaviour {
         }
 
         // Play a random gameplay soundtrack if the active scene is not the main menu.
-        if (gameplaySoundtracks.Count > 0) {
+        if (gameplaySoundtracks.Count > 0)
+        {
 
             // Select a random audio clip from the gameplay soundtracks list.
             AudioClip randomClip = gameplaySoundtracks[Random.Range(0, gameplaySoundtracks.Count)];
@@ -158,7 +171,8 @@ public class HR_SoundtrackManager : MonoBehaviour {
     /// Plays the specified audio clip on the AudioSource.
     /// </summary>
     /// <param name="newClip">The new audio clip to play.</param>
-    public void PlayClip(AudioClip newClip) {
+    public void PlayClip(AudioClip newClip)
+    {
 
         SoundtrackSource.clip = newClip;
         SoundtrackSource.Play();
@@ -169,7 +183,8 @@ public class HR_SoundtrackManager : MonoBehaviour {
     /// Sets the music volume for the AudioSource without saving the value.
     /// </summary>
     /// <param name="newVolume">The new volume level for the music.</param>
-    public void SetMusicVolume(float newVolume) {
+    public void SetMusicVolume(float newVolume)
+    {
 
         SoundtrackSource.volume = newVolume;
 
@@ -178,7 +193,8 @@ public class HR_SoundtrackManager : MonoBehaviour {
     /// <summary>
     /// Stops the AudioSource from playing.
     /// </summary>
-    public void Stop() {
+    public void Stop()
+    {
 
         SoundtrackSource.clip = null;
         SoundtrackSource.Stop();
@@ -188,7 +204,8 @@ public class HR_SoundtrackManager : MonoBehaviour {
     /// <summary>
     /// Unsubscribes from the OnAudioChanged event when the object is disabled.
     /// </summary>
-    private void OnDisable() {
+    private void OnDisable()
+    {
 
         HR_Events.OnOptionsChanged -= HR_Events_OnAudioChanged;
 

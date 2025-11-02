@@ -1,4 +1,6 @@
-﻿using UnityEditor;
+﻿#if UNITY_EDITOR
+
+using UnityEditor;
 using UnityEngine;
 
 public static class TransformAnchorTools
@@ -36,3 +38,5 @@ public static class TransformAnchorTools
         }
     }
 }
+
+#endif

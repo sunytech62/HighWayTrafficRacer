@@ -1,31 +1,15 @@
-//----------------------------------------------
-//        Realistic Car Controller Pro
-//
-// Copyright © 2014 - 2025 BoneCracker Games
-// https://www.bonecrackergames.com
-// Ekrem Bugra Ozdoganlar
-//
-//----------------------------------------------
-
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 
-/// <summary>
-/// Receives inputs from the ui controllers. RCCP_InputManager will process these inputs if controller type is mobile.
-/// </summary>
 [AddComponentMenu("BoneCracker Games/Realistic Car Controller Pro/UI/Mobile/RCCP Mobile Inputs")]
-public class RCCP_MobileInputs : RCCP_GenericComponent {
+public class RCCP_MobileInputs : RCCP_GenericComponent
+{
 
     private static RCCP_MobileInputs instance;
 
-    /// <summary>
-    /// Instance of the class.
-    /// </summary>
-    public static RCCP_MobileInputs Instance {
-
-        get {
-
+    public static RCCP_MobileInputs Instance
+    {
+        get
+        {
 #if !UNITY_2022_1_OR_NEWER
             if (instance == null)
                 instance = FindObjectOfType<RCCP_MobileInputs>();
@@ -33,16 +17,10 @@ public class RCCP_MobileInputs : RCCP_GenericComponent {
             if (instance == null)
                 instance = FindFirstObjectByType<RCCP_MobileInputs>();
 #endif
-
             return instance;
-
         }
-
     }
 
-    /// <summary>
-    /// Root canvas to enable / disable depends on the selected option in the RCCP_Settings ("Use Mobile Controller").
-    /// </summary>
     public GameObject mobileCanvas;
 
     //  UI controller buttons.
@@ -53,14 +31,8 @@ public class RCCP_MobileInputs : RCCP_GenericComponent {
     public RCCP_UIController ebrake;
     public RCCP_UIController nos;
 
-    /// <summary>
-    /// Steering wheel.
-    /// </summary>
     public RCCP_UI_SteeringWheelController steeringWheel;
 
-    /// <summary>
-    /// Joystick.
-    /// </summary>
     public RCCP_UI_Joystick joystick;
 
     //  Output inputs.
@@ -70,40 +42,36 @@ public class RCCP_MobileInputs : RCCP_GenericComponent {
     [Range(0f, 1f)] public float ebrakeInput = 0f;
     [Range(0f, 1f)] public float nosInput = 0f;
 
-    private void Update() {
-
+    private void Update()
+    {
         //  If mobile controller is enabled, set canvas true. Otherwise false.
-        if (!RCCPSettings.mobileControllerEnabled) {
+        /* if (!RCCPSettings.mobileControllerEnabled)
+         {
+             if (mobileCanvas.activeSelf)
+                 mobileCanvas.SetActive(false);
 
-            if (mobileCanvas.activeSelf)
-                mobileCanvas.SetActive(false);
+             return;
+         }*/
 
-            return;
+        if (!mobileCanvas.activeSelf) mobileCanvas.SetActive(true);
 
-        }
-
-        if (!mobileCanvas.activeSelf)
-            mobileCanvas.SetActive(true);
-
-        if (RCCPSceneManager && RCCPSceneManager.activePlayerVehicle) {
-
-            if (RCCPSceneManager.activePlayerVehicle.OtherAddonsManager && RCCPSceneManager.activePlayerVehicle.OtherAddonsManager.Nos) {
-
+        if (RCCPSceneManager && RCCPSceneManager.activePlayerVehicle)
+        {
+            if (RCCPSceneManager.activePlayerVehicle.OtherAddonsManager && RCCPSceneManager.activePlayerVehicle.OtherAddonsManager.Nos)
+            {
                 if (nos)
                     nos.gameObject.SetActive(true);
-
-            } else {
-
+            }
+            else
+            {
                 if (nos)
                     nos.gameObject.SetActive(false);
-
             }
-
         }
 
         //  Mobile controller types.
-        switch (RCCPSettings.mobileController) {
-
+        switch (RCCPSettings.mobileController)
+        {
             //  If touch screen, enable and disable corresponding buttons.
             case RCCP_Settings.MobileController.TouchScreen:
 
@@ -174,7 +142,6 @@ public class RCCP_MobileInputs : RCCP_GenericComponent {
                     right.gameObject.SetActive(false);
 
                 break;
-
         }
 
         //  Inputs.
@@ -201,11 +168,10 @@ public class RCCP_MobileInputs : RCCP_GenericComponent {
 
         throttleInput += nosInput;   //  Increasing throttle input with he nos input. But clamping it to 0 - 1 below.
 
-        if (RCCPSettings.mobileController == RCCP_Settings.MobileController.Gyro) {
-
+        if (RCCPSettings.mobileController == RCCP_Settings.MobileController.Gyro)
+        {
             if (UnityEngine.InputSystem.Accelerometer.current != null)
                 steerInput += UnityEngine.InputSystem.Accelerometer.current.acceleration.ReadValue().x * RCCPSettings.gyroSensitivity;
-
         }
 
         throttleInput = Mathf.Clamp01(throttleInput);
@@ -213,7 +179,5 @@ public class RCCP_MobileInputs : RCCP_GenericComponent {
         brakeInput = Mathf.Clamp01(brakeInput);
         ebrakeInput = Mathf.Clamp01(ebrakeInput);
         nosInput = Mathf.Clamp01(nosInput);
-
     }
-
 }

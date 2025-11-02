@@ -7,15 +7,16 @@
 //
 //----------------------------------------------
 
-using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// Manager for upgradable spoilers.
 /// </summary>
 [AddComponentMenu("BoneCracker Games/Realistic Car Controller Pro/Customization/RCCP Vehicle Upgrade Spoiler Manager")]
-public class RCCP_VehicleUpgrade_SpoilerManager : RCCP_UpgradeComponent, IRCCP_UpgradeComponent {
+public class RCCP_VehicleUpgrade_SpoilerManager : RCCP_UpgradeComponent, IRCCP_UpgradeComponent
+{
 
     /// <summary>
     /// All upgradable spoilers.
@@ -32,7 +33,8 @@ public class RCCP_VehicleUpgrade_SpoilerManager : RCCP_UpgradeComponent, IRCCP_U
     /// </summary>
     public bool paintSpoilers = true;
 
-    public void Initialize() {
+    public void Initialize()
+    {
 
         //  If spoilers is null, return.
         if (spoilers == null)
@@ -43,7 +45,8 @@ public class RCCP_VehicleUpgrade_SpoilerManager : RCCP_UpgradeComponent, IRCCP_U
             return;
 
         //  Disabling all spoilers.
-        for (int i = 0; i < spoilers.Length; i++) {
+        for (int i = 0; i < spoilers.Length; i++)
+        {
 
             if (spoilers[i] != null)
                 spoilers[i].gameObject.SetActive(false);
@@ -67,13 +70,15 @@ public class RCCP_VehicleUpgrade_SpoilerManager : RCCP_UpgradeComponent, IRCCP_U
 
     }
 
-    public void GetAllSpoilers() {
+    public void GetAllSpoilers()
+    {
 
         spoilers = GetComponentsInChildren<RCCP_VehicleUpgrade_Spoiler>(true);
 
     }
 
-    public void DisableAll() {
+    public void DisableAll()
+    {
 
         //  If spoilers is null, return.
         if (spoilers == null)
@@ -84,7 +89,8 @@ public class RCCP_VehicleUpgrade_SpoilerManager : RCCP_UpgradeComponent, IRCCP_U
             return;
 
         //  Disabling all spoilers.
-        for (int i = 0; i < spoilers.Length; i++) {
+        for (int i = 0; i < spoilers.Length; i++)
+        {
 
             if (spoilers[i] != null)
                 spoilers[i].gameObject.SetActive(false);
@@ -93,7 +99,8 @@ public class RCCP_VehicleUpgrade_SpoilerManager : RCCP_UpgradeComponent, IRCCP_U
 
     }
 
-    public void EnableAll() {
+    public void EnableAll()
+    {
 
         //  If spoilers is null, return.
         if (spoilers == null)
@@ -104,7 +111,8 @@ public class RCCP_VehicleUpgrade_SpoilerManager : RCCP_UpgradeComponent, IRCCP_U
             return;
 
         //  Enabling all spoilers.
-        for (int i = 0; i < spoilers.Length; i++) {
+        for (int i = 0; i < spoilers.Length; i++)
+        {
 
             if (spoilers[i] != null)
                 spoilers[i].gameObject.SetActive(true);
@@ -117,7 +125,8 @@ public class RCCP_VehicleUpgrade_SpoilerManager : RCCP_UpgradeComponent, IRCCP_U
     /// Unlocks target spoiler index and saves it.
     /// </summary>
     /// <param name="index"></param>
-    public void Upgrade(int index) {
+    public void Upgrade(int index, bool isSave = false)
+    {
 
         //  If sirens is null, return.
         if (spoilers == null)
@@ -130,7 +139,8 @@ public class RCCP_VehicleUpgrade_SpoilerManager : RCCP_UpgradeComponent, IRCCP_U
         spoilerIndex = index;
 
         //  Disabling all spoilers.
-        for (int i = 0; i < spoilers.Length; i++) {
+        for (int i = 0; i < spoilers.Length; i++)
+        {
 
             if (spoilers[i] != null)
                 spoilers[i].gameObject.SetActive(false);
@@ -152,7 +162,7 @@ public class RCCP_VehicleUpgrade_SpoilerManager : RCCP_UpgradeComponent, IRCCP_U
         Refresh(this);
 
         //  Saving the loadout.
-        if (CarController.Customizer.autoSave)
+        if (CarController.Customizer.autoSave || isSave)
             Save();
 
     }
@@ -161,7 +171,8 @@ public class RCCP_VehicleUpgrade_SpoilerManager : RCCP_UpgradeComponent, IRCCP_U
     /// Unlocks target spoiler index and saves it.
     /// </summary>
     /// <param name="index"></param>
-    public void UpgradeWithoutSave(int index) {
+    public void UpgradeWithoutSave(int index)
+    {
 
         //  If sirens is null, return.
         if (spoilers == null)
@@ -174,7 +185,8 @@ public class RCCP_VehicleUpgrade_SpoilerManager : RCCP_UpgradeComponent, IRCCP_U
         spoilerIndex = index;
 
         //  Disabling all spoilers.
-        for (int i = 0; i < spoilers.Length; i++) {
+        for (int i = 0; i < spoilers.Length; i++)
+        {
 
             if (spoilers[i] != null)
                 spoilers[i].gameObject.SetActive(false);
@@ -198,7 +210,8 @@ public class RCCP_VehicleUpgrade_SpoilerManager : RCCP_UpgradeComponent, IRCCP_U
     /// Painting.
     /// </summary>
     /// <param name="newColor"></param>
-    public void Paint(Color newColor) {
+    public void Paint(Color newColor)
+    {
 
         //  If spoilers is null, return.
         if (spoilers == null)
@@ -213,7 +226,8 @@ public class RCCP_VehicleUpgrade_SpoilerManager : RCCP_UpgradeComponent, IRCCP_U
             return;
 
         //  Painting all spoilers.
-        for (int i = 0; i < spoilers.Length; i++) {
+        for (int i = 0; i < spoilers.Length; i++)
+        {
 
             if (spoilers[i] != null)
                 spoilers[i].UpdatePaint(newColor);
@@ -225,7 +239,8 @@ public class RCCP_VehicleUpgrade_SpoilerManager : RCCP_UpgradeComponent, IRCCP_U
     /// <summary>
     /// Restores the settings to default.
     /// </summary>
-    public void Restore() {
+    public void Restore()
+    {
 
         spoilerIndex = -1;
 
@@ -237,7 +252,8 @@ public class RCCP_VehicleUpgrade_SpoilerManager : RCCP_UpgradeComponent, IRCCP_U
             return;
 
         //  Disabling all spoilers.
-        for (int i = 0; i < spoilers.Length; i++) {
+        for (int i = 0; i < spoilers.Length; i++)
+        {
 
             if (spoilers[i] != null)
                 spoilers[i].gameObject.SetActive(false);

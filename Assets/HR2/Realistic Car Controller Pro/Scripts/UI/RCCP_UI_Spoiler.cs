@@ -1,28 +1,19 @@
-﻿//----------------------------------------------
-//        Realistic Car Controller Pro
-//
-// Copyright © 2014 - 2025 BoneCracker Games
-// https://www.bonecrackergames.com
-// Ekrem Bugra Ozdoganlar
-//
-//----------------------------------------------
+﻿using UnityEngine;
+using UnityEngine.UI;
 
-using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-
-/// <summary>
-/// UI spoiler button.
-/// </summary>
 [AddComponentMenu("BoneCracker Games/Realistic Car Controller Pro/UI/Modification/RCCP UI Spoiler Button")]
-public class RCCP_UI_Spoiler : RCCP_UIComponent {
-
-    /// <summary>
-    /// Index of the target spoiler.
-    /// </summary>
+public class RCCP_UI_Spoiler : RCCP_UIComponent
+{
     [Min(0)] public int index = 0;
 
-    public void OnClick() {
+    private void Awake()
+    {
+        index = transform.GetSiblingIndex();
+        GetComponent<Button>().onClick.AddListener(OnClick);
+    }
+
+    public void OnClick()
+    {
 
         //  Finding the player vehicle.
         RCCP_CarController playerVehicle = RCCPSceneManager.activePlayerVehicle;
@@ -41,5 +32,7 @@ public class RCCP_UI_Spoiler : RCCP_UIComponent {
         playerVehicle.Customizer.SpoilerManager.Upgrade(index);
 
     }
+
+
 
 }

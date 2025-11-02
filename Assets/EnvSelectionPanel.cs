@@ -11,44 +11,77 @@ public class EnvSelectionPanel : MonoBehaviour
     [SerializeField] EnvRef oneWay;
     [SerializeField] EnvRef twoWay;
 
-    static int envSelected;
-    static int trafficSelected;
+    EnvNames SelectedSelected
+    {
+        get
+        {
+            var savedValue = PlayerPrefs.GetString("SelectedScene");
+            if (savedValue.Equals("HR_Scene_Sunny")) return EnvNames.Sunny;
+            if (savedValue.Equals("HR_Scene_Night")) return EnvNames.Night;
+            if (savedValue.Equals("HR_Scene_Rainy")) return EnvNames.Rainy;
+            if (savedValue.Equals("HR_Scene_Evening")) return EnvNames.Evening;
+            return EnvNames.Sunny;
+        }
+        set
+        {
+            string key = value switch
+            {
+                EnvNames.Sunny => "HR_Scene_Sunny",
+                EnvNames.Night => "HR_Scene_Night",
+                EnvNames.Rainy => "HR_Scene_Rainy",
+                EnvNames.Evening => "HR_Scene_Evening",
+                _ => "HR_Scene_Sunny"
+            };
+            PlayerPrefs.SetString("SelectedScene", key);
+        }
+    }
+    bool isTwoWayTrafficSelected
+    {
+        get => PlayerPrefs.GetInt("SelectedTraffic") == 1 ? true : false;
+        set => PlayerPrefs.SetInt("SelectedTraffic", value == true ? 1 : 0);
+    }
 
     void Start()
     {
-        trafficSelected = 0;
         UpdateUI();
     }
 
     private void UpdateUI()
     {
-        sunnyEnv.selected.SetActive(envSelected == 0 ? true : false);
-        sunnyEnv.unSelected.SetActive(envSelected == 0 ? false : true);
+        sunnyEnv.selected.SetActive(SelectedSelected == EnvNames.Sunny ? true : false);
+        sunnyEnv.unSelected.SetActive(SelectedSelected == EnvNames.Sunny ? false : true);
 
-        eveningEnv.selected.SetActive(envSelected == 1 ? true : false);
-        eveningEnv.unSelected.SetActive(envSelected == 1 ? false : true);
+        nightEnv.selected.SetActive(SelectedSelected == EnvNames.Night ? true : false);
+        nightEnv.unSelected.SetActive(SelectedSelected == EnvNames.Night ? false : true);
 
-        nightEnv.selected.SetActive(envSelected == 2 ? true : false);
-        nightEnv.unSelected.SetActive(envSelected == 2 ? false : true);
+        foggyEnv.selected.SetActive(SelectedSelected == EnvNames.Rainy ? true : false);
+        foggyEnv.unSelected.SetActive(SelectedSelected == EnvNames.Rainy ? false : true);
 
-        foggyEnv.selected.SetActive(envSelected == 3 ? true : false);
-        foggyEnv.unSelected.SetActive(envSelected == 3 ? false : true);
+        eveningEnv.selected.SetActive(SelectedSelected == EnvNames.Evening ? true : false);
+        eveningEnv.unSelected.SetActive(SelectedSelected == EnvNames.Evening ? false : true);
 
-        oneWay.selected.SetActive(trafficSelected == 0 ? true : false);
-        oneWay.unSelected.SetActive(trafficSelected == 0 ? false : true);
+        oneWay.selected.SetActive(!isTwoWayTrafficSelected);
+        oneWay.unSelected.SetActive(isTwoWayTrafficSelected);
 
-        twoWay.selected.SetActive(trafficSelected == 1 ? true : false);
-        twoWay.unSelected.SetActive(trafficSelected == 1 ? false : true);
+        twoWay.selected.SetActive(isTwoWayTrafficSelected);
+        twoWay.unSelected.SetActive(!isTwoWayTrafficSelected);
     }
 
     public void SelectEnv(int index)
     {
-        envSelected = index;
+        SelectedSelected = index switch
+        {
+            0 => EnvNames.Sunny,
+            1 => EnvNames.Night,
+            2 => EnvNames.Rainy,
+            3 => EnvNames.Evening,
+            _ => EnvNames.Sunny,
+        };
         UpdateUI();
     }
-    public void SelectTraffic(int index)
+    public void SelectTraffic(bool isTwoWaySelected)
     {
-        trafficSelected = index;
+        isTwoWayTrafficSelected = isTwoWaySelected;
         UpdateUI();
     }
 
@@ -57,5 +90,12 @@ public class EnvSelectionPanel : MonoBehaviour
     {
         public GameObject selected;
         public GameObject unSelected;
+    }
+    public enum EnvNames
+    {
+        Sunny = 1,
+        Night = 2,
+        Rainy = 3,
+        Evening = 4,
     }
 }
