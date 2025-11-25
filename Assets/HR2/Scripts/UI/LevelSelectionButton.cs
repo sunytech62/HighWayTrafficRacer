@@ -9,6 +9,7 @@ public class LevelSelectionButton : MonoBehaviour
 
     public int levelIndex;
     public GameObject lockPanel;
+    public GameObject selectedPanel;
 
     public void SelecLevel()
     {

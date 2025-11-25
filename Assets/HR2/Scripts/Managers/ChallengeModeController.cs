@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 using static ChallengeModeLevels;
 
 public class ChallengeModeController : MonoBehaviour
@@ -36,6 +38,8 @@ public class ChallengeModeController : MonoBehaviour
     [SerializeField] GameObject objectivePanel;
     [SerializeField] TextMeshProUGUI objectiveTitleTxt;
     [SerializeField] TextMeshProUGUI objectiveDiscTxt;
+    [Header("Progress")]
+    [SerializeField] Slider progressBar;
 
     #endregion
 
@@ -56,46 +60,59 @@ public class ChallengeModeController : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.LogError("Enable");
         levelFinishType = LevelFinishType.None;
         HR_Player.OnPlayerSpawned += OnPlayerSpawned;
         HR_Player.OnNearMiss += OnNearMiss;
+        HR_Events.OnCountDownStarted += CountDownStarted;
     }
 
     private void OnDisable()
     {
         HR_Player.OnPlayerSpawned -= OnPlayerSpawned;
         HR_Player.OnNearMiss -= OnNearMiss;
+        HR_Events.OnCountDownStarted -= CountDownStarted;
     }
 
     private void Start()
     {
         SetupLevel();
         OnLevelStart?.Invoke();
-
+        progressBar.maxValue = _targetValue;
+    }
+    private void CountDownStarted()
+    {
         StartCoroutine(ShowObjective());
     }
 
     private IEnumerator ShowObjective()
     {
-        yield return new WaitForSecondsRealtime(0.5f);
-        Time.timeScale = 0;
+        //  yield return new WaitForSecondsRealtime(0.5f);
+        // Time.timeScale = 0;
 
-        canvasObj.SetActive(true);
-        objectiveTitleTxt.SetText($"{GameManager.FormatedTextByCapitals(CurrentLevel.challengeType.ToString())}");
+        // canvasObj.SetActive(true);
+        // objectiveTitleTxt.SetText($"{GameManager.FormatedTextByCapitals(CurrentLevel.challengeType.ToString())}");
+        objectivePanel.SetActive(true);
         objectiveDiscTxt.SetText(CurrentLevel.levelObjective.ToString());
 
         yield return new WaitForSecondsRealtime(5);
 
-        canvasObj.SetActive(false);
-        Time.timeScale = 1;
+        objectivePanel.SetActive(false);
+        progressBar.gameObject.SetActive(true);
+        //canvasObj.SetActive(false);
+        //  Time.timeScale = 1;
         isGameRunning = true;
+        _isTimerRunning = true;
         HR_GamePlayManager.isStartCountDown = true;
     }
 
     private void Update()
     {
-        if (!isGameRunning || _player == null) return;
+        if (!isGameRunning) return;
+        if (!_player)
+        {
+            _player = HR_Player.Instance;
+            return;
+        }
 
         if (_isTimerRunning) TimeElapsed += Time.deltaTime;
 
@@ -235,7 +252,7 @@ public class ChallengeModeController : MonoBehaviour
                 break;
 
             case ChallengeType.DistanceInOppositeDirection:
-                CurrentValue = _player.opposideDirectionCurrent * 1000f;
+                CurrentValue = _player.opposideDirectionTotal * 100f;
                 levelFinishType = CurrentValue >= _targetValue ? LevelFinishType.Win : LevelFinishType.None;
                 break;
 
@@ -277,7 +294,7 @@ public class ChallengeModeController : MonoBehaviour
                       fail = _player.Distance * 1000f >= _timeLimit && !win;
                       break;*/
         }
-
+        progressBar.value = CurrentValue;
         if (levelFinishType != LevelFinishType.None)
             FinishLevel(levelFinishType);
     }
@@ -289,6 +306,7 @@ public class ChallengeModeController : MonoBehaviour
     private void FinishLevel(LevelFinishType levelFinishType)
     {
         isGameRunning = false;
+        progressBar.gameObject.SetActive(false);
         //  ChallengeGameState.LastCompletedChallenge = _challengeIndex;
         // ChallengeGameState.ChallengesCompleted++;
         var isWin = levelFinishType == LevelFinishType.Win ? true : false;

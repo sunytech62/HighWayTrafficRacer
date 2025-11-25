@@ -1,3 +1,5 @@
+using DG.Tweening;
+using DG.Tweening.Core;
 using System;
 using System.Collections;
 using TMPro;
@@ -12,12 +14,15 @@ public class HR_UI_GameOverPanel : MonoBehaviour
     public PanelRefs levelFailed;
     public PanelRefs gameOver;
 
+    [SerializeField] AudioSource cashCountAS;
+
     ChallengeModeController.ChaCompleteData chaCompleteData;
 
     private void Awake()
     {
         Instance = this;
     }
+
     private void OnDestroy()
     {
         Instance = null;
@@ -34,12 +39,12 @@ public class HR_UI_GameOverPanel : MonoBehaviour
     }
     public void OnChallengeLevelFinish(ChallengeModeController.ChaCompleteData arg2)
     {
-        Debug.LogError("ChallengeCom");
         if (arg2.isWin)
         {
             if ((GameState.ChallengeLevelIndex + 1) == GameState.ChallengeCompletedLevel + 1)
             {
                 GameState.ChallengeCompletedLevel += 1;
+                if (GameState.ChallengeCompletedLevel > 30) HR_API.MainMenu();
             }
             levelComplete.panelObj.SetActive(true);
             levelFailed.panelObj.SetActive(false);
@@ -119,40 +124,6 @@ public class HR_UI_GameOverPanel : MonoBehaviour
         gameOver.oppositeDirection.money.text = scores[3].ToString("F0");
 
         gameOver.totalMoney.text = (scores[0] + scores[1] + scores[2] + scores[3]).ToString();
-
-        /*  foreach (var item in totalScore)
-              item.text = Mathf.Floor(player.score).ToString("F0");
-
-          foreach (var item in totalDistance)
-              item.text = (player.distance).ToString("F2");
-
-          foreach (var item in totalNearMiss)
-              item.text = (player.nearMisses).ToString("F0");
-
-          foreach (var item in totalOverspeed)
-              item.text = (player.highSpeedTotal).ToString("F1");
-
-          foreach (var item in totalOppositeDirection)
-              item.text = (player.opposideDirectionTotal).ToString("F1");
-
-          foreach (var item in totalDistanceMoney)
-              item.text = scores[0].ToString("F0");
-
-          foreach (var item in totalNearMissMoney)
-              item.text = scores[1].ToString("F0");
-
-          foreach (var item in totalOverspeedMoney)
-              item.text = scores[2].ToString("F0");
-
-          foreach (var item in totalOppositeDirectionMoney)
-              item.text = scores[3].ToString("F0");
-
-          foreach (var item in totalMoney)
-              item.text = (scores[0] + scores[1] + scores[2] + scores[3]).ToString();
-
-          // gameObject.BroadcastMessage("Animate");
-          // gameObject.BroadcastMessage("GetNumber");
-        */
     }
 
     private void ChallengePanelShow(HR_Player player, int[] scores)
@@ -212,6 +183,74 @@ public class HR_UI_GameOverPanel : MonoBehaviour
         HR_API.RestartGame();
     }
 
+    public void ReSpawnCarRewardAd()
+    {
+        CustomAd.ShowRewarded(() =>
+        {
+            levelComplete.panelObj.SetActive(false);
+            levelFailed.panelObj.SetActive(false);
+            gameOver.panelObj.SetActive(false);
+            HR_Player.Instance.ReSpawnCar();
+        });
+    }
+
+    public void SkipLvlRewardAd()
+    {
+        CustomAd.ShowRewarded(() =>
+        {
+            if ((GameState.ChallengeLevelIndex + 1) == GameState.ChallengeCompletedLevel + 1)
+            {
+                GameState.ChallengeCompletedLevel += 1;
+                GameState.ChallengeLevelIndex = GameState.ChallengeCompletedLevel;
+            }
+            Debug.LogError($"pp {GameState.ChallengeLevelIndex} {GameState.ChallengeCompletedLevel}");
+            Restart();
+        });
+    }
+
+    public void NextLvlChallenge()
+    {
+        GameState.ChallengeLevelIndex += 1;
+        HR_API.RestartGame();
+    }
+
+    public void DoubleReward()
+    {
+        CustomAd.ShowRewarded(() =>
+        {
+            PanelRefs activePanel = null;
+
+            if (levelComplete.panelObj.activeInHierarchy) activePanel = levelComplete;
+            else if (levelFailed.panelObj.activeInHierarchy) activePanel = levelFailed;
+            else activePanel = gameOver;
+
+            int.TryParse(activePanel.totalMoney.text, out var totalMoney);
+            HR_API.AddCurrency(totalMoney);
+            var doubledMoney = totalMoney * 2;
+            GameManager.Instance.PlayCashAudio();
+            levelFailed.totalMoney.text = doubledMoney.ToString();
+            levelComplete.totalMoney.text = doubledMoney.ToString();
+            gameOver.totalMoney.text = doubledMoney.ToString();
+            /*
+                        TextMeshProUGUI text;
+                        if (levelFailed.panelObj.activeInHierarchy) text = levelFailed.totalMoney;
+                        else if (levelComplete.panelObj.activeInHierarchy) text = levelComplete.totalMoney;
+                        else text = gameOver.totalMoney;
+
+                        var dotween = levelFailed.totalMoney.DOText(doubledMoney.ToString(), 3).SetUpdate(true);
+                        dotween.onPlay += () =>
+                        {
+                            cashCountAS.gameObject.SetActive(true);
+                            cashCountAS.volume = HR_API.GetAudioVolume();
+                            cashCountAS.Play();
+                        };
+                        dotween.onComplete += () =>
+                        {
+                            cashCountAS.Stop();
+                            cashCountAS.gameObject.SetActive(false);
+                        };*/
+        });
+    }
 
 
 

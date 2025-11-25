@@ -14,6 +14,7 @@ public class ChallengeLevelSelection : MonoBehaviour
 
     private void Start()
     {
+        GameState.ChallengeLevelIndex = GameState.ChallengeCompletedLevel;
         UpdateLevelsUI();
         UpdateLevelSelectedUI(GameState.ChallengeCompletedLevel);
     }
@@ -27,12 +28,15 @@ public class ChallengeLevelSelection : MonoBehaviour
             levelSelectionButtons[i].levelIndex = i;
             levelSelectionButtons[i].lvlNumTxt.SetText((i + 1).ToString());
             levelSelectionButtons[i].challengeModeController = this;
+            levelSelectionButtons[i].selectedPanel.SetActive(i == GameState.ChallengeLevelIndex);
         }
     }
     private void UpdateLevelSelectedUI(int levelIndex)
     {
         GameState.ChallengeLevelIndex = levelIndex;
         playBtn.SetActive(levelIndex <= GameState.ChallengeCompletedLevel);
+
+        UpdateLevelsUI();
 
         levelNum.SetText($"{levelIndex + 1}/{ChallengeModeLevels.Instance.levels.Count}");
         levelTitle.SetText($"{GameManager.FormatedTextByCapitals(ChallengeModeLevels.Instance.levels[levelIndex].challengeType.ToString())}");

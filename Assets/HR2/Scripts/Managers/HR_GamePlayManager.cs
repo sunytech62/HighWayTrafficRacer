@@ -24,13 +24,16 @@ public class HR_GamePlayManager : MonoBehaviour
 
     public HR_Player player;
 
-    public enum DayOrNight { Day, Night }
+    public enum DayOrNight { Day, Night, Rain }
 
     [Header("Time Of The Scene")]
     public DayOrNight dayOrNight = DayOrNight.Day;
 
     [Header("Spawn Location Of The Cars")]
     public Transform spawnLocation;
+
+    [Header("Time Of The Scene")]
+    public HR_UI_GameplayPanel gameplayPanel;
 
     private int selectedCarIndex = 0;
     private int selectedModeIndex = 0;
@@ -52,6 +55,9 @@ public class HR_GamePlayManager : MonoBehaviour
         if (HR_UIOptionsManager.Instance)
             HR_UIOptionsManager.Instance.OnEnable();
 
+        if (!gameplayPanel)
+            gameplayPanel = FindFirstObjectByType<HR_UI_GameplayPanel>();
+
         isStartCountDown = false;
     }
 
@@ -67,6 +73,7 @@ public class HR_GamePlayManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         SpawnPlayer();     // Spawning the player vehicle.
         yield return new WaitForSeconds(0.5f);
+        GameManager.Instance.LoadingPanel(false);
         if (GameManager.SelectedMode == GameMode.Challenge)
         {
             SpawnChallengeManager();
@@ -116,7 +123,6 @@ public class HR_GamePlayManager : MonoBehaviour
 
     private void SpawnPlayer()
     {
-        Debug.LogError("Spawn");
         player = (RCCP.SpawnRCC(HR_PlayerCars.Instance.cars[selectedCarIndex].playerCar.GetComponent<RCCP_CarController>(), spawnLocation.position, spawnLocation.rotation, true, false, true)).GetComponent<HR_Player>();
         player.canCrash = true;
         player.Rigid.linearVelocity = new Vector3(0f, 0f, minimumSpeedAtStart / 3.6f);
@@ -137,12 +143,10 @@ public class HR_GamePlayManager : MonoBehaviour
     }
     public IEnumerator StartRaceDelayed()
     {
-        while (!isStartCountDown)
-        {
-            Debug.LogError("fdfdfd");
-            yield return new WaitForSecondsRealtime(0.3f);
-        }
-        GameManager.Instance.LoadingPanel(false);
+        /*  while (!isStartCountDown)
+          {
+              yield return null;
+          }*/
         HR_Events.Event_OnCountDownStarted();
 
         yield return new WaitForSeconds(1f);

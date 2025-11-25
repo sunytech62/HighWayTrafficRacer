@@ -248,13 +248,13 @@ public class HR_TrafficManager : MonoBehaviour
         realignableObject.transform.position = pos;
 
         // 7) Adjust orientation based on the game mode
-        switch (PlayerPrefs.GetInt("SelectedTraffic"))
+        switch (WhichTraffic())
         {
-            case 0/*HR_GamePlayManager.Mode.OneWay*/:
+            case TrafficType.OneWay/*HR_GamePlayManager.Mode.OneWay*/:
                 realignableObject.transform.forward = dir;
                 break;
 
-            case 1/*HR_GamePlayManager.Mode.TwoWay*/:
+            case TrafficType.TwoWay/*HR_GamePlayManager.Mode.TwoWay*/:
                 // If this lane is leftSide, invert direction
                 realignableObject.transform.forward = randomLane.lane.leftSide ? -dir : dir;
                 break;
@@ -278,6 +278,15 @@ public class HR_TrafficManager : MonoBehaviour
             // If clipping, disable it
             realignableObject.gameObject.SetActive(false);
         }
+    }
+
+    private TrafficType WhichTraffic()
+    {
+        if (GameManager.SelectedMode == GameMode.Challenge)
+        {
+            return ChallengeModeLevels.Instance.GetSelectedLevel().trafficType;
+        }
+        return GameState.SelectedTraffic;
     }
 
     /// <summary>

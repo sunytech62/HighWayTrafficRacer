@@ -144,7 +144,7 @@ public class RCCP_InputManager : RCCP_Singleton<RCCP_InputManager>
 
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         // Re-create inputs if somehow null
         if (inputs == null)
@@ -153,15 +153,15 @@ public class RCCP_InputManager : RCCP_Singleton<RCCP_InputManager>
         // Receive inputs from the controller only if we're not overriding
         if (!overrideInputs)
         {
-            if (!RCCPSettings.mobileControllerEnabled)
-                inputs = KeyboardInputs();
-            else
-                inputs = MobileInputs();
-            /*   #if UNITY_EDITOR
-               inputs = KeyboardInputs();
-               else
-               inputs = MobileInputs();
-               #endif*/
+            /*  if (!RCCPSettings.mobileControllerEnabled)
+                  inputs = KeyboardInputs();
+              else
+                  inputs = MobileInputs();*/
+#if UNITY_EDITOR
+            inputs = KeyboardInputs();
+#else
+            inputs = MobileInputs();
+#endif
         }
     }
 
@@ -175,7 +175,6 @@ public class RCCP_InputManager : RCCP_Singleton<RCCP_InputManager>
         // If for some reason there's no action asset, just return what we have.
         if (inputActionsInstance == null)
             return inputs;
-        Debug.LogError("KEyboard");
         // read from the actions...
         var drivingMap = inputActionsInstance.actionMaps[0];
         inputs.throttleInput = drivingMap.actions[0].ReadValue<float>();
@@ -203,8 +202,6 @@ public class RCCP_InputManager : RCCP_Singleton<RCCP_InputManager>
 
         if (mobileInputs)
         {
-            Debug.LogError("mobileInput");
-
             inputs.throttleInput = mobileInputs.throttleInput;
             inputs.brakeInput = mobileInputs.brakeInput;
             inputs.steerInput = mobileInputs.steerInput;

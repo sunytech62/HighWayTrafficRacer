@@ -11,7 +11,8 @@ using UnityEngine;
 /// <summary>
 /// Manages the camera functionalities for the game.
 /// </summary>
-public class HR_Camera : MonoBehaviour {
+public class HR_Camera : MonoBehaviour
+{
 
     /// <summary>
     /// The target the camera should follow.
@@ -34,11 +35,14 @@ public class HR_Camera : MonoBehaviour {
     /// <summary>
     /// Camera mode index.
     /// </summary>
-    public int CameraModeIndex {
+    public int CameraModeIndex
+    {
 
-        get {
+        get
+        {
 
-            switch (cameraMode) {
+            switch (cameraMode)
+            {
 
                 case CameraMode.Top:
                     return 0;
@@ -99,16 +103,23 @@ public class HR_Camera : MonoBehaviour {
     private Vector3 targetPosition = Vector3.zero;
     private Quaternion targetRotation = Quaternion.identity;
 
-    private void Awake() {
+    Vector3 actualPos;
+    Quaternion actualRot;
+    float actualFOV;
 
+    private void Awake()
+    {
         actualCamera = GetComponentInChildren<Camera>();
-
+        actualPos = transform.position;
+        actualRot = transform.rotation;
+        actualFOV = actualCamera.fieldOfView;
     }
 
     /// <summary>
     /// Called when the script instance is being loaded.
     /// </summary>
-    private void OnEnable() {
+    private void OnEnable()
+    {
 
         HR_Events.OnPlayerSpawned += HR_GamePlayHandler_OnPlayerSpawned;
         RCCP_InputManager.OnChangedCamera += ChangeCameraMode;
@@ -118,9 +129,11 @@ public class HR_Camera : MonoBehaviour {
     /// <summary>
     /// Changes the camera mode.
     /// </summary>
-    public void ChangeCameraMode() {
+    public void ChangeCameraMode()
+    {
 
-        switch (CameraModeIndex) {
+        switch (CameraModeIndex)
+        {
 
             case 0:
 
@@ -149,7 +162,8 @@ public class HR_Camera : MonoBehaviour {
     /// <summary>
     /// Called when the script instance is being disabled.
     /// </summary>
-    private void OnDisable() {
+    private void OnDisable()
+    {
 
         HR_Events.OnPlayerSpawned -= HR_GamePlayHandler_OnPlayerSpawned;
         RCCP_InputManager.OnChangedCamera -= ChangeCameraMode;
@@ -160,21 +174,24 @@ public class HR_Camera : MonoBehaviour {
     /// Called when the player is spawned.
     /// </summary>
     /// <param name="spawnedPlayer">The spawned player.</param>
-    private void HR_GamePlayHandler_OnPlayerSpawned(HR_Player spawnedPlayer) {
-
+    private void HR_GamePlayHandler_OnPlayerSpawned(HR_Player spawnedPlayer)
+    {
+        transform.position = actualPos;
+        transform.rotation = actualRot;
         player = spawnedPlayer;
-
     }
 
     /// <summary>
     /// Called once per frame, after all Update functions have been called.
     /// </summary>
-    private void LateUpdate() {
+    private void LateUpdate()
+    {
 
         if (player == null)
             return;
 
-        if (player.crashed) {
+        if (player.crashed)
+        {
 
             CrashCamera();
             return;
@@ -187,7 +204,8 @@ public class HR_Camera : MonoBehaviour {
         if (closestPoint == Vector3.zero)
             return;
 
-        switch (cameraMode) {
+        switch (cameraMode)
+        {
 
             case CameraMode.Top:
 
@@ -261,12 +279,15 @@ public class HR_Camera : MonoBehaviour {
 
         Quaternion tiltAngle = Quaternion.LookRotation(Vector3.forward) * Quaternion.Euler(0f, 0f, -signedAngle * tiltMultiplier);
 
-        if (cameraMode != CameraMode.FPS) {
+        if (cameraMode != CameraMode.FPS)
+        {
 
             transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 5f);
             transform.position = new Vector3(transform.position.x, targetPosition.y, targetPosition.z);
 
-        } else {
+        }
+        else
+        {
 
             transform.position = targetPosition;
 
@@ -281,7 +302,8 @@ public class HR_Camera : MonoBehaviour {
 
     }
 
-    private void CrashCamera() {
+    private void CrashCamera()
+    {
 
         transform.LookAt(player.transform);
         transform.Rotate(Vector3.forward, -10f);
@@ -297,7 +319,8 @@ public class HR_Camera : MonoBehaviour {
     /// with mild Perlin noise. Call this every frame from LateUpdate().
     /// </summary>
     /// <param name="speed">Vehicle speed (or some fraction of it) that drives the shake amount.</param>
-    private void ApplySpeedBasedShake(float speed) {
+    private void ApplySpeedBasedShake(float speed)
+    {
 
         // 1) Adjust these constants to tune the overall “feel” of the shake.
         float maxShakeAmplitude = 0.15f;     // Maximum offset in local space

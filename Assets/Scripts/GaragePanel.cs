@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GaragePanel : MonoBehaviour
 {
@@ -9,43 +11,58 @@ public class GaragePanel : MonoBehaviour
     [SerializeField] References upgrade;
     [SerializeField] References paint;
     [SerializeField] References tyre;
-    [SerializeField] References rim;
+    [SerializeField] References neon;
     [SerializeField] References spoiler;
 
     [SerializeField] PanelitemRef[] carBtnRefs;
     [SerializeField] PanelitemRef[] upgradeBtnRefs;
     [SerializeField] PanelitemRef[] paintBtnRefs;
     [SerializeField] PanelitemRef[] tyreBtnRefs;
-    [SerializeField] PanelitemRef[] rimBtnRefs;
+    [SerializeField] PanelitemRef[] neonBtnRefs;
     [SerializeField] PanelitemRef[] spoilerBtnRefs;
 
     [SerializeField] GameObject buyBtnObj;
     [SerializeField] GameObject playBtnObj;
+    [SerializeField] TextMeshProUGUI buyBtnTxt;
 
     [SerializeField] Sprite selectedSpr;
     [SerializeField] Sprite unSelectedSpr;
 
     [SerializeField] SelectedCustomization selectedCustomization;
 
-    [SerializeField] int[] carUnlockPrice;
-
     public static int selectedCar;
+    int selectedUpgrade;
     int selectedPaint;
     int selectedTyre;
-    int selectedRim;
+    int selectedNeon;
     int selectedSpoiler;
 
     [SerializeField] GameObject statsObj;
     [SerializeField] Camera garageCam;
+    [SerializeField] Camera uiCam;
+
+    RCCP_Customizer activeCarCustomize
+    {
+        get
+        {
+            return RCCP_SceneManager.Instance.activePlayerVehicle.Customizer;
+        }
+        set
+        {
+            RCCP_SceneManager.Instance.activePlayerVehicle.Customizer = value;
+        }
+    }
 
     private void OnEnable()
     {
-        garageCam.enabled = true;
+        uiCam.gameObject.SetActive(false);
+        garageCam.gameObject.SetActive(true);
     }
 
     private void OnDisable()
     {
-        garageCam.enabled = false;
+        garageCam.gameObject.SetActive(false);
+        uiCam.gameObject.SetActive(true);
     }
 
     private void Start()
@@ -53,20 +70,42 @@ public class GaragePanel : MonoBehaviour
         selectedCar = GameManager.SelectedCar;
         selectedPaint = SelectedPaint;
         selectedTyre = SelectedTyre;
-        selectedRim = SelectedRim;
+        selectedNeon = SelectedNeon;
         selectedSpoiler = SelectedSpoiler;
 
         selectedCustomization = SelectedCustomization.None;
         UpdateUI();
-
+        SetCarNameOnBtns();
         RCCP_CustomizationLoadout load = RCCP_Customizer.instance.GetLoadout();
-        Debug.LogError(load.paint);
-        Debug.LogError(load.spoiler);
+    }
+
+    private void SetCarNameOnBtns()
+    {
+        for (int i = 0; i < carBtnRefs.Length; i++)
+        {
+            if (i < HR_PlayerCars.Instance.cars.Length)
+                carBtnRefs[i].titleTxt.SetText(HR_PlayerCars.Instance.cars[i].vehicleName);
+        }
     }
 
     private void UpdateUI()
     {
         //statsObj.SetActive(selectedCustomization != SelectedCustomization.None);
+        if (activeCarCustomize.UpgradeManager.IsAllUpgraded())
+        {
+            SetBtnState(upgrade.btn.gameObject, false);
+            selectedUpgrade = activeCarCustomize.UpgradeManager.WhichUpgradAvilable();
+        }
+        else
+        {
+            SetBtnState(upgrade.btn.gameObject, true);
+        }
+
+        SetBtnState(spoiler.btn.gameObject, activeCarCustomize.SpoilerManager);
+
+        /*     activeCarCustomize.PaintManager.Initialize();
+         activeCarCustomize.UpgradeManager.Initialize();
+         activeCarCustomize.WheelManager.Initialize();*/
 
         upgrade.selectorHighlighter.SetActive(selectedCustomization == SelectedCustomization.Upgrade);
         upgrade.panel.SetActive(selectedCustomization == SelectedCustomization.Upgrade);
@@ -77,8 +116,8 @@ public class GaragePanel : MonoBehaviour
         tyre.selectorHighlighter.SetActive(selectedCustomization == SelectedCustomization.Tyre);
         tyre.panel.SetActive(selectedCustomization == SelectedCustomization.Tyre);
 
-        rim.selectorHighlighter.SetActive(selectedCustomization == SelectedCustomization.Rim);
-        rim.panel.SetActive(selectedCustomization == SelectedCustomization.Rim);
+        neon.selectorHighlighter.SetActive(selectedCustomization == SelectedCustomization.Neon);
+        neon.panel.SetActive(selectedCustomization == SelectedCustomization.Neon);
 
         spoiler.selectorHighlighter.SetActive(selectedCustomization == SelectedCustomization.Spoiler);
         spoiler.panel.SetActive(selectedCustomization == SelectedCustomization.Spoiler);
@@ -100,16 +139,63 @@ public class GaragePanel : MonoBehaviour
                     }
                     carBtnRefs[i].highlighter.SetActive(selectedCar == i);
                 }
+                buyBtnTxt.text = HR_PlayerCars.Instance.cars[selectedCar].price.ToString();
                 break;
             case SelectedCustomization.Upgrade:
-                buyBtnObj.SetActive(false);
+
+                //   buyBtnObj.SetActive(true);
+                int speedLvl = activeCarCustomize.UpgradeManager.SpeedLevel;
+                int engineLvl = activeCarCustomize.UpgradeManager.EngineLevel;
+                int handlingLvl = activeCarCustomize.UpgradeManager.HandlingLevel;
+                int brakeLvl = activeCarCustomize.UpgradeManager.BrakeLevel;
+                bool isShowHighLighter = true;
+                for (int i = 0; i < upgradeBtnRefs.Length; i++)
+                {
+                    if (i == 0)
+                    {
+                        SetBtnState(upgradeBtnRefs[i].gameObject, speedLvl < 5);
+                        if (i == selectedUpgrade && speedLvl >= 5)
+                        {
+                            buyBtnObj.SetActive(false);
+                            isShowHighLighter = false;
+                        }
+                    }
+                    if (i == 1)
+                    {
+                        SetBtnState(upgradeBtnRefs[i].gameObject, engineLvl < 5);
+                        if (i == selectedUpgrade && engineLvl >= 5)
+                        {
+                            buyBtnObj.SetActive(false);
+                            isShowHighLighter = false;
+                        }
+                    }
+                    if (i == 2)
+                    {
+                        SetBtnState(upgradeBtnRefs[i].gameObject, handlingLvl < 5);
+                        if (i == selectedUpgrade && handlingLvl >= 5)
+                        {
+                            buyBtnObj.SetActive(false);
+                            isShowHighLighter = false;
+                        }
+                    }
+                    if (i == 3)
+                    {
+                        SetBtnState(upgradeBtnRefs[i].gameObject, brakeLvl < 5);
+                        if (i == selectedUpgrade && brakeLvl >= 5)
+                        {
+                            buyBtnObj.SetActive(false);
+                            isShowHighLighter = false;
+                        }
+                    }
+                    upgradeBtnRefs[i].highlighter.SetActive(isShowHighLighter && selectedUpgrade == i);
+                }
+                buyBtnTxt.text = HR_API.UpgradeCarPrice.ToString();
+
                 break;
             case SelectedCustomization.Paint:
 
-
                 for (int i = 0; i < paintBtnRefs.Length; i++)
                 {
-                    if (i == 0) paintBtnRefs[i].lockObj.SetActive(false);
                     bool isUnlocked = IsPaintUnlocked(i);
                     paintBtnRefs[i].lockObj.SetActive(!isUnlocked);
                     if (i == selectedPaint)
@@ -117,70 +203,73 @@ public class GaragePanel : MonoBehaviour
                         buyBtnObj.SetActive(!isUnlocked);
                         playBtnObj.SetActive(isUnlocked);
                         Color col = paintBtnRefs[i].GetComponent<RCCP_UI_Color>().GetColor();
-                        RCCP_SceneManager.Instance.activePlayerVehicle.Customizer.PaintManager.Paint(col, isUnlocked);
+                        activeCarCustomize.PaintManager.Paint(col, isUnlocked);
                     }
                     paintBtnRefs[i].highlighter.SetActive(selectedPaint == i);
                 }
-
+                buyBtnTxt.text = HR_API.PaintPrice.ToString();
 
                 break;
             case SelectedCustomization.Tyre:
 
                 for (int i = 0; i < tyreBtnRefs.Length; i++)
                 {
-                    if (i == 0) tyreBtnRefs[i].lockObj.SetActive(false);
                     bool isUnlocked = IsTyreUnlocked(i);
                     tyreBtnRefs[i].lockObj.SetActive(!isUnlocked);
                     if (i == selectedTyre)
                     {
                         buyBtnObj.SetActive(!isUnlocked);
                         playBtnObj.SetActive(isUnlocked);
-                        RCCP_SceneManager.Instance.activePlayerVehicle.Customizer.WheelManager.UpdateWheel(i, isUnlocked);
+                        activeCarCustomize.WheelManager.UpdateWheel(i, isUnlocked);
                     }
                     tyreBtnRefs[i].highlighter.SetActive(selectedTyre == i);
                 }
 
-                break;
-            case SelectedCustomization.Rim:
-                for (int i = 0; i < rimBtnRefs.Length; i++)
+                var totalWheels = RCCP_RuntimeSettings.RCCPChangableWheelsInstance.wheels.Length;
+                for (int i = 0; i < tyreBtnRefs.Length; i++)
                 {
-                    if (i == 0) rimBtnRefs[i].lockObj.SetActive(false);
-                    bool isUnlocked = IsRimUnlocked(i);
-                    rimBtnRefs[i].lockObj.SetActive(!isUnlocked);
-                    if (i == selectedRim)
+                    tyreBtnRefs[i].gameObject.SetActive(i < totalWheels);
+                }
+
+                buyBtnTxt.text = HR_API.TyrePrice.ToString();
+
+                break;
+
+            case SelectedCustomization.Neon:
+                for (int i = 0; i < neonBtnRefs.Length; i++)
+                {
+                    bool isUnlocked = IsNeonUnlocked(i);
+                    neonBtnRefs[i].lockObj.SetActive(!isUnlocked);
+                    if (i == selectedNeon)
                     {
                         buyBtnObj.SetActive(!isUnlocked);
                         playBtnObj.SetActive(isUnlocked);
+                        activeCarCustomize.NeonManager.Upgrade(activeCarCustomize.NeonManager.GetMaterial(i), isUnlocked);
                     }
-                    rimBtnRefs[i].highlighter.SetActive(selectedRim == i);
+                    neonBtnRefs[i].highlighter.SetActive(selectedNeon == i);
                 }
+                buyBtnTxt.text = HR_API.NeonPrice.ToString();
                 break;
+
             case SelectedCustomization.Spoiler:
 
                 for (int i = 0; i < spoilerBtnRefs.Length; i++)
                 {
-                    if (i == 0) spoilerBtnRefs[i].lockObj.SetActive(false);
-                    bool isUnlocked = IsSpowilerUnlocked(i);
+                    bool isUnlocked = IsSpoilerUnlocked(i);
                     spoilerBtnRefs[i].lockObj.SetActive(!isUnlocked);
                     if (i == selectedSpoiler)
                     {
                         buyBtnObj.SetActive(!isUnlocked);
                         playBtnObj.SetActive(isUnlocked);
-                        RCCP_SceneManager.Instance.activePlayerVehicle.Customizer.SpoilerManager.Upgrade(i, isUnlocked);
+                        activeCarCustomize.SpoilerManager.Upgrade(i, isUnlocked);
                     }
                     spoilerBtnRefs[i].highlighter.SetActive(selectedSpoiler == i);
                 }
-
+                buyBtnTxt.text = HR_API.SpoilerPrice.ToString();
                 break;
         }
-
-        var totalWheels = RCCP_RuntimeSettings.RCCPChangableWheelsInstance.wheels.Length;
-        for (int i = 0; i < tyreBtnRefs.Length; i++)
-        {
-            tyreBtnRefs[i].gameObject.SetActive(i <= totalWheels);
-        }
-
     }
+
 
     public void UnlockItem(bool isUnlockOnCurrency)
     {
@@ -196,10 +285,13 @@ public class GaragePanel : MonoBehaviour
                     };
                     if (isUnlockOnCurrency)
                     {
-                        if (HR_API.GetCurrency() >= carUnlockPrice[selectedCar])
+                        if (HR_API.GetCurrency() >= HR_PlayerCars.Instance.cars[selectedCar].price)
                         {
+                            HR_API.ConsumeCurrency(HR_PlayerCars.Instance.cars[selectedCar].price);
                             unlockWork.Invoke();
                         }
+                        else
+                            GameManager.Instance.ShowNotification("Cash Not Enough");
                     }
                     else
                     {
@@ -208,6 +300,38 @@ public class GaragePanel : MonoBehaviour
                 }
                 break;
             case SelectedCustomization.Upgrade:
+                {
+                    Action unlockWork = () =>
+                    {
+                        if (selectedUpgrade == 0)
+                            activeCarCustomize.UpgradeManager.UpgradeSpeed();
+                        else if (selectedUpgrade == 1)
+                            activeCarCustomize.UpgradeManager.UpgradeEngine();
+                        else if (selectedUpgrade == 2)
+                            activeCarCustomize.UpgradeManager.UpgradeHandling();
+                        else if (selectedUpgrade == 3)
+                            activeCarCustomize.UpgradeManager.UpgradeBrake();
+
+                        activeCarCustomize.UpgradeManager.Save();
+                        UpdateUI();
+                        HR_UI_MainmenuPanel.Instance.CheckCurrentVehicle();
+                    };
+                    if (isUnlockOnCurrency)
+                    {
+                        if (HR_API.GetCurrency() >= HR_API.UpgradeCarPrice)
+                        {
+                            HR_API.ConsumeCurrency(HR_API.UpgradeCarPrice);
+                            unlockWork.Invoke();
+                        }
+                        else
+                            GameManager.Instance.ShowNotification("Cash Not Enough");
+                    }
+                    else
+                    {
+                        unlockWork.Invoke();
+                    }
+
+                }
                 break;
             case SelectedCustomization.Paint:
 
@@ -222,8 +346,11 @@ public class GaragePanel : MonoBehaviour
                     {
                         if (HR_API.GetCurrency() >= HR_API.PaintPrice)
                         {
+                            HR_API.ConsumeCurrency(HR_API.PaintPrice);
                             unlockWork.Invoke();
                         }
+                        else
+                            GameManager.Instance.ShowNotification("Cash Not Enough");
                     }
                     else
                     {
@@ -245,8 +372,11 @@ public class GaragePanel : MonoBehaviour
                     {
                         if (HR_API.GetCurrency() >= HR_API.TyrePrice)
                         {
+                            HR_API.ConsumeCurrency(HR_API.TyrePrice);
                             unlockWork.Invoke();
                         }
+                        else
+                            GameManager.Instance.ShowNotification("Cash Not Enough");
                     }
                     else
                     {
@@ -255,20 +385,23 @@ public class GaragePanel : MonoBehaviour
                 }
                 break;
 
-            case SelectedCustomization.Rim:
+            case SelectedCustomization.Neon:
                 {
                     Action unlockWork = () =>
                     {
-                        UnlockRim(selectedRim);
-                        SelectedRim = selectedRim;
+                        UnlockNeon(selectedNeon);
+                        SelectedNeon = selectedNeon;
                         UpdateUI();
                     };
                     if (isUnlockOnCurrency)
                     {
-                        if (HR_API.GetCurrency() >= HR_API.RimPrice)
+                        if (HR_API.GetCurrency() >= HR_API.NeonPrice)
                         {
+                            HR_API.ConsumeCurrency(HR_API.NeonPrice);
                             unlockWork.Invoke();
                         }
+                        else
+                            GameManager.Instance.ShowNotification("Cash Not Enough");
                     }
                     else
                     {
@@ -289,8 +422,11 @@ public class GaragePanel : MonoBehaviour
                     {
                         if (HR_API.GetCurrency() >= HR_API.SpoilerPrice)
                         {
+                            HR_API.ConsumeCurrency(HR_API.SpoilerPrice);
                             unlockWork.Invoke();
                         }
+                        else
+                            GameManager.Instance.ShowNotification("Cash Not Enough");
                     }
                     else
                     {
@@ -304,21 +440,22 @@ public class GaragePanel : MonoBehaviour
     public void SelectCustomization(int index)
     {
         if (!IsCarUnlocked(selectedCar)) return;
-        RCCP_SceneManager.Instance.activePlayerVehicle.Customizer.PaintManager.Initialize();
-        RCCP_SceneManager.Instance.activePlayerVehicle.Customizer.UpgradeManager.Initialize();
-        RCCP_SceneManager.Instance.activePlayerVehicle.Customizer.SpoilerManager.Initialize();
-        RCCP_SceneManager.Instance.activePlayerVehicle.Customizer.WheelManager.Initialize();
+        activeCarCustomize.PaintManager.Restore();
+        // activeCarCustomize.UpgradeManager.Restore();
+        if (activeCarCustomize.SpoilerManager) activeCarCustomize.SpoilerManager.Restore();
+        activeCarCustomize.WheelManager.Restore();
+        activeCarCustomize.NeonManager.Restore();
 
         selectedPaint = SelectedPaint;
         selectedTyre = SelectedTyre;
-        selectedRim = SelectedRim;
+        selectedNeon = SelectedNeon;
         selectedSpoiler = SelectedSpoiler;
 
         if (index == 0) selectedCustomization = SelectedCustomization.None;
         if (index == 1) selectedCustomization = SelectedCustomization.Upgrade;
         if (index == 2) selectedCustomization = SelectedCustomization.Paint;
         if (index == 3) selectedCustomization = SelectedCustomization.Tyre;
-        if (index == 4) selectedCustomization = SelectedCustomization.Rim;
+        if (index == 4) selectedCustomization = SelectedCustomization.Neon;
         if (index == 5) selectedCustomization = SelectedCustomization.Spoiler;
         UpdateUI();
     }
@@ -352,17 +489,17 @@ public class GaragePanel : MonoBehaviour
         UpdateUI();
     }
 
-    public void SelectRim(int index)
+    public void SelectNeon(int index)
     {
-        selectedRim = index;
-        if (IsRimUnlocked(index)) SelectedRim = selectedRim;
+        selectedNeon = index;
+        if (IsNeonUnlocked(index)) SelectedNeon = selectedNeon;
         UpdateUI();
     }
 
     public void SelectSpoiler(int index)
     {
         selectedSpoiler = Mathf.Clamp(index, 0, 100);
-        if (IsSpowilerUnlocked(index))
+        if (IsSpoilerUnlocked(index))
         {
             SelectedSpoiler = selectedSpoiler;
         }
@@ -371,6 +508,7 @@ public class GaragePanel : MonoBehaviour
 
     public void upgradeBtn(int index)
     {
+        selectedUpgrade = index;
         UpdateUI();
     }
 
@@ -390,15 +528,15 @@ public class GaragePanel : MonoBehaviour
         //if (index < 0) return true;
         return PlayerPrefs.GetInt($"IsTyreUnlocked_{selectedCar}_{index}") == 0 ? false : true;
     }
-    public static bool IsRimUnlocked(int index)
+    public static bool IsNeonUnlocked(int index)
     {
         // if (index < 0) return true;
-        return PlayerPrefs.GetInt($"IsRimUnlocked_{selectedCar}_{index}") == 0 ? false : true;
+        return PlayerPrefs.GetInt($"IsNeonUnlocked_{selectedCar}_{index}") == 0 ? false : true;
     }
-    public static bool IsSpowilerUnlocked(int index)
+    public static bool IsSpoilerUnlocked(int index)
     {
         // if (index < 0) return true;
-        return PlayerPrefs.GetInt($"IsSpowilerUnlocked_{selectedCar}_{index}") == 0 ? false : true;
+        return PlayerPrefs.GetInt($"IsSpoilerUnlocked_{selectedCar}_{index}") == 0 ? false : true;
     }
 
 
@@ -406,6 +544,8 @@ public class GaragePanel : MonoBehaviour
     {
         PlayerPrefs.SetInt($"IsCarUnlocked_{carIndex}", 1);
     }
+
+
     void UnlockPaint(int paintIndex)
     {
         PlayerPrefs.SetInt($"IsPaintUnlocked_{selectedCar}_{paintIndex}", 1);
@@ -414,13 +554,24 @@ public class GaragePanel : MonoBehaviour
     {
         PlayerPrefs.SetInt($"IsTyreUnlocked_{selectedCar}_{tyreIndex}", 1);
     }
-    void UnlockRim(int rimIndex)
+    void UnlockNeon(int index)
     {
-        PlayerPrefs.SetInt($"IsRimUnlocked_{selectedCar}_{rimIndex}", 1);
+        PlayerPrefs.SetInt($"IsNeonUnlocked_{selectedCar}_{index}", 1);
     }
     void UnlockSpoiler(int spoilerIndex)
     {
-        PlayerPrefs.SetInt($"IsSpowilerUnlocked_{selectedCar}_{spoilerIndex}", 1);
+        PlayerPrefs.SetInt($"IsSpoilerUnlocked_{selectedCar}_{spoilerIndex}", 1);
+    }
+
+    void SetBtnState(GameObject gameObj, bool isActive)
+    {
+        CanvasGroup canGroup;
+        if (!gameObj.TryGetComponent<CanvasGroup>(out canGroup))
+        {
+            canGroup = gameObj.AddComponent<CanvasGroup>();
+        }
+        canGroup.interactable = isActive;
+        canGroup.alpha = isActive ? 1 : 0.6f;
     }
 
     public int SelectedPaint
@@ -433,7 +584,7 @@ public class GaragePanel : MonoBehaviour
         get => PlayerPrefs.GetInt($"Selected_{selectedCar}_Tyre");
         set => PlayerPrefs.SetInt($"Selected_{selectedCar}_Tyre", value);
     }
-    public int SelectedRim
+    public int SelectedNeon
     {
         get => PlayerPrefs.GetInt($"Selected_{selectedCar}_Rim");
         set => PlayerPrefs.SetInt($"Selected_{selectedCar}_Rim", value);
@@ -450,7 +601,7 @@ public class GaragePanel : MonoBehaviour
         if (upgrade.panel.activeInHierarchy) isCusSelected = true;
         if (paint.panel.activeInHierarchy) isCusSelected = true;
         if (tyre.panel.activeInHierarchy) isCusSelected = true;
-        if (rim.panel.activeInHierarchy) isCusSelected = true;
+        if (neon.panel.activeInHierarchy) isCusSelected = true;
         if (spoiler.panel.activeInHierarchy) isCusSelected = true;
         return isCusSelected;
     }
@@ -485,7 +636,7 @@ public class GaragePanel : MonoBehaviour
             }
             else if (child.name.Contains("Rims"))
             {
-                rimBtnRefs = child.GetComponentsInChildren<PanelitemRef>(true);
+                neonBtnRefs = child.GetComponentsInChildren<PanelitemRef>(true);
             }
         }
     }
@@ -493,6 +644,7 @@ public class GaragePanel : MonoBehaviour
     [System.Serializable]
     public class References
     {
+        public Button btn;
         public GameObject selectorHighlighter;
         public GameObject panel;
     }
@@ -503,7 +655,7 @@ public class GaragePanel : MonoBehaviour
         Upgrade = 1,
         Paint = 2,
         Tyre = 3,
-        Rim = 4,
+        Neon = 4,
         Spoiler = 5,
     }
     public SaveData.Data data = new SaveData.Data();

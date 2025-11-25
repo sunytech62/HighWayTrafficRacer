@@ -11,7 +11,7 @@ public class EnvSelectionPanel : MonoBehaviour
     [SerializeField] EnvRef oneWay;
     [SerializeField] EnvRef twoWay;
 
-    EnvNames SelectedSelected
+    public static EnvNames SelectedEnv
     {
         get
         {
@@ -35,11 +35,6 @@ public class EnvSelectionPanel : MonoBehaviour
             PlayerPrefs.SetString("SelectedScene", key);
         }
     }
-    bool isTwoWayTrafficSelected
-    {
-        get => PlayerPrefs.GetInt("SelectedTraffic") == 1 ? true : false;
-        set => PlayerPrefs.SetInt("SelectedTraffic", value == true ? 1 : 0);
-    }
 
     void Start()
     {
@@ -48,28 +43,29 @@ public class EnvSelectionPanel : MonoBehaviour
 
     private void UpdateUI()
     {
-        sunnyEnv.selected.SetActive(SelectedSelected == EnvNames.Sunny ? true : false);
-        sunnyEnv.unSelected.SetActive(SelectedSelected == EnvNames.Sunny ? false : true);
+        sunnyEnv.selected.SetActive(SelectedEnv == EnvNames.Sunny ? true : false);
+        sunnyEnv.unSelected.SetActive(SelectedEnv == EnvNames.Sunny ? false : true);
 
-        nightEnv.selected.SetActive(SelectedSelected == EnvNames.Night ? true : false);
-        nightEnv.unSelected.SetActive(SelectedSelected == EnvNames.Night ? false : true);
+        nightEnv.selected.SetActive(SelectedEnv == EnvNames.Night ? true : false);
+        nightEnv.unSelected.SetActive(SelectedEnv == EnvNames.Night ? false : true);
 
-        foggyEnv.selected.SetActive(SelectedSelected == EnvNames.Rainy ? true : false);
-        foggyEnv.unSelected.SetActive(SelectedSelected == EnvNames.Rainy ? false : true);
+        foggyEnv.selected.SetActive(SelectedEnv == EnvNames.Rainy ? true : false);
+        foggyEnv.unSelected.SetActive(SelectedEnv == EnvNames.Rainy ? false : true);
 
-        eveningEnv.selected.SetActive(SelectedSelected == EnvNames.Evening ? true : false);
-        eveningEnv.unSelected.SetActive(SelectedSelected == EnvNames.Evening ? false : true);
+        eveningEnv.selected.SetActive(SelectedEnv == EnvNames.Evening ? true : false);
+        eveningEnv.unSelected.SetActive(SelectedEnv == EnvNames.Evening ? false : true);
 
-        oneWay.selected.SetActive(!isTwoWayTrafficSelected);
-        oneWay.unSelected.SetActive(isTwoWayTrafficSelected);
+        var selectedTraffic = GameState.SelectedTraffic;
+        oneWay.selected.SetActive(selectedTraffic == TrafficType.OneWay);
+        oneWay.unSelected.SetActive(selectedTraffic != TrafficType.OneWay);
 
-        twoWay.selected.SetActive(isTwoWayTrafficSelected);
-        twoWay.unSelected.SetActive(!isTwoWayTrafficSelected);
+        twoWay.selected.SetActive(selectedTraffic == TrafficType.TwoWay);
+        twoWay.unSelected.SetActive(selectedTraffic != TrafficType.TwoWay);
     }
 
     public void SelectEnv(int index)
     {
-        SelectedSelected = index switch
+        SelectedEnv = index switch
         {
             0 => EnvNames.Sunny,
             1 => EnvNames.Night,
@@ -81,7 +77,7 @@ public class EnvSelectionPanel : MonoBehaviour
     }
     public void SelectTraffic(bool isTwoWaySelected)
     {
-        isTwoWayTrafficSelected = isTwoWaySelected;
+        GameState.SelectedTraffic = isTwoWaySelected ? TrafficType.TwoWay : TrafficType.OneWay;
         UpdateUI();
     }
 

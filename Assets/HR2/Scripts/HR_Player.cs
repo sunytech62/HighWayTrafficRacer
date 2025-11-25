@@ -155,9 +155,13 @@ public class HR_Player : MonoBehaviour
     public delegate void onNearMiss(HR_Player player, int score, HR_UI_DynamicScoreDisplayer.Side side);
     public static event onNearMiss OnNearMiss;
 
+    GameMode selectedMode;
+
     private void Awake()
     {
         Instance = this;
+        selectedMode = GameManager.SelectedMode;
+        timeLeft = 0;
         // Creating horn audio source.
         hornSource = HR_CreateAudioSource.NewAudioSource(gameObject, "Horn", 10f, 100f, 1f, Settings.hornClip, true, false, false);
     }
@@ -243,7 +247,7 @@ public class HR_Player : MonoBehaviour
         }
 
         // If mode is time attack, reduce the timer.
-        if (GameManager.SelectedMode == GameMode.TimeTrial)
+        if (selectedMode == GameMode.TimeTrial)
         {
             timeLeft -= Time.deltaTime;
 
@@ -292,13 +296,13 @@ public class HR_Player : MonoBehaviour
 
                 GameOver();
 
-                for (int i = 0; i < CarController.AllWheelColliders.Length; i++)
-                {
-                    if (CarController.AllWheelColliders[i] == null)
-                        continue;
+                /*  for (int i = 0; i < CarController.AllWheelColliders.Length; i++)
+                  {
+                      if (CarController.AllWheelColliders[i] == null)
+                          continue;
 
-                    CarController.AllWheelColliders[i].DetachWheel();
-                }
+                      CarController.AllWheelColliders[i].DetachWheel();
+                  }*/
             }
         }
 
@@ -590,11 +594,9 @@ public class HR_Player : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        Debug.LogError("trig " + other.tag);
         if (other.CompareTag("TimeTrialGate"))
         {
-            Debug.LogError("timeGate");
-            timeLeft += 30;
+            // timeLeft += 30;
             if (other.TryGetComponent<TimeTrial_Gate>(out var gate))
             {
                 gate.SetGatePosition(true);
@@ -779,7 +781,7 @@ public class HR_Player : MonoBehaviour
     /// <summary>
     /// Resets the vehicle to a safe position.
     /// </summary>
-    private void ResetVehicle()
+    public void ResetVehicle()
     {
 
         HR_PathManager path = HR_PathManager.Instance;
@@ -1116,5 +1118,34 @@ public class HR_Player : MonoBehaviour
     internal void AddTime(float timeToAdd)
     {
         timeLeft += timeToAdd;
+    }
+
+    public void ReSpawnCar()
+    {
+        switch (GameManager.SelectedMode)
+        {
+            case GameMode.Endless:
+                break;
+            case GameMode.Challenge:
+                break;
+            case GameMode.TimeTrial:
+                timeLeft = 50f;
+                break;
+            case GameMode.LowSpeedBomb:
+                bombTriggered = false;
+                bombHealth = 100f;
+                break;
+            case GameMode.PolliceChase:
+                break;
+        }
+        damage = 0;
+        crashed = false;
+        carController.Lights.indicatorsAll = false;
+        carController.canControl = true;
+        HR_GamePlayManager.Instance.gameStarted = true;
+        HR_GamePlayManager.Instance.gameplayPanel.content.SetActive(true);
+        HR_Events.Event_OnPlayerSpawned(this);
+        HR_Events.Event_OnCountDownStarted();
+        ResetVehicle();
     }
 }

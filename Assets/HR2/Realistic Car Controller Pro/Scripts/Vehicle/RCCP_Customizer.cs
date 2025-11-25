@@ -1,21 +1,7 @@
-//----------------------------------------------
-//        Realistic Car Controller Pro
-//
-// Copyright © 2014 - 2025 BoneCracker Games
-// https://www.bonecrackergames.com
-// Ekrem Bugra Ozdoganlar
-//
-//----------------------------------------------
-
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// Customization applier for vehicles.
-/// 6 Upgrade managers for paints, wheels, upgrades, spoilers, customization, and sirens.
-/// </summary>
 [DefaultExecutionOrder(10)]
 [AddComponentMenu("BoneCracker Games/Realistic Car Controller Pro/Addons/RCCP Customizer")]
 public class RCCP_Customizer : RCCP_Component
@@ -351,6 +337,13 @@ public class RCCP_Customizer : RCCP_Component
         if (PlayerPrefs.HasKey(saveFileName))
             loadout = (RCCP_CustomizationLoadout)JsonUtility.FromJson(PlayerPrefs.GetString(saveFileName), typeof(RCCP_CustomizationLoadout));
     }
+    public RCCP_CustomizationLoadout GetSavedData()
+    {
+        if (PlayerPrefs.HasKey(saveFileName))
+            return (RCCP_CustomizationLoadout)JsonUtility.FromJson(PlayerPrefs.GetString(saveFileName), typeof(RCCP_CustomizationLoadout));
+        else return null;
+    }
+
 
     /// <summary>
     /// Deletes the last saved loadout and restores vehicle upgrades to default.

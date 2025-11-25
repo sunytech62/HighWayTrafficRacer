@@ -163,7 +163,6 @@ public class RCCP_VehicleUpgrade_WheelManager : RCCP_UpgradeComponent, IRCCP_Upg
         //  Return if no any wheelcolliders found.
         if (CarController.AllWheelColliders.Length < 1)
             return;
-        Debug.LogError("1");
         //  Looping all wheelcolliders.
         for (int i = 0; i < CarController.AllWheelColliders.Length; i++)
         {

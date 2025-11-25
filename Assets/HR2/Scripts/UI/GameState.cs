@@ -22,6 +22,18 @@ public static class GameState
         set => PlayerPrefs.SetInt("ChallengeCompletedLevel", value);
     }
 
+    public static TrafficType SelectedTraffic
+    {
+        get
+        {
+            return PlayerPrefs.GetInt("SelectedTraffic") == 0 ? TrafficType.OneWay : TrafficType.TwoWay;
+        }
+        set
+        {
+            PlayerPrefs.SetInt("SelectedTraffic", value == TrafficType.OneWay ? 0 : 1);
+        }
+    }
+
     // Whether Challenge Mode is unlocked
     /*  public static bool ChallengeModeUnlocked
       {
@@ -53,4 +65,10 @@ public static class GameState
              PlayerPrefs.DeleteKey($"ChallengeRewardCollected_{i}");
          }
      }*/
+}
+
+public enum TrafficType
+{
+    OneWay = 0,
+    TwoWay = 1,
 }

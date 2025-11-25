@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 [System.Serializable]
 [CreateAssetMenu(menuName = "HighwayRacer/Challenge Mode Levels", fileName = "Challenge Mode Levels")]
@@ -25,21 +25,22 @@ public class ChallengeModeLevels : ScriptableObject
         public ChallengeType challengeType;
         public HR_TrafficManager.TrafficCars trafficMode;
         public HR_GamePlayManager.DayOrNight environment;
+        public TrafficType trafficType;
 
         [Tooltip("Minimum distance to complete the challenge")]
-     
+
         public float distance;
 
         [Tooltip("Time duration for the challenge")]
-       
+
         public float time;
 
         [Tooltip("Score target to complete the challenge")]
-       
+
         public float score;
 
         [Tooltip("Speed to maintain during the challenge")]
-      
+
         public float speedToMaintain;
 
         [Tooltip("Number of near misses required")]
@@ -101,8 +102,34 @@ public class ChallengeModeLevels : ScriptableObject
                    challengeType == ChallengeType.WheeliesInTime;
         }
     }
-   
+
     public List<Level> levels = new List<Level>();
+
+    public Level GetSelectedLevel()
+    {
+        for (int i = 0; i < levels.Count; i++)
+        {
+            if (GameState.ChallengeLevelIndex == i) return levels[i];
+        }
+        return null;
+    }
+
+    [ContextMenu("Set Data")]
+    void SetData()
+    {
+        int envType = 0;
+        foreach (var level in levels)
+        {
+            if (level.challengeType is ChallengeType.DistanceInOppositeDirection or ChallengeType.TimeInOppositeDirection)
+                level.trafficType = TrafficType.TwoWay;
+
+            if (envType == 0) level.environment = HR_GamePlayManager.DayOrNight.Day;
+            if (envType == 1) level.environment = HR_GamePlayManager.DayOrNight.Rain;
+            if (envType == 2) level.environment = HR_GamePlayManager.DayOrNight.Night;
+            envType++;
+            if (envType >= 3) envType = 0;
+        }
+    }
 }
 
 public enum ChallengeType

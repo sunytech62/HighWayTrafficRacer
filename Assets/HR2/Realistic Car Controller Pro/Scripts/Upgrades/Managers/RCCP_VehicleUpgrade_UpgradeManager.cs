@@ -6,27 +6,31 @@
 // Ekrem Bugra Ozdoganlar
 //
 //----------------------------------------------
-using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// Manager for all upgradable scripts (Engine, Brake, Handling).
 /// </summary>
 [AddComponentMenu("BoneCracker Games/Realistic Car Controller Pro/Customization/RCCP Vehicle Upgrade Upgrade Manager")]
-public class RCCP_VehicleUpgrade_UpgradeManager : RCCP_UpgradeComponent, IRCCP_UpgradeComponent {
+public class RCCP_VehicleUpgrade_UpgradeManager : RCCP_UpgradeComponent, IRCCP_UpgradeComponent
+{
 
     /// <summary>
     /// Upgradable engine component.
     /// </summary>
-    public RCCP_VehicleUpgrade_Engine Engine {
+    public RCCP_VehicleUpgrade_Engine Engine
+    {
 
-        get {
+        get
+        {
 
             if (engine == null)
                 engine = GetComponentInChildren<RCCP_VehicleUpgrade_Engine>(true);
 
-            if (engine == null) {
+            if (engine == null)
+            {
 
                 GameObject newEngine = new GameObject("Engine");
                 newEngine.transform.SetParent(transform);
@@ -46,14 +50,17 @@ public class RCCP_VehicleUpgrade_UpgradeManager : RCCP_UpgradeComponent, IRCCP_U
     /// <summary>
     /// Upgradable brake component.
     /// </summary>
-    public RCCP_VehicleUpgrade_Brake Brake {
+    public RCCP_VehicleUpgrade_Brake Brake
+    {
 
-        get {
+        get
+        {
 
             if (brake == null)
                 brake = GetComponentInChildren<RCCP_VehicleUpgrade_Brake>(true);
 
-            if (brake == null) {
+            if (brake == null)
+            {
 
                 GameObject newBrake = new GameObject("Brake");
                 newBrake.transform.SetParent(transform);
@@ -74,14 +81,17 @@ public class RCCP_VehicleUpgrade_UpgradeManager : RCCP_UpgradeComponent, IRCCP_U
     /// <summary>
     /// Upgradable handling component.
     /// </summary>
-    public RCCP_VehicleUpgrade_Handling Handling {
+    public RCCP_VehicleUpgrade_Handling Handling
+    {
 
-        get {
+        get
+        {
 
             if (handling == null)
                 handling = GetComponentInChildren<RCCP_VehicleUpgrade_Handling>(true);
 
-            if (handling == null) {
+            if (handling == null)
+            {
 
                 GameObject newHandling = new GameObject("Handling");
                 newHandling.transform.SetParent(transform);
@@ -102,14 +112,17 @@ public class RCCP_VehicleUpgrade_UpgradeManager : RCCP_UpgradeComponent, IRCCP_U
     /// <summary>
     /// Upgradable speed component.
     /// </summary>
-    public RCCP_VehicleUpgrade_Speed Speed {
+    public RCCP_VehicleUpgrade_Speed Speed
+    {
 
-        get {
+        get
+        {
 
             if (speed == null)
                 speed = GetComponentInChildren<RCCP_VehicleUpgrade_Speed>(true);
 
-            if (handling == null) {
+            if (handling == null)
+            {
 
                 GameObject newSpeed = new GameObject("Speed");
                 newSpeed.transform.SetParent(transform);
@@ -128,14 +141,17 @@ public class RCCP_VehicleUpgrade_UpgradeManager : RCCP_UpgradeComponent, IRCCP_U
     /// <summary>
     /// Upgradable NOS component.
     /// </summary>
-    public RCCP_VehicleUpgrade_NOS NOS {
+    public RCCP_VehicleUpgrade_NOS NOS
+    {
 
-        get {
+        get
+        {
 
             if (nos == null)
                 nos = GetComponentInChildren<RCCP_VehicleUpgrade_NOS>(true);
 
-            if (nos == null) {
+            if (nos == null)
+            {
 
                 GameObject newNos = new GameObject("NOS");
                 newNos.transform.SetParent(transform);
@@ -158,9 +174,11 @@ public class RCCP_VehicleUpgrade_UpgradeManager : RCCP_UpgradeComponent, IRCCP_U
     /// <summary>
     /// Current upgraded engine level.
     /// </summary>
-    public int EngineLevel {
+    public int EngineLevel
+    {
 
-        get {
+        get
+        {
 
             if (Engine != null)
                 return Engine.EngineLevel;
@@ -174,9 +192,11 @@ public class RCCP_VehicleUpgrade_UpgradeManager : RCCP_UpgradeComponent, IRCCP_U
     /// <summary>
     /// Current upgraded brake level.
     /// </summary>
-    public int BrakeLevel {
+    public int BrakeLevel
+    {
 
-        get {
+        get
+        {
 
             if (Engine != null)
                 return Brake.BrakeLevel;
@@ -190,9 +210,11 @@ public class RCCP_VehicleUpgrade_UpgradeManager : RCCP_UpgradeComponent, IRCCP_U
     /// <summary>
     /// Current upgraded handling level.
     /// </summary>
-    public int HandlingLevel {
+    public int HandlingLevel
+    {
 
-        get {
+        get
+        {
 
             if (Engine != null)
                 return Handling.HandlingLevel;
@@ -206,9 +228,11 @@ public class RCCP_VehicleUpgrade_UpgradeManager : RCCP_UpgradeComponent, IRCCP_U
     /// <summary>
     /// Current upgraded speed level.
     /// </summary>
-    public int SpeedLevel {
+    public int SpeedLevel
+    {
 
-        get {
+        get
+        {
 
             if (Speed != null)
                 return Speed.SpeedLevel;
@@ -222,9 +246,11 @@ public class RCCP_VehicleUpgrade_UpgradeManager : RCCP_UpgradeComponent, IRCCP_U
     /// <summary>
     /// Current upgraded NOS level.
     /// </summary>
-    public int NOSLevel {
+    public int NOSLevel
+    {
 
-        get {
+        get
+        {
 
             if (NOS != null)
                 return NOS.NOSLevel;
@@ -235,9 +261,54 @@ public class RCCP_VehicleUpgrade_UpgradeManager : RCCP_UpgradeComponent, IRCCP_U
 
     }
 
-    public void Initialize() {
+    public int WhichUpgradAvilable()
+    {
+        if (SpeedLevel < 5)
+        {
+            return 0;
+        }
+        else if (EngineLevel < 5)
+        {
+            return 1;
+        }
+        else if (HandlingLevel < 5)
+        {
+            return 2;
+        }
+        else if (BrakeLevel < 5)
+        {
+            return 3;
+        }
+        return -100;
+    }
+    public bool IsAllUpgraded()
+    {
+        var isAllUpgraded = true;
+        if (SpeedLevel < 5)
+        {
+            isAllUpgraded = false;
+        }
+        if (EngineLevel < 5)
+        {
+            isAllUpgraded = false;
+        }
+        if (HandlingLevel < 5)
+        {
+            isAllUpgraded = false;
+        }
+        if (BrakeLevel < 5)
+        {
+            isAllUpgraded = false;
+        }
+        return isAllUpgraded;
+    }
 
-        if (Engine) {
+
+    public void Initialize()
+    {
+
+        if (Engine)
+        {
 
             //  Setting upgraded engine torque if saved.
             Engine.EngineLevel = Loadout.engineLevel;
@@ -245,7 +316,8 @@ public class RCCP_VehicleUpgrade_UpgradeManager : RCCP_UpgradeComponent, IRCCP_U
 
         }
 
-        if (Brake) {
+        if (Brake)
+        {
 
             //  Setting upgraded brake torque if saved.
             Brake.BrakeLevel = Loadout.brakeLevel;
@@ -253,7 +325,8 @@ public class RCCP_VehicleUpgrade_UpgradeManager : RCCP_UpgradeComponent, IRCCP_U
 
         }
 
-        if (Handling) {
+        if (Handling)
+        {
 
             //  Setting upgraded handling strength if saved.
             Handling.HandlingLevel = Loadout.handlingLevel;
@@ -261,7 +334,8 @@ public class RCCP_VehicleUpgrade_UpgradeManager : RCCP_UpgradeComponent, IRCCP_U
 
         }
 
-        if (Speed) {
+        if (Speed)
+        {
 
             //  Setting upgraded speed if saved.
             Speed.SpeedLevel = Loadout.speedLevel;
@@ -269,7 +343,8 @@ public class RCCP_VehicleUpgrade_UpgradeManager : RCCP_UpgradeComponent, IRCCP_U
 
         }
 
-        if (NOS) {
+        if (NOS)
+        {
 
             //  Setting upgraded speed if saved.
             NOS.NOSLevel = Loadout.nosLevel;
@@ -282,7 +357,8 @@ public class RCCP_VehicleUpgrade_UpgradeManager : RCCP_UpgradeComponent, IRCCP_U
     /// <summary>
     /// Upgrades the engine torque.
     /// </summary>
-    public void UpgradeEngine() {
+    public void UpgradeEngine()
+    {
 
         //  If engine is missing, return.
         if (!Engine)
@@ -308,7 +384,8 @@ public class RCCP_VehicleUpgrade_UpgradeManager : RCCP_UpgradeComponent, IRCCP_U
     /// <summary>
     /// Upgrades the brake torque.
     /// </summary>
-    public void UpgradeBrake() {
+    public void UpgradeBrake()
+    {
 
         //  If brake is missing, return.
         if (!Brake)
@@ -334,7 +411,8 @@ public class RCCP_VehicleUpgrade_UpgradeManager : RCCP_UpgradeComponent, IRCCP_U
     /// <summary>
     /// Upgrades the traction helper (Handling).
     /// </summary>
-    public void UpgradeHandling() {
+    public void UpgradeHandling()
+    {
 
         //  If handling is missing, return.
         if (!Handling)
@@ -360,7 +438,8 @@ public class RCCP_VehicleUpgrade_UpgradeManager : RCCP_UpgradeComponent, IRCCP_U
     /// <summary>
     /// Upgrades the speed.
     /// </summary>
-    public void UpgradeSpeed() {
+    public void UpgradeSpeed()
+    {
 
         //  If speed is missing, return.
         if (!Speed)
@@ -386,7 +465,8 @@ public class RCCP_VehicleUpgrade_UpgradeManager : RCCP_UpgradeComponent, IRCCP_U
     /// <summary>
     /// Upgrades the NOS.
     /// </summary>
-    public void UpgradeNOS() {
+    public void UpgradeNOS()
+    {
 
         //  If NOS is missing, return.
         if (!NOS)
@@ -412,7 +492,8 @@ public class RCCP_VehicleUpgrade_UpgradeManager : RCCP_UpgradeComponent, IRCCP_U
     /// <summary>
     /// Upgrades the engine torque.
     /// </summary>
-    public void UpgradeEngineWithoutSave(int level) {
+    public void UpgradeEngineWithoutSave(int level)
+    {
 
         //  If engine is missing, return.
         if (!Engine)
@@ -431,7 +512,8 @@ public class RCCP_VehicleUpgrade_UpgradeManager : RCCP_UpgradeComponent, IRCCP_U
     /// <summary>
     /// Upgrades the brake torque.
     /// </summary>
-    public void UpgradeBrakeWithoutSave(int level) {
+    public void UpgradeBrakeWithoutSave(int level)
+    {
 
         //  If brake is missing, return.
         if (!Brake)
@@ -450,7 +532,8 @@ public class RCCP_VehicleUpgrade_UpgradeManager : RCCP_UpgradeComponent, IRCCP_U
     /// <summary>
     /// Upgrades the traction helper (Handling).
     /// </summary>
-    public void UpgradeHandlingWithoutSave(int level) {
+    public void UpgradeHandlingWithoutSave(int level)
+    {
 
         //  If handling is missing, return.
         if (!Handling)
@@ -469,7 +552,8 @@ public class RCCP_VehicleUpgrade_UpgradeManager : RCCP_UpgradeComponent, IRCCP_U
     /// <summary>
     /// Upgrades the soeed.
     /// </summary>
-    public void UpgradeSpeedWithoutSave(int level) {
+    public void UpgradeSpeedWithoutSave(int level)
+    {
 
         //  If handling is missing, return.
         if (!Speed)
@@ -488,7 +572,8 @@ public class RCCP_VehicleUpgrade_UpgradeManager : RCCP_UpgradeComponent, IRCCP_U
     /// <summary>
     /// Upgrades the NOS.
     /// </summary>
-    public void UpgradeNOSWithoutSave(int level) {
+    public void UpgradeNOSWithoutSave(int level)
+    {
 
         //  If NOS is missing, return.
         if (!NOS)
@@ -507,7 +592,8 @@ public class RCCP_VehicleUpgrade_UpgradeManager : RCCP_UpgradeComponent, IRCCP_U
     /// <summary>
     /// Restores the settings to default.
     /// </summary>
-    public void Restore() {
+    public void Restore()
+    {
 
         //  Getting defalut values of the car controller.
         if (Engine)

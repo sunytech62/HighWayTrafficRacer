@@ -35,7 +35,6 @@ public class RCCP_VehicleUpgrade_SpoilerManager : RCCP_UpgradeComponent, IRCCP_U
 
     public void Initialize()
     {
-
         //  If spoilers is null, return.
         if (spoilers == null)
             return;
@@ -256,7 +255,7 @@ public class RCCP_VehicleUpgrade_SpoilerManager : RCCP_UpgradeComponent, IRCCP_U
         {
 
             if (spoilers[i] != null)
-                spoilers[i].gameObject.SetActive(false);
+                spoilers[i].gameObject.SetActive(GetLoadData().spoiler == i);
 
         }
 

@@ -160,9 +160,7 @@ public class HR_MainMenuManager : MonoBehaviour
     }
     public void SelectScene(string levelName)
     {
-
         PlayerPrefs.SetString("SelectedScene", levelName);
-
     }
 
     public void SelectMode(int _modeIndex)
@@ -183,7 +181,7 @@ public class HR_MainMenuManager : MonoBehaviour
         SelectCar();
         SaveCustomization();
         GameManager.Instance.LoadingPanel(true);
-        async = SceneManager.LoadSceneAsync(PlayerPrefs.GetString("SelectedScene", ""));
+        GameManager.Instance.LoadGamePlayScene();
     }
 
     public void QuitGame()

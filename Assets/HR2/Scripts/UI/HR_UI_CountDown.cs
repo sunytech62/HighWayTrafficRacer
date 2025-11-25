@@ -10,7 +10,6 @@ public class HR_UI_CountDown : MonoBehaviour
 
     private void HR_GamePlayHandler_OnCountDownStarted()
     {
-        Debug.LogError("Count");
         // Trigger the "Count" animation
         GetComponent<Animator>().SetTrigger("Count");
     }

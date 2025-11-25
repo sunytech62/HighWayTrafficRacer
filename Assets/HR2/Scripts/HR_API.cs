@@ -7,7 +7,7 @@ public class HR_API
     public const int UpgradeCarPrice = 500;
     public const int PaintPrice = 500;
     public const int TyrePrice = 500;
-    public const int RimPrice = 500;
+    public const int NeonPrice = 500;
     public const int SpoilerPrice = 500;
 
 
@@ -136,14 +136,21 @@ public class HR_API
     public static void MainMenu()
     {
         GameManager.Instance.LoadingPanel(true);
-        SceneManager.LoadSceneAsync(0);
+        SceneManager.LoadSceneAsync(1);
         SetTotalPlayedTime();
     }
 
     public static void RestartGame()
     {
         GameManager.Instance.LoadingPanel(true);
-        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+        if (GameManager.SelectedMode == GameMode.Challenge)
+        {
+            GameManager.Instance.LoadGamePlayScene();
+        }
+        else
+        {
+            SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+        }
         SetTotalPlayedTime();
     }
 

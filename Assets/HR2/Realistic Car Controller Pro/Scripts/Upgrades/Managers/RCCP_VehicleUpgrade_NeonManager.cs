@@ -7,27 +7,31 @@
 //
 //----------------------------------------------
 
-using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// Manager for upgradable neons.
 /// </summary>
 [AddComponentMenu("BoneCracker Games/Realistic Car Controller Pro/Customization/RCCP Vehicle Upgrade Neon Manager")]
-public class RCCP_VehicleUpgrade_NeonManager : RCCP_UpgradeComponent, IRCCP_UpgradeComponent {
+public class RCCP_VehicleUpgrade_NeonManager : RCCP_UpgradeComponent, IRCCP_UpgradeComponent
+{
 
     /// <summary>
     /// Neon painters.
     /// </summary>
-    public RCCP_VehicleUpgrade_Neon Neon {
+    public RCCP_VehicleUpgrade_Neon Neon
+    {
 
-        get {
+        get
+        {
 
             if (_neon == null)
                 _neon = GetComponentInChildren<RCCP_VehicleUpgrade_Neon>(true);
 
-            if (_neon == null) {
+            if (_neon == null)
+            {
 
                 _neon = new GameObject("Neon").AddComponent<RCCP_VehicleUpgrade_Neon>();
                 _neon.transform.SetParent(transform);
@@ -59,7 +63,8 @@ public class RCCP_VehicleUpgrade_NeonManager : RCCP_UpgradeComponent, IRCCP_Upgr
     /// </summary>
     public Material neon_Null;
 
-    public void Initialize() {
+    public void Initialize()
+    {
 
         //  If neon is null, return.
         if (Neon == null)
@@ -72,7 +77,8 @@ public class RCCP_VehicleUpgrade_NeonManager : RCCP_UpgradeComponent, IRCCP_Upgr
         index = Loadout.neonIndex;
 
         //  If index is not -1, set material of the neon by the loadout.
-        if (index != -1) {
+        if (index != -1)
+        {
 
             Neon.gameObject.SetActive(true);
             Neon.SetNeonMaterial(neons[index]);
@@ -81,7 +87,8 @@ public class RCCP_VehicleUpgrade_NeonManager : RCCP_UpgradeComponent, IRCCP_Upgr
 
     }
 
-    public void DisableAll() {
+    public void DisableAll()
+    {
 
         //  If neon is null, return.
         if (Neon == null)
@@ -95,7 +102,8 @@ public class RCCP_VehicleUpgrade_NeonManager : RCCP_UpgradeComponent, IRCCP_Upgr
 
     }
 
-    public void EnableAll() {
+    public void EnableAll()
+    {
 
         //  If neon is null, return.
         if (Neon == null)
@@ -113,8 +121,8 @@ public class RCCP_VehicleUpgrade_NeonManager : RCCP_UpgradeComponent, IRCCP_Upgr
     /// Upgrades target neon index and saves it.
     /// </summary>
     /// <param name="index"></param>
-    public void Upgrade(Material material) {
-
+    public void Upgrade(Material material, bool isSave = false)
+    {
         //  If neon is null, return.
         if (Neon == null)
             return;
@@ -132,7 +140,7 @@ public class RCCP_VehicleUpgrade_NeonManager : RCCP_UpgradeComponent, IRCCP_Upgr
         Refresh(this);
 
         //  Saving the loadout.
-        if (CarController.Customizer.autoSave)
+        if (CarController.Customizer.autoSave || isSave)
             Save();
 
     }
@@ -141,7 +149,8 @@ public class RCCP_VehicleUpgrade_NeonManager : RCCP_UpgradeComponent, IRCCP_Upgr
     /// Upgrades target neon index and saves it.
     /// </summary>
     /// <param name="index"></param>
-    public void UpgradeWithoutSave(Material material) {
+    public void UpgradeWithoutSave(Material material)
+    {
 
         //  If neon is null, return.
         if (Neon == null)
@@ -161,17 +170,20 @@ public class RCCP_VehicleUpgrade_NeonManager : RCCP_UpgradeComponent, IRCCP_Upgr
     /// <summary>
     /// Restores the settings to default.
     /// </summary>
-    public void Restore() {
+    public void Restore()
+    {
 
         //  If empty decal is null, return.
         if (neon_Null == null)
             return;
 
+        var neonIndex = GetLoadData().neonIndex;
+
         //  Setting the neon material to null.
-        Neon.SetNeonMaterial(neon_Null);
+        Neon.SetNeonMaterial(GetMaterial(neonIndex));
 
         //  Disabling the neon.
-        Neon.gameObject.SetActive(false);
+        //  Neon.gameObject.SetActive(false);
 
     }
 
@@ -180,13 +192,16 @@ public class RCCP_VehicleUpgrade_NeonManager : RCCP_UpgradeComponent, IRCCP_Upgr
     /// </summary>
     /// <param name="_material"></param>
     /// <returns></returns>
-    private int FindMaterialIndex(Material _material) {
+    private int FindMaterialIndex(Material _material)
+    {
 
         int index = -1;
 
-        if (neons != null) {
+        if (neons != null)
+        {
 
-            for (int i = 0; i < neons.Length; i++) {
+            for (int i = 0; i < neons.Length; i++)
+            {
 
                 if (neons[i] == _material)
                     index = i;
@@ -197,6 +212,18 @@ public class RCCP_VehicleUpgrade_NeonManager : RCCP_UpgradeComponent, IRCCP_Upgr
 
         return index;
 
+    }
+
+    public Material GetMaterial(int materialIndex)
+    {
+        if (materialIndex < 0) return neon_Null;
+        for (int i = 0; i < neons.Length; i++)
+        {
+            if (materialIndex == i)
+                return neons[i];
+        }
+        Debug.LogError("Not Found Material");
+        return neon_Null;
     }
 
 }

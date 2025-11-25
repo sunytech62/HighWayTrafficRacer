@@ -7,23 +7,27 @@
 //
 //----------------------------------------------
 
-using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// Base class for upgrade components. 
 /// </summary>
-public class RCCP_UpgradeComponent : RCCP_Component {
+public class RCCP_UpgradeComponent : RCCP_Component
+{
 
     /// <summary>
     /// Current loadout.
     /// </summary>
-    public RCCP_CustomizationLoadout Loadout {
+    public RCCP_CustomizationLoadout Loadout
+    {
 
-        get {
+        get
+        {
 
-            if (!CarController.Customizer) {
+            if (!CarController.Customizer)
+            {
 
                 Debug.LogError("Customizer component couldn't found on the " + CarController.transform.name + "!");
                 return null;
@@ -39,9 +43,11 @@ public class RCCP_UpgradeComponent : RCCP_Component {
     /// <summary>
     /// Saves the current loadout.
     /// </summary>
-    public void Save() {
+    public void Save()
+    {
 
-        if (!CarController.Customizer) {
+        if (!CarController.Customizer)
+        {
 
             Debug.LogError("Customizer component couldn't found on the " + CarController.transform.name + "!");
             return;
@@ -49,15 +55,18 @@ public class RCCP_UpgradeComponent : RCCP_Component {
         }
 
         CarController.Customizer.Save();
+        Load();
 
     }
 
     /// <summary>
     /// Loads the latest saved loadout if existing.
     /// </summary>
-    public void Load() {
+    public void Load()
+    {
 
-        if (!CarController.Customizer) {
+        if (!CarController.Customizer)
+        {
 
             Debug.LogError("Customizer component couldn't found on the " + CarController.transform.name + "!");
             return;
@@ -68,13 +77,27 @@ public class RCCP_UpgradeComponent : RCCP_Component {
 
     }
 
+    public RCCP_CustomizationLoadout GetLoadData()
+    {
+        if (!CarController.Customizer)
+        {
+            Debug.LogError("Customizer component couldn't found on the " + CarController.transform.name + "!");
+            return null;
+        }
+        return CarController.Customizer.GetSavedData();
+    }
+
+
+
     /// <summary>
     /// Updates the loadout and all managers.
     /// </summary>
     /// <param name="component"></param>
-    public void Refresh(MonoBehaviour component) {
+    public void Refresh(MonoBehaviour component)
+    {
 
-        if (!CarController.Customizer) {
+        if (!CarController.Customizer)
+        {
 
             Debug.LogError("Customizer component couldn't found on the " + CarController.transform.name + "!");
             return;

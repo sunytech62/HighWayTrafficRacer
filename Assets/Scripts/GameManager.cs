@@ -1,7 +1,12 @@
 using DG.Tweening;
 using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -14,7 +19,6 @@ public class GameManager : MonoBehaviour
             if (_instance == null)
             {
                 var obj = Instantiate(Resources.Load("GameManager"));
-                DontDestroyOnLoad(obj);
                 _instance = FindAnyObjectByType(typeof(GameManager)) as GameManager;
             }
             return _instance;
@@ -31,10 +35,19 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        /*        RCCP_Settings.Instance.mobileControllerEnabled = true;
-        #if !UNITY_EDITOR
+        if (_instance == null)
+        {
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+#if !UNITY_EDITOR
                 RCCP_Settings.Instance.mobileControllerEnabled = true;
-        #endif*/
+#endif
     }
 
     public static int SelectedCar
@@ -52,6 +65,8 @@ public class GameManager : MonoBehaviour
         get => PlayerPrefs.GetFloat("AudioVolume", 1);
         set => PlayerPrefs.SetFloat("AudioVolume", value);
     }
+
+    private static GameMode _selectedMode;
 
     public static GameMode SelectedMode
     {
@@ -96,6 +111,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    [SerializeField] GameObject notificationPopup;
+    [SerializeField] TextMeshProUGUI notificationTxt;
+
     public static string FormatedTextByCapitals(string str)
     {
         try
@@ -115,6 +133,45 @@ public class GameManager : MonoBehaviour
         AudioListener.pause = timeScale == 0 ? true : false;
     }
 
+    public void LoadGamePlayScene()
+    {
+        int sceneIndex = 2;
+        if (GameManager.SelectedMode == GameMode.Challenge)
+        {
+            switch (ChallengeModeLevels.Instance.GetSelectedLevel().environment)
+            {
+                case HR_GamePlayManager.DayOrNight.Day:
+                    sceneIndex = 2;
+                    break;
+                case HR_GamePlayManager.DayOrNight.Rain:
+                    sceneIndex = 3;
+                    break;
+                case HR_GamePlayManager.DayOrNight.Night:
+                    sceneIndex = 4;
+                    break;
+            }
+        }
+        else
+        {
+            switch (EnvSelectionPanel.SelectedEnv)
+            {
+                case EnvSelectionPanel.EnvNames.Sunny:
+                    sceneIndex = 2;
+                    break;
+                case EnvSelectionPanel.EnvNames.Rainy:
+                    sceneIndex = 3;
+                    break;
+                case EnvSelectionPanel.EnvNames.Night:
+                    sceneIndex = 4;
+                    break;
+                case EnvSelectionPanel.EnvNames.Evening:
+                    break;
+            }
+        }
+        SceneManager.LoadSceneAsync(sceneIndex);
+    }
+
+
     public void LoadingPanel(bool isActive, float timer = 3)
     {
         if (!isActive)
@@ -124,8 +181,45 @@ public class GameManager : MonoBehaviour
         }
         loadingPanel.SetActive(true);
         loadingBar.fillAmount = 0;
-        loadingBar.DOFillAmount(1, timer).SetUpdate(true);
+        if (DOTween.IsTweening(loadingBar)) DOTween.Kill(loadingBar);
+        loadingBar.DOFillAmount(1, timer).SetUpdate(true).SetEase(Ease.Linear);
     }
+
+    public void ShowNotification(string str, float timeActive = 3f)
+    {
+        notificationPopup.SetActive(true);
+        notificationTxt.text = str;
+        if (notificationPopup.TryGetComponent<CanvasGroup>(out var canGr))
+        {
+            canGr.alpha = 0;
+            canGr.DOFade(1f, 0.5f);
+        }
+        if (IsInvoking(nameof(HideNotification)))
+            CancelInvoke(nameof(HideNotification));
+        Invoke(nameof(HideNotification), timeActive);
+    }
+    void HideNotification()
+    {
+        if (notificationPopup.TryGetComponent<CanvasGroup>(out var canGr2))
+        {
+            canGr2.DOFade(0f, 0.5f).OnComplete(() => { notificationPopup.SetActive(false); });
+        }
+    }
+
+    #region All Audio
+
+    [Header("All Audio")]
+    [SerializeField] AudioSource cashAudioClip;
+    [SerializeField] AudioSource cashCountAudioClip;
+
+    public void PlayCashAudio()
+    {
+        cashAudioClip.gameObject.SetActive(true);
+        cashAudioClip.volume = HR_API.GetAudioVolume();
+        cashAudioClip.Play();
+    }
+
+    #endregion
 }
 public enum GameMode
 {

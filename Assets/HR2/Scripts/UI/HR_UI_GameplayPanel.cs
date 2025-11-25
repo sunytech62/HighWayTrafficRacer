@@ -1,3 +1,4 @@
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -168,7 +169,21 @@ public class HR_UI_GameplayPanel : MonoBehaviour
             oppositeDirection.text = player.opposideDirectionCurrent.ToString("F1");
 
         if (timeLeft)
+        {
             timeLeft.text = player.timeLeft.ToString("F1");
+            /* if (player.timeLeft < 15f && !DOTween.IsTweening(timeLeft.transform))
+             {
+                 Debug.LogError("1");
+                 timeLeft.transform.DOScale(1.1f, 1).SetLoops(-1, LoopType.Yoyo);
+                 timeLeft.DOColor(Color.red, 0.5f).SetLoops(-1, LoopType.Yoyo);
+             }
+             else if (player.timeLeft > 15f && DOTween.IsTweening(timeLeft.transform))
+             {
+                 Debug.LogError("2");
+                 timeLeft.transform.DOScale(1f, 0.3f);
+                 timeLeft.DOColor(Color.green, 0.3f);
+             }*/
+        }
 
         if (combo)
             combo.text = player.combo.ToString();

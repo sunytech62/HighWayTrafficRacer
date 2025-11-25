@@ -1,49 +1,33 @@
-//----------------------------------------------
-//                   Highway Racer
-//
-// Copyright © 2014 - 2025 BoneCracker Games
-// https://www.bonecrackergames.com
-//----------------------------------------------
-
 using UnityEngine;
-using System.Collections;
 using UnityEngine.EventSystems;
 
-/// <summary>
-/// Handles mobile drag events to control the showroom camera.
-/// </summary>
-public class HR_UI_MobileDrag : MonoBehaviour, IDragHandler, IEndDragHandler {
+public class HR_UI_MobileDrag : MonoBehaviour, IPointerDownHandler, IPointerUpHandler/*, IDragHandler, IEndDragHandler*/
+{
+    //[SerializeField] HR_Camera_Showroom showroomCamera;
+    [SerializeField] GarageCam garageCam;
 
-    /// <summary>
-    /// Reference to the showroom camera
-    /// </summary>
-    private HR_Camera_Showroom showroomCamera;
+    private void Awake()
+    {
+        if (!garageCam) garageCam = FindFirstObjectByType<GarageCam>();
+        //  if (!garageCam) showroomCamera = FindFirstObjectByType<HR_Camera_Showroom>();
+    }
+    /* public void OnDrag(PointerEventData data)
+     {
+         garageCam.OnPointerDown();
+         if (showroomCamera) showroomCamera.OnDrag(data);
+     }
+     public void OnEndDrag(PointerEventData data)
+     {
+         garageCam.PnPointerUp();
+     }*/
 
-    /// <summary>
-    /// Called when the object is initialized
-    /// </summary>
-    private void Awake() {
-
-        showroomCamera = FindFirstObjectByType<HR_Camera_Showroom>();
-
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        garageCam.OnPointerUp();
     }
 
-    /// <summary>
-    /// Event handler for drag events
-    /// </summary>
-    /// <param name="data">Pointer event data</param>
-    public void OnDrag(PointerEventData data) {
-
-        showroomCamera.OnDrag(data);
-
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        garageCam.OnPointerDown();
     }
-
-    /// <summary>
-    /// Event handler for end drag events
-    /// </summary>
-    /// <param name="data">Pointer event data</param>
-    public void OnEndDrag(PointerEventData data) {
-
-    }
-
 }
