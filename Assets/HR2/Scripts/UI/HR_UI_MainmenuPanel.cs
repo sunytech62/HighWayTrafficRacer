@@ -68,6 +68,7 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
         GameManager.Instance.LoadingPanel(false);
         HR_API_OnPlayerNameChanged();
         HR_API_OnPlayerMoneyChanged();
+        SelectPanel(2);
     }
 
     private void OnEnable()

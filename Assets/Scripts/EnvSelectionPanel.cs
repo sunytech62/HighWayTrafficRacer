@@ -74,11 +74,15 @@ public class EnvSelectionPanel : MonoBehaviour
             _ => EnvNames.Sunny,
         };
         UpdateUI();
+        FirebaseAnalyticsManager.SendAnalyticCus($"Selected_Env_{SelectedEnv.ToString()}",
+            $"Mode_{GameManager.SelectedMode.ToString()}_Session_{GameManager.SessionCount}");
     }
     public void SelectTraffic(bool isTwoWaySelected)
     {
         GameState.SelectedTraffic = isTwoWaySelected ? TrafficType.TwoWay : TrafficType.OneWay;
         UpdateUI();
+        FirebaseAnalyticsManager.SendAnalyticCus($"Selected_Traffic_{GameState.SelectedTraffic.ToString()}",
+            $"Mode_{GameManager.SelectedMode.ToString()}_Session_{GameManager.SessionCount}");
     }
 
     [Serializable]

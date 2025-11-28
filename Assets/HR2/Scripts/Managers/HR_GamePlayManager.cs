@@ -225,6 +225,8 @@ public class HR_GamePlayManager : MonoBehaviour
             HR_Events.Event_OnPaused();
         else
             HR_Events.Event_OnResumed();
+        var eventName = paused ? "PauseGamePlay" : "ResumeGamePlay";
+        FirebaseAnalyticsManager.SendAnalyticCus($"{eventName}", $"Session_{GameManager.SessionCount}");
     }
 
     public void SaveCustomization()

@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using static AdsManager_AdmobMediation;
 using static ChallengeModeLevels;
 
 public class ChallengeModeController : MonoBehaviour
@@ -313,6 +314,8 @@ public class ChallengeModeController : MonoBehaviour
         var finishData = new ChaCompleteData(isWin, _challengeType, CurrentLevel, CurrentValue);
         OnLevelFinish?.Invoke(finishData);
         HR_UI_GameOverPanel.Instance.OnChallengeLevelFinish(finishData);
+        var eventName = isWin ? "ChallengeLevelComplete" : "ChallengeLevelFailed";
+        FirebaseAnalyticsManager.SendAnalyticCus($"{eventName}", $"LevelIndex_{challengeIndex} Session_{GameManager.SessionCount}");
     }
 
     #endregion

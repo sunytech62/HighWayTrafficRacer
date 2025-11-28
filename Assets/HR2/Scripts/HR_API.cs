@@ -138,6 +138,7 @@ public class HR_API
         GameManager.Instance.LoadingPanel(true);
         SceneManager.LoadSceneAsync(1);
         SetTotalPlayedTime();
+        FirebaseAnalyticsManager.SendAnalyticCus($"GamePlayToMainMenu", $"Session_{GameManager.SessionCount}");
     }
 
     public static void RestartGame()
@@ -152,6 +153,7 @@ public class HR_API
             SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
         }
         SetTotalPlayedTime();
+        FirebaseAnalyticsManager.SendAnalyticCus($"ReStartGame", $"Session_{GameManager.SessionCount}");
     }
 
     public static void SetAudioVolume(float volume)

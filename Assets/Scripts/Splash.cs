@@ -6,9 +6,14 @@ public class Splash : MonoBehaviour
 {
     [SerializeField] bool isReduceTimeInEditor;
 
+    private void Awake()
+    {
+        GameManager.SessionCount += 1;
+    }
+
     IEnumerator Start()
     {
-        GameManager.Instance.LoadingPanel(true, 1);
+        GameManager.Instance.LoadingPanel(true, 13);
         float loadingTime = 0f;
 
         if (isReduceTimeInEditor && Application.isEditor)
@@ -23,6 +28,8 @@ public class Splash : MonoBehaviour
 
         var async = SceneManager.LoadSceneAsync(1);
         async.allowSceneActivation = false;
+
+        FirebaseAnalyticsManager.SendAnalyticCus("Splash", $"Session_{GameManager.SessionCount}");
 
         while (loadingTime < 12f)
         {

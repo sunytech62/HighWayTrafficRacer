@@ -182,6 +182,7 @@ public class HR_MainMenuManager : MonoBehaviour
         SaveCustomization();
         GameManager.Instance.LoadingPanel(true);
         GameManager.Instance.LoadGamePlayScene();
+        FirebaseAnalyticsManager.SendAnalyticCus($"StartRaceBtn", $"Mode_{GameManager.SelectedMode.ToString()}");
     }
 
     public void QuitGame()

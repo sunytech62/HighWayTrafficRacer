@@ -1,10 +1,7 @@
 using DG.Tweening;
 using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -19,7 +16,7 @@ public class GameManager : MonoBehaviour
             if (_instance == null)
             {
                 var obj = Instantiate(Resources.Load("GameManager"));
-                _instance = FindAnyObjectByType(typeof(GameManager)) as GameManager;
+                return FindAnyObjectByType<GameManager>();
             }
             return _instance;
         }
@@ -31,7 +28,8 @@ public class GameManager : MonoBehaviour
 
     [Header("Loading Panel")]
     [SerializeField] GameObject loadingPanel;
-    [SerializeField] Image loadingBar;
+    [SerializeField] TextMeshProUGUI loadingProgressTxt;
+    [SerializeField] TextMeshProUGUI loadingVersionTxt;
 
     private void Awake()
     {
@@ -45,8 +43,12 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+    }
+
+    private void Start()
+    {
 #if !UNITY_EDITOR
-                RCCP_Settings.Instance.mobileControllerEnabled = true;
+        RCCP_Settings.Instance.mobileControllerEnabled = true;
 #endif
     }
 
@@ -110,6 +112,13 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
+    public static int SessionCount
+    {
+        get => PlayerPrefs.GetInt("SessionCount");
+        set => PlayerPrefs.SetInt("SessionCount", value);
+    }
+
 
     [SerializeField] GameObject notificationPopup;
     [SerializeField] TextMeshProUGUI notificationTxt;
@@ -180,9 +189,12 @@ public class GameManager : MonoBehaviour
             return;
         }
         loadingPanel.SetActive(true);
-        loadingBar.fillAmount = 0;
-        if (DOTween.IsTweening(loadingBar)) DOTween.Kill(loadingBar);
-        loadingBar.DOFillAmount(1, timer).SetUpdate(true).SetEase(Ease.Linear);
+        loadingVersionTxt.text = Application.version;
+        float t = 0;
+        DOTween.To(() => t, (x) =>
+        {
+            loadingProgressTxt.text = $"{x.ToString("F0")}%";
+        }, 100, timer);
     }
 
     public void ShowNotification(string str, float timeActive = 3f)

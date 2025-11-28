@@ -62,6 +62,10 @@ public class HR_UI_GameplayPanel : MonoBehaviour
             bombRect = bombSlider.GetComponent<RectTransform>();
             bombDefPos = bombRect.anchoredPosition;
         }
+
+        FirebaseAnalyticsManager.SendAnalyticCus($"GamePlayStart",
+            $"Mode_{GameManager.SelectedMode.ToString()}_Env_{EnvSelectionPanel.SelectedEnv.ToString()}_Session_{GameManager.SessionCount}");
+
     }
 
     private void OnEnable()

@@ -77,6 +77,8 @@ public class GaragePanel : MonoBehaviour
         UpdateUI();
         SetCarNameOnBtns();
         RCCP_CustomizationLoadout load = RCCP_Customizer.instance.GetLoadout();
+
+        FirebaseAnalyticsManager.SendAnalyticCus("GaragePanel", $"Session_{GameManager.SessionCount}");
     }
 
     private void SetCarNameOnBtns()
@@ -289,13 +291,21 @@ public class GaragePanel : MonoBehaviour
                         {
                             HR_API.ConsumeCurrency(HR_PlayerCars.Instance.cars[selectedCar].price);
                             unlockWork.Invoke();
+                            FirebaseAnalyticsManager.SendAnalyticCus("UnLocked_Car_Cash", $"CarIndex_{selectedCar}");
                         }
                         else
+                        {
                             GameManager.Instance.ShowNotification("Cash Not Enough");
+                            FirebaseAnalyticsManager.SendAnalyticCus("NotEnoughCash_Car", $"CarIndex_{selectedCar}");
+                        }
                     }
                     else
                     {
-                        unlockWork.Invoke();
+                        CustomAd.ShowRewarded(() =>
+                        {
+                            unlockWork.Invoke();
+                            FirebaseAnalyticsManager.SendAnalyticCus("UnLocked_Car_Ad", $"CarIndex_{selectedCar}");
+                        });
                     }
                 }
                 break;
@@ -322,15 +332,23 @@ public class GaragePanel : MonoBehaviour
                         {
                             HR_API.ConsumeCurrency(HR_API.UpgradeCarPrice);
                             unlockWork.Invoke();
+
+                            FirebaseAnalyticsManager.SendAnalyticCus("UnLocked_Upgrade_Cash", GetSelectedUpgradeName());
                         }
                         else
+                        {
                             GameManager.Instance.ShowNotification("Cash Not Enough");
+                            FirebaseAnalyticsManager.SendAnalyticCus("NotEnoughCash_Upgrade", GetSelectedUpgradeName());
+                        }
                     }
                     else
                     {
-                        unlockWork.Invoke();
+                        CustomAd.ShowRewarded(() =>
+                        {
+                            unlockWork.Invoke();
+                            FirebaseAnalyticsManager.SendAnalyticCus("UnLocked_Upgrade_Ad", GetSelectedUpgradeName());
+                        });
                     }
-
                 }
                 break;
             case SelectedCustomization.Paint:
@@ -348,13 +366,21 @@ public class GaragePanel : MonoBehaviour
                         {
                             HR_API.ConsumeCurrency(HR_API.PaintPrice);
                             unlockWork.Invoke();
+                            FirebaseAnalyticsManager.SendAnalyticCus("UnLocked_Paint_Cash", $"PaintIndex_{selectedPaint}");
                         }
                         else
+                        {
                             GameManager.Instance.ShowNotification("Cash Not Enough");
+                            FirebaseAnalyticsManager.SendAnalyticCus("NotEnoughCash_Paint", $"PaintIndex_{selectedPaint}");
+                        }
                     }
                     else
                     {
-                        unlockWork.Invoke();
+                        CustomAd.ShowRewarded(() =>
+                        {
+                            unlockWork.Invoke();
+                            FirebaseAnalyticsManager.SendAnalyticCus("UnLocked_Paint_Ad", $"PaintIndex_{selectedPaint}");
+                        });
                     }
                 }
 
@@ -374,13 +400,21 @@ public class GaragePanel : MonoBehaviour
                         {
                             HR_API.ConsumeCurrency(HR_API.TyrePrice);
                             unlockWork.Invoke();
+                            FirebaseAnalyticsManager.SendAnalyticCus("UnLocked_Tyre_Cash", $"TyreIndex_{selectedTyre}");
                         }
                         else
+                        {
                             GameManager.Instance.ShowNotification("Cash Not Enough");
+                            FirebaseAnalyticsManager.SendAnalyticCus("NotEnoughCash_Tyre", $"TyreIndex_{selectedTyre}");
+                        }
                     }
                     else
                     {
-                        unlockWork.Invoke();
+                        CustomAd.ShowRewarded(() =>
+                        {
+                            unlockWork.Invoke();
+                            FirebaseAnalyticsManager.SendAnalyticCus("UnLocked_Tyre_Ad", $"TyreIndex_{selectedTyre}");
+                        });
                     }
                 }
                 break;
@@ -399,13 +433,21 @@ public class GaragePanel : MonoBehaviour
                         {
                             HR_API.ConsumeCurrency(HR_API.NeonPrice);
                             unlockWork.Invoke();
+                            FirebaseAnalyticsManager.SendAnalyticCus("UnLocked_Neon_Cash", $"NeonIndex_{selectedNeon}");
                         }
                         else
+                        {
                             GameManager.Instance.ShowNotification("Cash Not Enough");
+                            FirebaseAnalyticsManager.SendAnalyticCus("NotEnoughCash_Neon", $"NeonIndex_{selectedNeon}");
+                        }
                     }
                     else
                     {
-                        unlockWork.Invoke();
+                        CustomAd.ShowRewarded(() =>
+                        {
+                            unlockWork.Invoke();
+                            FirebaseAnalyticsManager.SendAnalyticCus("UnLocked_Neon_Ad", $"NeonIndex_{selectedNeon}");
+                        });
                     }
                 }
                 break;
@@ -424,13 +466,21 @@ public class GaragePanel : MonoBehaviour
                         {
                             HR_API.ConsumeCurrency(HR_API.SpoilerPrice);
                             unlockWork.Invoke();
+                            FirebaseAnalyticsManager.SendAnalyticCus("UnLocked_Spoiler_Cash", $"SpoilerIndex_{selectedSpoiler}");
                         }
                         else
+                        {
                             GameManager.Instance.ShowNotification("Cash Not Enough");
+                            FirebaseAnalyticsManager.SendAnalyticCus("NotEnoughCash_Spoiler", $"SpoilerIndex_{selectedSpoiler}");
+                        }
                     }
                     else
                     {
-                        unlockWork.Invoke();
+                        CustomAd.ShowRewarded(() =>
+                        {
+                            unlockWork.Invoke();
+                            FirebaseAnalyticsManager.SendAnalyticCus("UnLocked_Spoiler_Ad", $"SpoilerIndex_{selectedSpoiler}");
+                        });
                     }
                 }
                 break;
@@ -458,6 +508,9 @@ public class GaragePanel : MonoBehaviour
         if (index == 4) selectedCustomization = SelectedCustomization.Neon;
         if (index == 5) selectedCustomization = SelectedCustomization.Spoiler;
         UpdateUI();
+
+        if (selectedCustomization != SelectedCustomization.None)
+            FirebaseAnalyticsManager.SendAnalyticCus("Customize", $"SelectCustomize_{selectedCustomization.ToString()}");
     }
 
     public void SelecCar(int index)
@@ -467,6 +520,8 @@ public class GaragePanel : MonoBehaviour
         selectedCar = index;
         if (IsCarUnlocked(index)) GameManager.SelectedCar = selectedCar;
         UpdateUI();
+        var eventParameter = IsCarUnlocked(index) ? "UnLocked" : "Locked";
+        FirebaseAnalyticsManager.SendAnalyticCus("SelectCar", $"CarIndex_{index}_{eventParameter}");
     }
 
     public void SelectPaint(int index)
@@ -477,6 +532,8 @@ public class GaragePanel : MonoBehaviour
             SelectedPaint = selectedPaint;
         }
         UpdateUI();
+        var eventParameter = IsPaintUnlocked(index) ? "UnLocked" : "Locked";
+        FirebaseAnalyticsManager.SendAnalyticCus("SelectPaint", $"PaintIndex_{index}_{eventParameter}");
     }
 
     public void SelectTyre(int index)
@@ -487,6 +544,8 @@ public class GaragePanel : MonoBehaviour
             SelectedTyre = selectedTyre;
         }
         UpdateUI();
+        var eventParameter = IsTyreUnlocked(index) ? "UnLocked" : "Locked";
+        FirebaseAnalyticsManager.SendAnalyticCus("SelectTyre", $"TyreIndex_{index}_{eventParameter}");
     }
 
     public void SelectNeon(int index)
@@ -494,6 +553,8 @@ public class GaragePanel : MonoBehaviour
         selectedNeon = index;
         if (IsNeonUnlocked(index)) SelectedNeon = selectedNeon;
         UpdateUI();
+        var eventParameter = IsNeonUnlocked(index) ? "UnLocked" : "Locked";
+        FirebaseAnalyticsManager.SendAnalyticCus("SelectNeon", $"NeonIndex_{index}_{eventParameter}");
     }
 
     public void SelectSpoiler(int index)
@@ -504,12 +565,15 @@ public class GaragePanel : MonoBehaviour
             SelectedSpoiler = selectedSpoiler;
         }
         UpdateUI();
+        var eventParameter = IsSpoilerUnlocked(index) ? "UnLocked" : "Locked";
+        FirebaseAnalyticsManager.SendAnalyticCus("SelectSpoiler", $"SpoilerIndex_{index}_{eventParameter}");
     }
 
     public void upgradeBtn(int index)
     {
         selectedUpgrade = index;
         UpdateUI();
+        FirebaseAnalyticsManager.SendAnalyticCus("SelectUpgrade", $"UpgradeIndex_{index}");
     }
 
 
@@ -572,6 +636,12 @@ public class GaragePanel : MonoBehaviour
         }
         canGroup.interactable = isActive;
         canGroup.alpha = isActive ? 1 : 0.6f;
+    }
+
+    string GetSelectedUpgradeName()
+    {
+        return selectedUpgrade == 0 ? "Speed" : selectedUpgrade == 1 ? "Engine" :
+            selectedUpgrade == 2 ? "Hanldling" : selectedUpgrade == 3 ? "Brake" : "";
     }
 
     public int SelectedPaint

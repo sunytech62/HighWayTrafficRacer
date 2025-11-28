@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Serialization;
+using static AdsManager_AdmobMediation;
 
 public class ModeSelectionPanel : MonoBehaviour
 {
@@ -114,26 +115,45 @@ public class ModeSelectionPanel : MonoBehaviour
             HR_UI_MainmenuPanel.Instance.SelectPanel(6);
         else
             HR_UI_MainmenuPanel.Instance.SelectPanel(4);
+
+        FirebaseAnalyticsManager.SendAnalyticCus($"Selected_Mode_{GameManager.SelectedMode.ToString()}",
+            $"Session_{GameManager.SessionCount}");
     }
     public void UnlockLowSpeedBombMode()
     {
-        IsLowSpeedBomb = true;
-        UpdateUI();
+        CustomAd.ShowRewarded(() =>
+        {
+            IsLowSpeedBomb = true;
+            UpdateUI();
+            FirebaseAnalyticsManager.SendAnalyticCus($"UnLocked_BombMode", $"Session_{GameManager.SessionCount}");
+        });
     }
     public void UnlockChallengeMode()
     {
-        IsChallengeModeUnlocked = true;
-        UpdateUI();
+        CustomAd.ShowRewarded(() =>
+        {
+            IsChallengeModeUnlocked = true;
+            UpdateUI();
+            FirebaseAnalyticsManager.SendAnalyticCus($"UnLocked_ChallengeMode", $"Session_{GameManager.SessionCount}");
+        });
     }
     public void UnlockTimeTrialMode()
     {
-        IsTimeTrialUnlocked = true;
-        UpdateUI();
+        CustomAd.ShowRewarded(() =>
+        {
+            IsTimeTrialUnlocked = true;
+            UpdateUI();
+            FirebaseAnalyticsManager.SendAnalyticCus($"UnLocked_TimeTrialMode", $"Session_{GameManager.SessionCount}");
+        });
     }
     public void UnlockPoliceChaseMode()
     {
-        IsPoliceChaseModeUnlocked = true;
-        UpdateUI();
+        CustomAd.ShowRewarded(() =>
+        {
+            IsPoliceChaseModeUnlocked = true;
+            UpdateUI();
+            FirebaseAnalyticsManager.SendAnalyticCus($"UnLocked_PoliceChaseMode", $"Session_{GameManager.SessionCount}");
+        });
     }
 
     [Serializable]
