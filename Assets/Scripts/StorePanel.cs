@@ -35,4 +35,12 @@ public class StorePanel : MonoBehaviour
         selectionPanelIndex = panelIndex;
         UpdateUI();
     }
+
+    public void GetCoinsOnRewardAd(int coinsAmount)
+    {
+        CustomAd.ShowRewarded(() =>
+        {
+            HR_API.AddCurrency(coinsAmount);
+        });
+    }
 }

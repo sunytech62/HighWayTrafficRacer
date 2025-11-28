@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "651512615328",
+    "project_id": "real-traffic-car-racing-game",
+    "storage_bucket": "real-traffic-car-racing-game.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:651512615328:android:1693c671bcb9fc06f114c5",
+        "android_client_info": {
+          "package_name": "com.fsg.real.traffic.car.racing.game"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCusd3Hrz4zqXQt28vZuJOxKfwXXJcyMJc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

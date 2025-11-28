@@ -93,3 +93,7 @@ fmod_editor.log
 /Assets/Plugins/FMOD/Cache/Editor/FMODStudioCache.asset.meta
 
 /Assets/Plugins/FMOD/Cache/Editor.meta
+Assets/Firebase/Plugins/x86_64/FirebaseCppApp-12_10_1.bundle
+Assets/Firebase/Plugins/x86_64/FirebaseCppApp-12_10_1.bundle.meta
+Assets/Firebase/Plugins/x86_64/FirebaseCppApp-12_10_1.so
+Assets/Firebase/Plugins/x86_64/FirebaseCppApp-12_10_1.so.meta
