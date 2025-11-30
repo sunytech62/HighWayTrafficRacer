@@ -19,7 +19,7 @@ public class ChallengeLevelSelection : MonoBehaviour
         UpdateLevelSelectedUI(GameState.ChallengeCompletedLevel);
     }
 
-    private void UpdateLevelsUI()
+    public void UpdateLevelsUI()
     {
         var completedLvls = GameState.ChallengeCompletedLevel;
         for (var i = 0; i < levelSelectionButtons.Length; i++)

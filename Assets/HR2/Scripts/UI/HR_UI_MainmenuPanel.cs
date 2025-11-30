@@ -56,7 +56,7 @@ public class HR_UI_MainmenuPanel : MonoBehaviour
     public Image vehicleStats_Speed_Upgraded;
 
     [Header("Garage")]
-    [SerializeField] GaragePanel garagePanelScr;
+    public GaragePanel garagePanelScr;
 
     private void Awake()
     {

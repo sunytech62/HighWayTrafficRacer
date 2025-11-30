@@ -120,9 +120,6 @@ public class GameManager : MonoBehaviour
     }
 
 
-    [SerializeField] GameObject notificationPopup;
-    [SerializeField] TextMeshProUGUI notificationTxt;
-
     public static string FormatedTextByCapitals(string str)
     {
         try
@@ -197,6 +194,11 @@ public class GameManager : MonoBehaviour
         }, 100, timer);
     }
 
+
+    [Header("Notification")]
+    [SerializeField] GameObject notificationPopup;
+    [SerializeField] TextMeshProUGUI notificationTxt;
+
     public void ShowNotification(string str, float timeActive = 3f)
     {
         notificationPopup.SetActive(true);
@@ -217,6 +219,23 @@ public class GameManager : MonoBehaviour
             canGr2.DOFade(0f, 0.5f).OnComplete(() => { notificationPopup.SetActive(false); });
         }
     }
+
+
+    [Header("Get Coinns")]
+    [SerializeField] GameObject getCoinsPanel;
+    public void Show_GetCoinsPanel()
+    {
+        getCoinsPanel.SetActive(true);
+    }
+
+    public void GetCoinsOnRewardAd(int coinsAmount)
+    {
+        CustomAd.ShowRewarded(() =>
+        {
+            HR_API.AddCurrency(coinsAmount);
+        });
+    }
+
 
     #region All Audio
 

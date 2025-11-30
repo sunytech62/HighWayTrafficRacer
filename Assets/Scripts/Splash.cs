@@ -31,7 +31,7 @@ public class Splash : MonoBehaviour
 
         FirebaseAnalyticsManager.SendAnalyticCus("Splash", $"Session_{GameManager.SessionCount}");
 
-        while (loadingTime < 12f)
+        while (!InAppPurchase.IsRemoveAdPurchased && loadingTime < 12f)
         {
             if (AdsManager_AdmobMediation.Instance.IsAppOpenAdLoaded())
             {

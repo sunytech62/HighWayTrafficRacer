@@ -90,7 +90,7 @@ public class GaragePanel : MonoBehaviour
         }
     }
 
-    private void UpdateUI()
+    public void UpdateUI()
     {
         //statsObj.SetActive(selectedCustomization != SelectedCustomization.None);
         if (activeCarCustomize.UpgradeManager.IsAllUpgraded())
@@ -295,7 +295,7 @@ public class GaragePanel : MonoBehaviour
                         }
                         else
                         {
-                            GameManager.Instance.ShowNotification("Cash Not Enough");
+                            GameManager.Instance.Show_GetCoinsPanel();
                             FirebaseAnalyticsManager.SendAnalyticCus("NotEnoughCash_Car", $"CarIndex_{selectedCar}");
                         }
                     }
@@ -337,7 +337,7 @@ public class GaragePanel : MonoBehaviour
                         }
                         else
                         {
-                            GameManager.Instance.ShowNotification("Cash Not Enough");
+                            GameManager.Instance.Show_GetCoinsPanel();
                             FirebaseAnalyticsManager.SendAnalyticCus("NotEnoughCash_Upgrade", GetSelectedUpgradeName());
                         }
                     }
@@ -370,7 +370,7 @@ public class GaragePanel : MonoBehaviour
                         }
                         else
                         {
-                            GameManager.Instance.ShowNotification("Cash Not Enough");
+                            GameManager.Instance.Show_GetCoinsPanel();
                             FirebaseAnalyticsManager.SendAnalyticCus("NotEnoughCash_Paint", $"PaintIndex_{selectedPaint}");
                         }
                     }
@@ -404,7 +404,7 @@ public class GaragePanel : MonoBehaviour
                         }
                         else
                         {
-                            GameManager.Instance.ShowNotification("Cash Not Enough");
+                            GameManager.Instance.Show_GetCoinsPanel();
                             FirebaseAnalyticsManager.SendAnalyticCus("NotEnoughCash_Tyre", $"TyreIndex_{selectedTyre}");
                         }
                     }
@@ -437,7 +437,7 @@ public class GaragePanel : MonoBehaviour
                         }
                         else
                         {
-                            GameManager.Instance.ShowNotification("Cash Not Enough");
+                            GameManager.Instance.Show_GetCoinsPanel();
                             FirebaseAnalyticsManager.SendAnalyticCus("NotEnoughCash_Neon", $"NeonIndex_{selectedNeon}");
                         }
                     }
@@ -470,7 +470,7 @@ public class GaragePanel : MonoBehaviour
                         }
                         else
                         {
-                            GameManager.Instance.ShowNotification("Cash Not Enough");
+                            GameManager.Instance.Show_GetCoinsPanel();
                             FirebaseAnalyticsManager.SendAnalyticCus("NotEnoughCash_Spoiler", $"SpoilerIndex_{selectedSpoiler}");
                         }
                     }
@@ -604,11 +604,10 @@ public class GaragePanel : MonoBehaviour
     }
 
 
-    void UnlockCar(int carIndex)
+    public static void UnlockCar(int carIndex)
     {
         PlayerPrefs.SetInt($"IsCarUnlocked_{carIndex}", 1);
     }
-
 
     void UnlockPaint(int paintIndex)
     {

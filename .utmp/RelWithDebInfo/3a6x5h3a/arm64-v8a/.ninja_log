@@ -1,0 +1,23 @@
+# ninja log v5
+28	10211	7862026577051074	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	3ac58f964b6908d5
+160	2203	7862026496753064	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	54c8c7e7d660c428
+2205	5600	7862026524806624	E:/Unity Projects/Traffic Racer/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/3a6x5h3a/obj/arm64-v8a/libswappywrapper.so	b62bd1831df9d5f8
+103	9498	7862026569629339	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	ce4e13067d120c5f
+16	8852	7862026561613811	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	6bec5674201ab0cd
+40	8587	7862026560068912	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	ed6e8012cdb98fae
+89	8725	7862026561623845	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	25a576287a8400bf
+1	9129	7862026564694121	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	d5ea21616f6c9338
+116	8804	7862026562167286	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	51510b6e190ebc50
+76	9609	7862026570775315	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	76eb71b982f7c9c7
+10211	10478	7862026579872400	E:/Unity Projects/Traffic Racer/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/3a6x5h3a/obj/arm64-v8a/libgame.so	b9969315a6fb2b4d
+398	2084	7862247653691910	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	54c8c7e7d660c428
+2085	3143	7862247664349081	E:/Unity Projects/Traffic Racer/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/3a6x5h3a/obj/arm64-v8a/libswappywrapper.so	b62bd1831df9d5f8
+354	6116	7862247694568904	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	ed6e8012cdb98fae
+79	6258	7862247695658904	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	25a576287a8400bf
+331	6522	7862247698898910	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	51510b6e190ebc50
+248	6558	7862247699028911	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	6bec5674201ab0cd
+308	6643	7862247700218912	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	d5ea21616f6c9338
+385	6863	7862247702538917	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	ce4e13067d120c5f
+369	7118	7862247705126421	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	76eb71b982f7c9c7
+231	7267	7862247706625676	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	3ac58f964b6908d5
+7268	7408	7862247708046764	E:/Unity Projects/Traffic Racer/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/3a6x5h3a/obj/arm64-v8a/libgame.so	b9969315a6fb2b4d
